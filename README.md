@@ -1,108 +1,66 @@
-# wxcloudrun-django
-[![GitHub license](https://img.shields.io/github/license/WeixinCloud/wxcloudrun-express)](https://github.com/WeixinCloud/wxcloudrun-express)
-![GitHub package.json dependency version (prod)](https://img.shields.io/badge/python-3.7.3-green)
+安装库文件
+安装requirement.txt
 
-微信云托管 python Django 框架模版，实现简单的计数器读写接口，使用云托管 MySQL 读写、记录计数值。
+pip install -r requirements.txt
 
-![](https://qcloudimg.tencent-cloud.cn/raw/be22992d297d1b9a1a5365e606276781.png)
+生成requirement.txt
 
+pip freeze > requirements.txt
 
-## 快速开始
-前往 [微信云托管快速开始页面](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/basic/guide.html)，选择相应语言的模板，根据引导完成部署。
+python manage.py startapp filename
 
+python manage.py runserver 13209
 
-## 目录结构说明
-~~~
-.
-├── Dockerfile                  dockerfile
-├── README.md                   README.md文件
-├── container.config.json       微信云托管流水线配置
-├── manage.py                   django项目管理文件 与项目进行交互的命令行工具集的入口
-├── requirements.txt            依赖包文件
-└── wxcloudrun                  app目录
-    ├── __init__.py             python项目必带  模块化思想
-    ├── apps.py                 自动生成文件apps.py
-    ├── asgi.py                 自动生成文件asgi.py, 异步服务网关接口
-    ├── migrations              数据移植（迁移）模块
-    ├── models.py               数据模块
-    ├── settings.py             项目的总配置文件  里面包含数据库 web应用 日志等各种配置
-    ├── templates               模版目录,包含主页index.html文件
-    ├── urls.py                 URL配置文件  Django项目中所有地址中（页面）都需要我们自己去配置其URL
-    ├── views.py                执行响应的代码所在模块  代码逻辑处理主要地点  项目大部分代码在此编写
-    └── wsgi.py                 自动生成文件wsgi.py, Web服务网关接口
-~~~
+### api/V3请求
 
+|    请求方式     | 方法 | 接口说明                                                     | 参数                                                         | 参数说明                                                     |
+| :-------------: | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|  passUserTotal  | GET  | 查询访客总数                                                 | 无                                                           |                                                              |
+|  passUserList   | GET  | 查询访客记录，返回list                                       | page，limit                                                  | 请求页数，默认50条数据                                       |
+| passUserSearch  | GET  | 搜索                                                         | content                                                      | 查询关键字，支持用户名，用户Id及其关键字                     |
+|   deleteUser    | GET  | 删除用户                                                     | userId                                                       | 用户Id                                                       |
+|   verifyUser    | GET  | 验证用户是否存在                                             | userName                                                     | 用户名验证用户是否存在                                       |
+|   enableUser    | GET  | 通过用户id启用                                               | userId                                                       | 用户id                                                       |
+|   enableFace    | GET  | 通过用户id启用刷脸                                           | userId                                                       | 用户id                                                       |
+|  enableIdCard   | GET  | 通过用户id启用刷卡                                           | userId                                                       | 用户id                                                       |
+|   disableUser   | GET  | 通过用户禁用                                                 | userId                                                       | 用户id                                                       |
+|   disableFace   | GET  | 通过用户id禁用刷脸                                           | userId                                                       | 用户id                                                       |
+|  disableIdCard  | GET  | 通过用户id禁用刷卡                                           | userId                                                       | 用户id                                                       |
+|   searchUser    | GET  | 通过用户名或者用户ID关键字查询                               | content                                                      | 搜索关键字                                                   |
+|    userTotal    | GET  | 查询用户总数                                                 |                                                              |                                                              |
+|    userList     | GET  | 查询登记的用户数据                                           | page，limit                                                  | 页码,条数                                                    |
+|    addIdCard    | GET  | 1.先根据用户ID查询，如果数据库中已经存在，就更新当前的门卡ID 2.如果不存在该用户的ID，则就新增该数据 | userName,idCard                                              | 用户名，门卡号                                               |
+|    addFaceId    | GET  | 1.先根据用户ID查询，如果数据库中已经存在，就更新当前的人脸ID 2.如果不存在该用户的ID，则就新增该数据 | userName，faceId                                             | 用户名，特征ID                                               |
+|  verifyFaceId   | GET  | 通过faceId校验用户名                                         | faceId                                                       | 特征ID                                                       |
+|    register     | GET  | 用户开通账号登录（**只有录入信息的用户才能开通**）           | {rg:username=用户名，account=登录账号，password=登录密码}    | **该接口需要SM4加密发送至服务器如：{rg:O5On9uPN624X8RnoYnBliw==}** |
+| userDetailInfo  | GET  | 通过用户id查询详细信息                                       | userId                                                       | 用户信息                                                     |
+|  uploadAvatar   | POST | 上传/修改头像                                                | userId，image                                                | 用户名，图片名称，注意：**仅限小程序使用**                   |
+|     logout      | GET  | 用户注销账号                                                 | userId,userPassWord                                          | 用户id,密码                                                  |
+|   passRecord    | GET  | 查询用户的通信记录                                           | **userId[必选]**，limit,page                                 | 用户id为必选参数，默认limit=30,page=1                        |
+| updatePassword  | POST | 用户修改密码                                                 | userId，newPassWord，oldPassWord                             | 用户id，用户新密码与旧密码                                   |
+|     addUser     | POST | 新增用户                                                     | userName, sex, birthday, contactNumber, [userAccount, userPassWord] |                                                              |
+|  findPassWord   | POST | 找回密码                                                     | userName, userAccount, newUserPassword                       |                                                              |
+|   sendVerCode   | GET  | 新增用户发送验证码                                           | phoneNum：string                                             |                                                              |
+|  checkVerCode   | GET  | 校验验证码是否正确                                           | code,phoneNum                                                |                                                              |
+|      isSms      | GET  | 检查是否开启短信验证                                         |                                                              |                                                              |
+| todayPassTotal  | GET  | 获取当天访客总数                                             |                                                              |                                                              |
+| todayPassWaring | GET  | 获取当天告警总数                                             |                                                              |                                                              |
+|   getContent    | GET  | 获取留言                                                     | userId,limit=20,page=1                                       |                                                              |
+|     addLike     | GET  | 点赞留言                                                     | userId,contentId                                             |                                                              |
+|   cancelLike    | GET  | 取消点赞                                                     | 同上                                                         |                                                              |
+|   addComment    | POST | 评论留言                                                     | userId,contentId,commentText                                 |                                                              |
+| publishContent  | POST | 发布留言                                                     | userId,content                                               |                                                              |
 
-## 服务 API 文档
+### 状态码说明
 
-### `GET /api/count`
+| status | 说明           |
+| ------ | -------------- |
+| 13201  | 登录密码错误   |
+| 13202  | 用户被冻结     |
+| 13203  | 服务器内部错误 |
+| 13204  | 无数据         |
+| 13205  | 已开通登录功能 |
+| 13206  | 已存在用户     |
+| 13207  | 参数错误       |
+| 13208  | 接口错误       |
 
-获取当前计数
-
-#### 请求参数
-
-无
-
-#### 响应结果
-
-- `code`：错误码
-- `data`：当前计数值
-
-##### 响应结果示例
-
-```json
-{
-  "code": 0,
-  "data": 42
-}
-```
-
-#### 调用示例
-
-```
-curl https://<云托管服务域名>/api/count
-```
-
-
-
-### `POST /api/count`
-
-更新计数，自增或者清零
-
-#### 请求参数
-
-- `action`：`string` 类型，枚举值
-  - 等于 `"inc"` 时，表示计数加一
-  - 等于 `"clear"` 时，表示计数重置（清零）
-
-##### 请求参数示例
-
-```
-{
-  "action": "inc"
-}
-```
-
-#### 响应结果
-
-- `code`：错误码
-- `data`：当前计数值
-
-##### 响应结果示例
-
-```json
-{
-  "code": 0,
-  "data": 42
-}
-```
-
-#### 调用示例
-
-```
-curl -X POST -H 'content-type: application/json' -d '{"action": "inc"}' https://<云托管服务域名>/api/count
-```
-
-## License
-
-[MIT](./LICENSE)
