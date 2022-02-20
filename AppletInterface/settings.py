@@ -45,6 +45,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # 注意顺序，必须放在这儿
+    'django.middleware.common.CommonMiddleware',  # 新加
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -86,13 +87,13 @@ DATABASES = {
 
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",		# 使用django-redis的缓存
-        "LOCATION": "redis://120.77.44.219:6379/0",			# redis数据库的位置
+        "BACKEND": "django_redis.cache.RedisCache",  # 使用django-redis的缓存
+        "LOCATION": "redis://120.77.44.219:6379/0",  # redis数据库的位置
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
-            "DECODE_RESPONSES": True,			# 自动将byte转成字符串
-            "PASSWORD": "990127",						# 设置密码
+            "DECODE_RESPONSES": True,  # 自动将byte转成字符串
+            "PASSWORD": "990127",  # 设置密码
         }
     }
 }
@@ -137,3 +138,28 @@ STATIC_URL = 'static/'
 # 跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ()
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
+    'authorization',
+    'Content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Pragma',
+    'token'
+)
