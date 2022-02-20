@@ -12,9 +12,8 @@ from DBUtils.PooledDB import PooledDB
 from api.path import DB_CONFIG_PATH
 from utils.crypto._MD5 import SM4Utils
 import random
-from utils.redisCache.redisCache import Redis
 from utils.log.log import Logger
-
+from utils.redisCache.redisCache import Redis
 _redis = Redis()
 log = Logger()
 
@@ -54,6 +53,60 @@ class database:
         self.DbConnect_Pool = self.db_init()
         self.SM4 = SM4Utils()
 
+    def userDetailsByUserId(self, userId):
+        """
+        查询用户详情
+        @param userId:
+        @return:
+        """
+        sql = f"""
+        select fp.id,fp.userId,fp.idCard,fp.name,
+        fp.gender,fp.phone,fp.nation,fp.contact_name,
+        fp.contact_phone,fp.live_type,fp.blood_type,
+        fp.org_code,fp.org_name,fp.status,fp.creator,fp.last_updator,
+        CONVERT(fp.creatime,CHAR(19)) `creatime` ,
+            CONVERT(fp.birthday,CHAR(19)) `birthday` ,
+            CONVERT(fp.last_updatime,CHAR(19)) `last_updatime`
+            FROM fh_personbasics fp WHERE fp.userId='{userId}'
+            """
+        _res = self.SqlSelectByOneOrList(sql=sql)
+        if _res.get('status') == 200:
+            _redis.set(key=f"{userId}", value=str(_res), timeout=60)
+        return _res
+
+    def userTotal(self, org_id):
+        """
+        查询当前机构的用户总数
+        @param org_id: 机构代码
+        @return:
+        """
+        sql = f"""
+            select COUNT(*) `total` FROM fh_personbasics WHERE org_code='{org_id}'
+            """
+        return self.SqlSelectByOneOrList(sql=sql)
+
+    def getUserListByOrgId(self, org_id, page=1, limit=50):
+        """
+        查询当前机构的用户信息
+        @param limit:
+        @param page:
+        @param org_id:
+        @return:
+        """
+        sql = f"""
+            SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
+                    fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
+                    fp.nation,fp.live_type,fp.creator,
+                    CONVERT(fp.creatime,CHAR(19)) `creatime`
+            FROM fh_personbasics fp where fp.status=0 and fp.org_code='{org_id}'
+            ORDER BY fp.id DESC 
+            limit {(int(page) - 1) * int(limit)},{int(limit)}
+        """
+        _res = self.SqlSelectByOneOrList(sql=sql, type=1)
+        if _res.get('status') == 200:
+            _redis.set(key=f"{org_id}{page}{limit}", value=str(_res), timeout=60)
+        return _res
+
     def login(self, userAccount, userPassword):
         """
         用户登录
@@ -63,24 +116,26 @@ class database:
         """
         # 检查账号是否存在
         sql = f"""
-                SELECT uf.userAccount,uf.name,uf.authority,uf.userPassword,uf.status
-                FROM userinfo uf 
-                where uf.userAccount='{userAccount}'
+                SELECT su.sys_user_account,su.user_id,su.org_id,
+                su.sys_user_name,su.authority,su.sys_user_password,su.status
+                FROM sys_user su 
+                where su.sys_user_account='{userAccount}'
                 """
         _res = self.SqlSelectByOneOrList(sql=sql)
         if _res.get('status') == 200:
             if _res.get('result').get('status') in [1, '1']:
                 password = self.SM4.encryptData_ECB(plain_text=userPassword)
-                if _res.get('result').get('userPassword') == password:
+                if _res.get('result').get('sys_user_password') == password:
                     resultDict = {}
                     authority = _res.get('result').get('authority')
                     menuList = self.menuList(authority=authority)
-                    resultDict['username'] = _res.get('result').get('userAccount')
-                    resultDict['name'] = _res.get('result').get('name')
-                    resultDict['password'] = _res.get('result').get('userPassword')
+                    resultDict['username'] = _res.get('result').get('sys_user_account')
+                    resultDict['name'] = _res.get('result').get('sys_user_name')
+                    resultDict['user_id'] = _res.get('result').get('user_id')
+                    resultDict['org_id'] = _res.get('result').get('org_id')
+                    # resultDict['password'] = _res.get('result').get('userPassword')
                     resultDict['menu'] = menuList
                     _res.update(status=200, msg='登录成功', result=resultDict)
-
                 else:
                     _res.update(msg="密码错误", status=13201)
                     _res.pop('result')
@@ -288,7 +343,6 @@ class database:
                 cur.execute(sql)
                 conn.commit()
                 rows = cur.fetchall()
-                print(rows)
                 if rows:
                     _sqlRes.update(status=200, msg='获取成功', result=rows[0] if type == 0 else rows)
                 else:

@@ -27,7 +27,6 @@ class SM4Utils:
         # 定义key值
         # self.secret_key = b"JeF38U9wT9wldfdfdbbbfgs5255hhhhhMfp82"
         # 设置key
-        print(self.secret_key)
         crypt_sm4.set_key(self.secret_key, SM4_ENCRYPT)
 
         # 调用加密方法加密(十六进制的bytes类型)

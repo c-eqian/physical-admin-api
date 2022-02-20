@@ -15,9 +15,9 @@ python manage.py runserver 13209
 
 |    请求方式     | 方法 | 接口说明                                                     | 参数                                                         | 参数说明                                                     |
 | :-------------: | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-|  passUserTotal  | GET  | 查询访客总数                                                 | 无                                                           |                                                              |
-|  passUserList   | GET  | 查询访客记录，返回list                                       | page，limit                                                  | 请求页数，默认50条数据                                       |
-| passUserSearch  | GET  | 搜索                                                         | content                                                      | 查询关键字，支持用户名，用户Id及其关键字                     |
+|    userList     | GET  | 查询用户列表                                                 | org_code，[page=1,limit=50]                                  | 机构代码                                                     |
+|    userTotal    | GET  | 查询机构用户总数                                             | org_code                                                     | 机构代码                                                     |
+|   userDetails   | GET  | 查询用户详情                                                 | userId                                                       | 用户id                                                       |
 |   deleteUser    | GET  | 删除用户                                                     | userId                                                       | 用户Id                                                       |
 |   verifyUser    | GET  | 验证用户是否存在                                             | userName                                                     | 用户名验证用户是否存在                                       |
 |   enableUser    | GET  | 通过用户id启用                                               | userId                                                       | 用户id                                                       |

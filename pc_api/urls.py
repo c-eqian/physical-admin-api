@@ -19,6 +19,9 @@ from django.conf.urls import url
 from pc_api import views
 
 urlpatterns = [
+    url(r'^userDetails', views.userDetailsView.as_view()),  # 用户详情
+    url(r'^userTotal', views.userTotalView.as_view()),  # 当前机构的用户数
+    url(r'^userList', views.getUserListView.as_view()),  # 登录
     url(r'^login', views.loginView.as_view()),  # 登录
     url(r'^test', views.test.as_view()),
 ]
