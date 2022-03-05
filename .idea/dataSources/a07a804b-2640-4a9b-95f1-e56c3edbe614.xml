@@ -745,7 +745,7 @@
     <column id="236" parent="225" name="userId">
       <Position>3</Position>
       <Comment>居民主索引</Comment>
-      <DataType>varchar(100)|0s</DataType>
+      <DataType>int(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="237" parent="225" name="f_no">
@@ -969,7 +969,7 @@
     <column id="280" parent="225" name="last_updator">
       <Position>47</Position>
       <Comment>最后修改者ID</Comment>
-      <DataType>varchar(20)|0s</DataType>
+      <DataType>int(20)|0s</DataType>
     </column>
     <column id="281" parent="225" name="last_updatime">
       <Position>48</Position>
@@ -1093,10 +1093,10 @@ phone</ColNames>
       <Comment>当次检查身份识别码</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="305" parent="227" name="empi">
+    <column id="305" parent="227" name="userId">
       <Position>3</Position>
       <Comment>居民主索引</Comment>
-      <DataType>varchar(100)|0s</DataType>
+      <DataType>int(100)|0s</DataType>
     </column>
     <column id="306" parent="227" name="org_code">
       <Position>4</Position>
@@ -1631,6 +1631,7 @@ phone</ColNames>
       <Position>10</Position>
       <Comment>关联个人账号</Comment>
       <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
     <column id="411" parent="232" name="nickName">
       <Position>11</Position>
@@ -1644,7 +1645,8 @@ phone</ColNames>
     </index>
     <key id="413" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
+      <ColNames>id
+relation</ColNames>
       <Primary>1</Primary>
     </key>
     <key id="414" parent="232" name="username">

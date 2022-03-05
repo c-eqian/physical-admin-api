@@ -284,21 +284,22 @@ class executeDB:
         EnString = self.SM4.encryptData_ECB(pwd)  # 加密密码
         try:
             SqlUserinfo = f"""
-                       SELECT u.username,u.name,u.password,u.authority,u.Isuse,u.relation,u.nickName,
-                               fp.age,fp.org_name,fp.org_code,fp.gender,fp.empi
+                       SELECT u.userAccount,u.name,u.userPassword,u.authority,u.status,u.relation,u.nickName,
+                               fp.age,fp.org_name,fp.org_code,fp.gender,fp.userId
                        from 
-                       userinfo u join fh_personbasics fp on u.relation = fp.id where username='{u_name}'
+                       userinfo u join fh_personbasics fp on u.relation = fp.id 
+                        where u.userAccount='{u_name}' AND fp.status=0
                        """
             _res = self.db.SqlSelectByOneOrList(SqlUserinfo)
-            if _res.get("status") == 200 and _res.get('result')[0].get("Isuse") in [0, '0']:
+            if _res.get("status") == 200 and _res.get('result')[0].get("status") in [0, '0']:
                 if _res.get('result')[0].get("password") == EnString:
                     result = _res.get('result')[0]
                     result.pop('password', None)  # 删除密码键值，注意：如果pop删除，key不存在会报错，可以设置不存在时返回的值
-                    result.pop('Isuse', None)
+                    result.pop('status', None)
                     res.update(status=_res.get('status', 200), msg='验证通过', result=result)
                 else:
                     res.update(status=13201, msg='密码错误')
-            elif _res["status"] == 200 and _res.get('result')[0].get("Isuse") in [1, '1']:
+            elif _res["status"] == 200 and _res.get('result')[0].get("status") in [1, '1']:
                 res.update(status=13204, msg='账号已注销')
             elif _res.get('status') == 13204:
                 res.update(status=_res.get('status', 13204), msg='账号不存在')

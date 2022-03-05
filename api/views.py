@@ -16,7 +16,7 @@ db = executeDB()  # 实例化数据库
 """
 
 
-class loginView(APIView):
+class weLoginView(APIView):
     def post(self, request, *args, **kwargs):
         """
         :param request:post请求
@@ -173,6 +173,7 @@ class getPhysicalExamListView(APIView):
         page = request.data.get('page', 0)
         limitNum = request.data.get('limitNum', 0)
         res = db.getPhysicalExamListSql(personMark=personMark, page=int(page), limitNum=int(limitNum))
+
         return Response(res)
 
     def get(self, request, *args, **kwargs):

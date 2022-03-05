@@ -13,15 +13,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from pc_api import views
+from django.views import static
 
+from pc_api import views
+from rest_framework.documentation import include_docs_urls
 urlpatterns = [
+    url(r'^searchSuggestion', views.like_search_suggestion_view.as_view()),  # 搜索建议
+    url(r'^likeSearch', views.likeSearchView.as_view()),  # 关键词搜索
+    url(r'^likeSearchTotal', views.likeSearchTotalView.as_view()),  # 关键词搜索总数
     url(r'^userDetails', views.userDetailsView.as_view()),  # 用户详情
     url(r'^userTotal', views.userTotalView.as_view()),  # 当前机构的用户数
     url(r'^userList', views.getUserListView.as_view()),  # 登录
     url(r'^login', views.loginView.as_view()),  # 登录
     url(r'^test', views.test.as_view()),
+    url(r'^docs', include_docs_urls(title='接口文档')),
+
 ]
