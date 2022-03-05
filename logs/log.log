@@ -1,3 +1,6 @@
-2022-03-03 22:19:49,015 - G:\毕设项目\API\appTest\utils\dbV3\db.py[line:611] - ERROR: (1054, "Unknown column 'undefined' in 'where clause'")
-2022-03-03 22:36:07,378 - G:\毕设项目\API\appTest\utils\dbV3\db.py[line:611] - ERROR: (1054, "Unknown column 'undefined' in 'where clause'")
-2022-03-03 22:36:20,373 - G:\毕设项目\API\appTest\utils\dbV3\db.py[line:611] - ERROR: (1054, "Unknown column 'undefined' in 'where clause'")
+2022-03-05 23:50:33,952 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000001F7BCC2B430>
+2022-03-05 23:51:32,956 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000001F7BCC2B310>
+2022-03-05 23:58:14,547 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927B070>
+2022-03-05 23:58:14,547 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927B070>
+2022-03-05 23:59:35,043 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927BA30>
+2022-03-05 23:59:35,043 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927BA30>

@@ -54,13 +54,98 @@ class database:
         self.DbConnect_Pool = self.db_init()
         self.SM4 = SM4Utils()
 
-    """
-    根据体检条码查询基本体检详情
-    身高、体重、体温、心率
-    """
+    def query_apply_by_text(self, searchText, page=1, limit=50):
+        """
+        搜索。支持姓名，机构名称，身份证
+        @param searchText: 搜索内容
+        @param page:
+        @param limit:
+        @return:
+        """
+        sql = f"""
+             SELECT COUNT(*) `total`
+             FROM
+                 apply_table
+                 AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+             WHERE
+                 fp.name = '%{searchText}%' OR fp.idCard='%{searchText}%' 
+                OR fp.org_name='%{searchText}%' AND fp.status=0
+             """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = {}
+            total = res.get('result').get('total')
+            _res.update(total=total)
+            sql = f"""
+                  SELECT AT
+                      .id,AT.org_code,AT.apply_type,CONVERT(AT.apply_time,CHAR(19)) `apply_time`,
+                            CONVERT(AT.complete_time,CHAR(19)) `complete_time`,AT.apply_status,
+                            AT.apply_reason,AT.operator_id,AT.userId
+                        ,fp.org_name,fp.gender,CONVERT(fp.birthday,CHAR(10))
+                  FROM
+                      apply_table
+                      AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+                  WHERE
+                     fp.name = '%{searchText}%' OR fp.idCard='%{searchText}%' 
+                    OR fp.org_name='%{searchText}%' AND fp.status=0
+                  ORDER BY
+                     AT.apply_time desc limit {(page - 1) * limit},{limit}
+                  """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get("status") == 200:
+                data = res.get('result')
+                _res.update(lt=data)
+                res.update(result=_res)
+                _redis.set(key=f"{searchText}{page}{limit}", value=str(res), timeout=60)
+        return res
+
+    def select_apply_by_org_code(self, org_code, page=1, limit=50):
+        """
+        通过机代码查询用户申请列表
+        @param org_code: 机构代码
+        @param page: 页
+        @param limit: 大小
+        @return:
+        """
+        sql = f"""
+            SELECT COUNT(*) `total`
+            FROM
+                apply_table
+                AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+            WHERE
+                AT.org_code = '{org_code}' AND fp.status=0
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = {}
+            total = res.get('result').get('total')
+            _res.update(total=total)
+            sql = f"""
+                  SELECT AT
+                      .id,AT.org_code,AT.apply_type,CONVERT(AT.apply_time,CHAR(19)) `apply_time`,
+                            CONVERT(AT.complete_time,CHAR(19)) `complete_time`,AT.apply_status,
+                            AT.apply_reason,AT.operator_id,AT.userId
+                        ,fp.org_name,fp.gender,CONVERT(fp.birthday,CHAR(10))
+                FROM
+                    apply_table
+                    AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+                WHERE
+                    AT.org_code = '{org_code}' AND fp.status=0
+                ORDER BY
+                   AT.apply_time desc limit {(page - 1) * limit},{limit}
+                """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get('status') == 200:
+                data = res.get('result')
+                _res.update(lt=data)
+                res.update(result=_res)
+                _redis.set(key=f"{org_code}{page}{limit}", value=str(res), timeout=60)
+        return res
 
     def we_queryBasicPhysicalExamRes(self, Rid=None) -> dict:
         """
+           根据体检条码查询基本体检详情
+            身高、体重、体温、心率
         @param Rid: 查询基本体检数据
         @return:
         """
@@ -73,7 +158,7 @@ class database:
                         WHERE 
                         pc.RequisitionId='{Rid}'
         """
-        return self.SqlSelectByOneOrList(sql=sql,type=1)
+        return self.SqlSelectByOneOrList(sql=sql, type=1)
 
     def we_getUrineTestDetailsByRidAndFic(self, Rid=None, Fic=None) -> dict:
         """

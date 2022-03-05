@@ -22,6 +22,72 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class query_apply_by_text_view(APIView):
+    """
+    搜索。支持姓名，机构名称，身份证
+    请求方式：GET
+    参数：searchText, [page=1, limit=50]
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            searchText = request.query_params.get("searchText")
+            page = request.query_params.get("page")
+            limit = request.query_params.get("limit")
+            cache_data = _redis.get(key=f"{searchText}{page if page else 1}{limit if limit else 50}")
+            if cache_data:  # 查询缓存是否有数据
+                cache_data = bytes.decode(cache_data)
+                res = ast.literal_eval(cache_data)
+            elif page and searchText and limit:
+                res = db.query_apply_by_text(searchText=searchText, page=int(page), limit=int(limit))
+            elif page and searchText:
+                res = db.query_apply_by_text(searchText=searchText, page=int(page))
+            elif limit and searchText:
+                res = db.query_apply_by_text(searchText=searchText, limit=int(limit))
+            elif searchText:
+                res = db.query_apply_by_text(searchText=searchText)
+            else:
+                res = errorRes(status=13207, msg='参数错误')
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class select_apply_by_org_code_view(APIView):
+    """
+    通过机代码查询用户申请列表
+    请求方式：GET
+    参数：org_code, [page=1, limit=50]
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            org_code = request.query_params.get("org_code")
+            page = request.query_params.get("page")
+            limit = request.query_params.get("limit")
+            cache_data = _redis.get(key=f"{org_code}{page if page else 1}{limit if limit else 50}")
+            if cache_data:  # 查询缓存是否有数据
+                cache_data = bytes.decode(cache_data)
+                res = ast.literal_eval(cache_data)
+            elif page and org_code and limit:
+                res = db.select_apply_by_org_code(org_code=org_code, page=int(page), limit=int(limit))
+            elif page and org_code:
+                res = db.select_apply_by_org_code(org_code=org_code, page=int(page))
+            elif limit and org_code:
+                res = db.select_apply_by_org_code(org_code=org_code, limit=int(limit))
+            elif org_code:
+                res = db.select_apply_by_org_code(org_code=org_code)
+            else:
+                res = errorRes(status=13207, msg='参数错误')
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class like_search_suggestion_view(APIView):
     """
     搜索建议，返回前10条
