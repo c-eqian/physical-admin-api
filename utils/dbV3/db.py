@@ -77,14 +77,15 @@ class database:
             total = res.get('result').get('total')
             _res.update(total=total)
             sql = f"""
-                  SELECT AT
+                    SELECT AT
                       .id,AT.org_code,AT.apply_type,CONVERT(AT.apply_time,CHAR(19)) `apply_time`,
                             CONVERT(AT.complete_time,CHAR(19)) `complete_time`,AT.apply_status,
                             AT.apply_reason,AT.operator_id,AT.userId
-                        ,fp.org_name,fp.gender,CONVERT(fp.birthday,CHAR(10))
-                  FROM
-                      apply_table
-                      AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+                        ,fp.org_name,fp.idCard,fp.name,fp.gender,su.sys_user_name `operator_name`,
+                            CONVERT(fp.birthday,CHAR(10)) `birthday`
+                FROM
+                    apply_table
+                    AT JOIN fh_personbasics fp ON AT.userId = fp.userId join sys_user su on su.user_id = AT.operator_id
                   WHERE
                      fp.name = '%{searchText}%' OR fp.idCard='%{searchText}%' 
                     OR fp.org_name='%{searchText}%' AND fp.status=0
@@ -125,10 +126,12 @@ class database:
                       .id,AT.org_code,AT.apply_type,CONVERT(AT.apply_time,CHAR(19)) `apply_time`,
                             CONVERT(AT.complete_time,CHAR(19)) `complete_time`,AT.apply_status,
                             AT.apply_reason,AT.operator_id,AT.userId
-                        ,fp.org_name,fp.gender,CONVERT(fp.birthday,CHAR(10))
+                        ,fp.org_name,fp.idCard,fp.name,fp.gender,
+                            CONVERT(fp.birthday,CHAR(10)) `birthday`,su.sys_user_name `operator_name`
                 FROM
                     apply_table
-                    AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+                    AT LEFT JOIN fh_personbasics fp ON AT.userId = fp.userId 
+                    LEFT join sys_user su on su.user_id = AT.operator_id
                 WHERE
                     AT.org_code = '{org_code}' AND fp.status=0
                 ORDER BY
