@@ -68,7 +68,7 @@ class select_apply_by_org_code_view(APIView):
             org_code = request.query_params.get("org_code")
             page = request.query_params.get("page")
             limit = request.query_params.get("limit")
-            cache_data = _redis.get(key=f"{org_code}{page if page else 1}{limit if limit else 50}")
+            cache_data = _redis.get(key=f"apply{org_code}{page if page else 1}{limit if limit else 50}")
             if cache_data:  # 查询缓存是否有数据
                 cache_data = bytes.decode(cache_data)
                 res = ast.literal_eval(cache_data)

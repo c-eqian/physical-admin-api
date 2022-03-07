@@ -142,7 +142,7 @@ class database:
                 data = res.get('result')
                 _res.update(lt=data)
                 res.update(result=_res)
-                _redis.set(key=f"{org_code}{page}{limit}", value=str(res), timeout=60)
+                _redis.set(key=f"apply{org_code}{page}{limit}", value=str(res), timeout=60)
         return res
 
     def we_queryBasicPhysicalExamRes(self, Rid=None) -> dict:
