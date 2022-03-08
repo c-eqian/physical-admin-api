@@ -1,6 +1,1 @@
-2022-03-05 23:50:33,952 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000001F7BCC2B430>
-2022-03-05 23:51:32,956 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000001F7BCC2B310>
-2022-03-05 23:58:14,547 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927B070>
-2022-03-05 23:58:14,547 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927B070>
-2022-03-05 23:59:35,043 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927BA30>
-2022-03-05 23:59:35,043 - G:\毕设项目\API\appTest\pc_api\views.py[line:87] - ERROR: malformed node or string: <_ast.Call object at 0x000002799927BA30>
+2022-03-08 23:16:52,871 - G:\毕设项目\API\appTest\utils\dbV3\db.py[line:656] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")

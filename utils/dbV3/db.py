@@ -68,9 +68,10 @@ class database:
                  apply_table
                  AT JOIN fh_personbasics fp ON AT.userId = fp.userId 
              WHERE
-                 fp.name = '%{searchText}%' OR fp.idCard='%{searchText}%' 
-                OR fp.org_name='%{searchText}%' AND fp.status=0
+                 fp.name LIKE '%{searchText}%' OR fp.idCard LIKE '%{searchText}%' 
+                OR fp.org_name LIKE '%{searchText}%' AND fp.status=0
              """
+        print(sql)
         res = self.SqlSelectByOneOrList(sql=sql)
         if res.get('status') == 200:
             _res = {}
@@ -87,8 +88,8 @@ class database:
                     apply_table
                     AT JOIN fh_personbasics fp ON AT.userId = fp.userId join sys_user su on su.user_id = AT.operator_id
                   WHERE
-                     fp.name = '%{searchText}%' OR fp.idCard='%{searchText}%' 
-                    OR fp.org_name='%{searchText}%' AND fp.status=0
+                     fp.name LIKE '%{searchText}%' OR fp.idCard LIKE '%{searchText}%' 
+                    OR fp.org_name LIKE '%{searchText}%' AND fp.status=0
                   ORDER BY
                      AT.apply_time desc limit {(page - 1) * limit},{limit}
                   """
@@ -97,7 +98,7 @@ class database:
                 data = res.get('result')
                 _res.update(lt=data)
                 res.update(result=_res)
-                _redis.set(key=f"{searchText}{page}{limit}", value=str(res), timeout=60)
+                _redis.set(key=f"searchApply{searchText}{page}{limit}", value=str(res), timeout=60)
         return res
 
     def select_apply_by_org_code(self, org_code, page=1, limit=50):

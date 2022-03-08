@@ -35,7 +35,7 @@ class query_apply_by_text_view(APIView):
             searchText = request.query_params.get("searchText")
             page = request.query_params.get("page")
             limit = request.query_params.get("limit")
-            cache_data = _redis.get(key=f"{searchText}{page if page else 1}{limit if limit else 50}")
+            cache_data = _redis.get(key=f"searchApply{searchText}{page if page else 1}{limit if limit else 50}")
             if cache_data:  # 查询缓存是否有数据
                 cache_data = bytes.decode(cache_data)
                 res = ast.literal_eval(cache_data)
