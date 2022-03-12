@@ -22,6 +22,41 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class select_itemCode_list_by_feeItemCode_view(APIView):
+    """
+    根据大类编码查询细项编码列表
+    请求方式：GET
+    参数：feeItemCode
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            feeItemCode = request.query_params.get("feeItemCode")
+            res = db.select_itemCode_list_by_feeItemCode(feeItemCode=feeItemCode)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class select_feeItemCode_list_view(APIView):
+    """
+    查询编码大类列表
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            res = db.select_feeItemCode_list()
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class query_apply_by_text_view(APIView):
     """
     搜索。支持姓名，机构名称，身份证

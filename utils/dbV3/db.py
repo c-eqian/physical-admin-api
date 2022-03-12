@@ -49,10 +49,112 @@ def handleLeaveContent(data):
     ...
 
 
+def handleReturn(_res, data):
+    """
+    处理最终返回的结果
+    @param _res:
+    @param data:
+    @return:
+    """
+    data = data.get('result')
+    _res.update(lt=data)
+    data.update(result=_res)
+    return data
+
+
+def handleTotal(data: dict) -> dict:
+    """
+    处理数据总数
+    @param data:
+    @return:
+    """
+    _res = {}
+    total = data.get('result').get('total')
+    _res.update(total=total)
+    return _res
+
+
 class database:
     def __init__(self):
         self.DbConnect_Pool = self.db_init()
         self.SM4 = SM4Utils()
+
+    def select_itemCode_list_by_feeItemCode(self, feeItemCode):
+        """
+        根据feeItemCode查询所有子项
+        @param feeItemCode:
+        @return:
+        """
+        sql = f"""
+            SELECT
+                COUNT(*) `total`
+            FROM
+                (
+                SELECT *
+                FROM
+                    zd_feeitem 
+                WHERE
+                isUse = 1 AND FeeItemCode='{feeItemCode}') a
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = handleTotal(res)
+            sql = f"""
+                    SELECT
+                    FeeItemCode,
+                    FeeItemName,
+                    FormType,
+                    ItemCode,ItemName
+                FROM
+                    zd_feeitem 
+                WHERE
+                    isUse =1 AND FeeItemCode='{feeItemCode}'
+                """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get("status") == 200:
+                res = handleReturn(_res, res)
+        return res
+
+    def select_feeItemCode_list(self):
+        """
+        查询体检项目大类
+        @return:
+        """
+        sql = f"""
+                SELECT
+                    COUNT(*) `total`
+                FROM
+                    (
+                    SELECT DISTINCT
+                        FeeItemCode,
+                        FeeItemName,
+                        FormType 
+                    FROM
+                        zd_feeitem 
+                    WHERE
+                    isUse = 1) a
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = {}
+            total = res.get('result').get('total')
+            _res.update(total=total)
+            sql = f"""
+                SELECT DISTINCT
+                    FeeItemCode,
+                    FeeItemName,
+                    FormType 
+                FROM
+                    zd_feeitem 
+                WHERE
+                    isUse =1
+                """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get("status") == 200:
+                data = res.get('result')
+                _res.update(lt=data)
+                res.update(result=_res)
+        return res
 
     def query_apply_by_text(self, searchText, page=1, limit=50):
         """
@@ -71,7 +173,6 @@ class database:
                  fp.name LIKE '%{searchText}%' OR fp.idCard LIKE '%{searchText}%' 
                 OR fp.org_name LIKE '%{searchText}%' AND fp.status=0
              """
-        print(sql)
         res = self.SqlSelectByOneOrList(sql=sql)
         if res.get('status') == 200:
             _res = {}
