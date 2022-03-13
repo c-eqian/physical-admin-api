@@ -22,6 +22,8 @@ from django.views import static
 from pc_api import views
 from rest_framework.documentation import include_docs_urls
 urlpatterns = [
+    url(r'^current-exam-list', views.select_person_physical_list_by_RequisitionId_view.as_view()),  # 条码查询当前需要体检的项目
+    url(r'^update-apply-status', views.update_apply_by_id_view.as_view()),  # 更新申请状态
     url(r'^item-list-detail', views.select_itemCode_list_by_feeItemCode_view.as_view()),  # 编码大类下的细项编码列表
     url(r'^fee-item-list', views.select_feeItemCode_list_view.as_view()),  # 查询体检编码大类列表
     url(r'^searchApply', views.query_apply_by_text_view.as_view()),  # 搜索申请列表

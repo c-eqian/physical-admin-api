@@ -22,6 +22,51 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class select_person_physical_list_by_RequisitionId_view(APIView):
+    """
+    根据当次体检编码查询当前用户需要体检的项目
+    请求方式：GET
+    参数：RequisitionId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get("RequisitionId")
+            res = db.select_person_physical_list_by_RequisitionId(RequisitionId=RequisitionId)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class update_apply_by_id_view(APIView):
+    """
+    更新用户的申请状态
+    Id: 对应的数据id
+    apply_status:状态
+    apply_reason:原因，拒绝时使用
+    operator_id:操作人id
+    请求方式：GET
+    参数：Id,apply_status,apply_reason,operator_id
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            Id = request.query_params.get("Id")
+            apply_status = request.query_params.get("apply_status")
+            apply_reason = request.query_params.get("apply_reason")
+            operator_id = request.query_params.get("operator_id")
+            res = db.update_apply_by_id(Id=int(Id), apply_status=int(apply_status),
+                                        apply_reason=apply_reason if apply_reason else None,
+                                        operator_id=int(operator_id))
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class select_itemCode_list_by_feeItemCode_view(APIView):
     """
     根据大类编码查询细项编码列表

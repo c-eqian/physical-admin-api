@@ -4,6 +4,7 @@
 # @Email   : 2429120006@qq.com
 # @File    : db.py
 # @Software: PyCharm
+import ast
 import re
 import time
 from configparser import ConfigParser
@@ -78,6 +79,91 @@ class database:
     def __init__(self):
         self.DbConnect_Pool = self.db_init()
         self.SM4 = SM4Utils()
+
+    def select_person_physical_list_by_RequisitionId(self, RequisitionId):
+        """
+        根据当次体检编码查询当前用户需要体检的项目
+        @param RequisitionId:
+        @return:
+        """
+        sql = f"""
+                SELECT
+                    pt.userId,
+                    pt.FeeItemCodeList `examList`,
+                    pt.applyId,
+                    CONVERT (
+                        pt.creatTime,
+                    CHAR ( 19 )) `creatTime`,
+                    pt.RequisitionId,
+                    pt.id 
+                FROM
+                    physical_type pt 
+                WHERE
+                    RequisitionId = '{RequisitionId}' ORDER BY pt.id DESC LIMIT 1
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            examListString = res.get('result').get('examList')
+            examListList = ast.literal_eval(examListString)
+            examListTuple = tuple(examListList)
+            sql = f"""
+                    SELECT
+                    F.* 
+                FROM
+                    zd_feeitem F 
+                WHERE
+                    F.FeeItemCode IN (
+                    SELECT
+                        a.FeeItemCode 
+                    FROM
+                        ( SELECT DISTINCT FeeItemCode FROM zd_feeitem WHERE FeeItemCode IN {examListTuple} AND isUse = 1 ) a 
+                    ) 
+                    AND F.isUse =1
+    
+                """
+            examListRes = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if examListRes.get('status') == 200:
+                examListRes = examListRes.get('result')
+                res.get('result').update(examList=examListRes)
+        return res
+
+    def update_apply_by_id(self, Id, apply_status, operator_id, apply_reason=None):
+        """
+        更新用户的申请状态
+        @param Id: 对应的数据id
+        @param apply_status:状态
+        @param apply_reason:原因，拒绝时使用
+        @param operator_id:操作人id
+        @return:
+        """
+        if apply_status == -1 and apply_reason:
+            sql = f"""
+                    UPDATE apply_table 
+                    SET apply_status = {apply_status},apply_reason='{apply_reason}',
+                        operator_id={operator_id},complete_time=NOW()
+                    WHERE
+                        id ={Id}
+                    """
+        elif apply_status == -1:
+            sql = f"""
+                    UPDATE apply_table 
+                    SET apply_status = {apply_status},
+                        operator_id={operator_id},complete_time=NOW()
+                    WHERE
+                        id ={Id}
+                    """
+        else:
+            sql = f"""
+                    UPDATE apply_table 
+                    SET apply_status = {apply_status} ,operator_id={operator_id}
+                    ,complete_time=NOW()
+                    WHERE
+                        id ={Id}
+                    """
+        res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        if res.get('status') == 200:
+            res.update(msg="操作成功")
+        return res
 
     def select_itemCode_list_by_feeItemCode(self, feeItemCode):
         """
@@ -197,6 +283,7 @@ class database:
             res = self.SqlSelectByOneOrList(sql=sql, type=1)
             if res.get("status") == 200:
                 data = res.get('result')
+                data = self.handle_feeItemCode(data=data)
                 _res.update(lt=data)
                 res.update(result=_res)
                 _redis.set(key=f"searchApply{searchText}{page}{limit}", value=str(res), timeout=60)
@@ -242,10 +329,42 @@ class database:
             res = self.SqlSelectByOneOrList(sql=sql, type=1)
             if res.get('status') == 200:
                 data = res.get('result')
+                data = self.handle_feeItemCode(data=data)
                 _res.update(lt=data)
                 res.update(result=_res)
                 _redis.set(key=f"apply{org_code}{page}{limit}", value=str(res), timeout=60)
         return res
+
+    def handle_feeItemCode(self, data):
+        """
+        根据传过来的feeItemCode编码列表，查询对应的名称与编码
+        @param data:
+        @return:
+        """
+        new_data = []
+        sql_list = []
+        try:
+            for index, item in enumerate(data):
+                # 每条数据
+                feeItemCodeListString = item.get("apply_type")
+                feeItemCodeList = ast.literal_eval(feeItemCodeListString)
+                feeItemCodeTuple = tuple(feeItemCodeList)
+                # if isinstance(data, list):  # 数据类型是否为列表
+                sql = f"""
+                        SELECT DISTINCT zf.FeeItemCode,zf.FeeItemName FROM zd_feeitem zf 
+                        WHERE zf.FeeItemCode IN {feeItemCodeTuple} AND zf.isUse=1
+                    """
+                sql_list.append(sql)
+            res = self.SqlListSelectByOneOrList(sqlList=sql_list, oldData=data)
+            if res.get('status') == 200:
+                res = res.get('result')
+                # item.update(apply_type=new_apply_type)
+                # new_data.append(item)
+                return res
+            else:
+                return None
+        except Exception as e:
+            log.logger.error(str(e))
 
     def we_queryBasicPhysicalExamRes(self, Rid=None) -> dict:
         """
@@ -775,6 +894,42 @@ class database:
          SELECT userName,faceStatus FROM user_list WHERE faceId={faceId}
         """
         return self.SqlSelectByOneOrList(sql)
+
+    def SqlListSelectByOneOrList(self, sqlList: list, oldData: list) -> dict:
+        """
+        功能：通过多条条语句查询
+        @param oldData:
+        @param sqlList:
+        @param sql: 操作语句列表
+        @param type: 0 返回一条，1返回多条
+        @return:
+        """
+        conn, cur = None, None
+        new_data = oldData
+        _sqlRes = {"status": 0, "msg": ''}  # 返回数据
+        try:
+            status, conn, cur = self.init_conn_cur_index()  # 获取操作对象
+            if status == 200:
+                for index, sql in enumerate(sqlList):
+                    cur.execute(sql)
+                    conn.commit()
+                    rows = cur.fetchall()
+                    if rows:
+                        new_data[index].update(apply_type=rows)
+                _sqlRes.update(status=200, msg='获取成功', result=new_data)
+                # else:
+                #     _sqlRes.update(status=13204, msg='无数据')
+            else:
+                _sqlRes.update(status=status, msg='操作失败')
+        except Exception as e:
+            log.logger.error(str(e))
+            conn.rollback()
+            _sqlRes.update(status=13203, msg=e)
+        finally:
+            if conn and cur:
+                cur.close()
+                conn.close()
+            return _sqlRes
 
     def SqlSelectByOneOrList(self, sql, type=0) -> dict:
         """
