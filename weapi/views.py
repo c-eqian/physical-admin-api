@@ -19,6 +19,42 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class we_insert_apply_by_userId_view(APIView):
+    """
+    添加用户申请
+    请求方式：GET
+    参数：userId, apply_type
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            apply_type = request.query_params.get('apply_type')
+            res = db.we_insert_apply_by_userId(userId=userId, apply_type=apply_type)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class select_feeItemCode_list_view(APIView):
+    """
+    查询编码大类列表
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            res = db.select_feeItemCode_list()
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class weGetBasicDetailsView(APIView):
     """
     根据体检条码查询基本体检数据

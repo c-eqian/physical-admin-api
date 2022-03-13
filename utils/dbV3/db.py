@@ -152,11 +152,19 @@ class database:
                     WHERE
                         id ={Id}
                     """
+        elif apply_reason == 0:
+            sql = f"""
+                      UPDATE apply_table 
+                      SET apply_status = {apply_status} ,operator_id={operator_id}
+                      ,complete_time=NULL,apply_reason=NULL
+                      WHERE
+                          id ={Id}
+                      """
         else:
             sql = f"""
                     UPDATE apply_table 
                     SET apply_status = {apply_status} ,operator_id={operator_id}
-                    ,complete_time=NOW()
+                    ,complete_time=NOW(),apply_reason=NULL
                     WHERE
                         id ={Id}
                     """
@@ -365,6 +373,30 @@ class database:
                 return None
         except Exception as e:
             log.logger.error(str(e))
+
+    def we_insert_apply_by_userId(self, userId, apply_type):
+        """
+        添加用户申请
+        @param userId: 用户ID
+        @param apply_type: 申请类型
+        @return:
+        """
+        try:
+            sql = f"""
+                    SELECT fp.org_code  FROM fh_personbasics fp WHERE fp.userId={userId}
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get("status") == 200:
+                org_code = res.get('result').get('org_code')
+                sql = f"""
+                        INSERT INTO apply_table 
+                            (userId, apply_type, apply_time, apply_status, org_code)
+                        VALUES ({userId},'{apply_type}',NOW(),0,'{org_code}')
+                    """
+                res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+            return res
+        except Exception as e:
+            print(e)
 
     def we_queryBasicPhysicalExamRes(self, Rid=None) -> dict:
         """
@@ -808,7 +840,8 @@ class database:
             else:
                 _sqlRes.update(status=status, msg='数据库连接错误')
         except Exception as e:
-            _sqlRes.update(status=13203, msg=e)
+            print(e)
+            _sqlRes.update(status=13203, msg="数据库连接错误")
         finally:
             if conn and cur:
                 cur.close()

@@ -43,10 +43,6 @@ class select_person_physical_list_by_RequisitionId_view(APIView):
 class update_apply_by_id_view(APIView):
     """
     更新用户的申请状态
-    Id: 对应的数据id
-    apply_status:状态
-    apply_reason:原因，拒绝时使用
-    operator_id:操作人id
     请求方式：GET
     参数：Id,apply_status,apply_reason,operator_id
     返回：
@@ -60,7 +56,7 @@ class update_apply_by_id_view(APIView):
             operator_id = request.query_params.get("operator_id")
             res = db.update_apply_by_id(Id=int(Id), apply_status=int(apply_status),
                                         apply_reason=apply_reason if apply_reason else None,
-                                        operator_id=int(operator_id))
+                                        operator_id=operator_id)
             return Response(res)
         except Exception as e:
             log.logger.error(msg=str(e))
