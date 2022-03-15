@@ -57,8 +57,8 @@ def handleReturn(_res, data):
     @param data:
     @return:
     """
-    data = data.get('result')
-    _res.update(lt=data)
+    newData = data.get('result')
+    _res.update(lt=newData)
     data.update(result=_res)
     return data
 
@@ -82,7 +82,7 @@ class database:
 
     def select_person_physical_list_by_RequisitionId(self, RequisitionId):
         """
-        根据当次体检编码查询当前用户需要体检的项目
+        根据当次体检编码查询当前用户需要体检的项目大类
         @param RequisitionId:
         @return:
         """
@@ -107,8 +107,8 @@ class database:
             examListList = ast.literal_eval(examListString)
             examListTuple = tuple(examListList)
             sql = f"""
-                    SELECT
-                    F.* 
+                 SELECT
+                   DISTINCT F.FeeItemCode,F.FeeItemName 
                 FROM
                     zd_feeitem F 
                 WHERE
@@ -119,12 +119,21 @@ class database:
                         ( SELECT DISTINCT FeeItemCode FROM zd_feeitem WHERE FeeItemCode IN {examListTuple} AND isUse = 1 ) a 
                     ) 
                     AND F.isUse =1
-    
-                """
-            examListRes = self.SqlSelectByOneOrList(sql=sql, type=1)
-            if examListRes.get('status') == 200:
-                examListRes = examListRes.get('result')
-                res.get('result').update(examList=examListRes)
+            """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get('status') == 200:
+                result = res.get('result')
+                new_res = []
+                for index, item in enumerate(result):
+                    select_res = self.select_itemCode_list_by_feeItemCode(feeItemCode=item.get('FeeItemCode'))
+                    if select_res.get('status') == 200:
+                        _res = select_res.get('result')
+                        new_res.append(_res)
+                res.update(result=new_res)
+            # examListRes = self.SqlSelectByOneOrList(sql=sql, type=1)
+            # if examListRes.get('status') == 200:
+            #     examListRes = examListRes.get('result')
+            #     res.get('result').update(examList=examListRes)
         return res
 
     def update_apply_by_id(self, Id, apply_status, operator_id, apply_reason=None):
@@ -136,7 +145,7 @@ class database:
         @param operator_id:操作人id
         @return:
         """
-        if apply_status == -1 and apply_reason:
+        if apply_status in [-1, '-1'] and apply_reason:
             sql = f"""
                     UPDATE apply_table 
                     SET apply_status = {apply_status},apply_reason='{apply_reason}',
@@ -144,7 +153,7 @@ class database:
                     WHERE
                         id ={Id}
                     """
-        elif apply_status == -1:
+        elif apply_status in [-1, '-1']:
             sql = f"""
                     UPDATE apply_table 
                     SET apply_status = {apply_status},
@@ -152,7 +161,7 @@ class database:
                     WHERE
                         id ={Id}
                     """
-        elif apply_reason == 0:
+        elif apply_status in [0, '0']:
             sql = f"""
                       UPDATE apply_table 
                       SET apply_status = {apply_status} ,operator_id={operator_id}
@@ -170,8 +179,62 @@ class database:
                     """
         res = self.insertOrUpdateOrDeleteBySql(sql=sql)
         if res.get('status') == 200:
-            res.update(msg="操作成功")
+            if apply_status in [1, '1']:
+                addStatus = self.add_or_update_physical_type(Id=Id)
+                if addStatus:
+                    res.update(msg="操作成功")
+                else:
+                    res.update(status=13203, msg='操作异常')
+            elif apply_status in [0, '0']:
+                self.delete_physical_type(Id=Id)
         return res
+
+    def delete_physical_type(self, Id):
+        """
+        删除记录
+        @param Id: 对应表apply_type中的Id
+        @return:
+        """
+        sql = f"""
+                  DELETE FROM physical_type WHERE applyId={Id}
+                
+                """
+        res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+
+    def add_or_update_physical_type(self, Id):
+        """
+        新增[更新]表physical_type
+        @param Id: 对应表apply_type中的Id
+        @return:
+        """
+        # 获取RequisitionId
+        RequisitionId = self.getLastRequisitionIdOrBarCode()
+        if RequisitionId:
+            sql = f"""
+                   INSERT INTO physical_type(
+                            userId,
+                            FeeItemCodeList,
+                            RequisitionId,
+                            applyId,
+                            creatTime)
+                            SELECT
+                                userId,
+                                apply_type,
+                                '{RequisitionId + 1}',
+                                id,
+                                NOW()
+                            FROM
+                                apply_table
+                            WHERE
+                                id = {Id}
+                    """
+        res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        if res.get("status") == 200:
+            # 更新RequisitionId
+            res = self.updateLastRequisitionIdOrBarCode(updateValue=str(RequisitionId + 1))
+            return res
+        else:
+            return False
 
     def select_itemCode_list_by_feeItemCode(self, feeItemCode):
         """
@@ -206,6 +269,13 @@ class database:
                 """
             res = self.SqlSelectByOneOrList(sql=sql, type=1)
             if res.get("status") == 200:
+                for index, item in enumerate(res.get('result')):
+                    FeeItemCode = item.get('FeeItemCode')
+                    item.pop('FeeItemCode', None)  # 删除
+                    FeeItemName = item.get('FeeItemName')
+                    item.pop('FeeItemName', None)
+                    _res.update(FeeItemCode=FeeItemCode)
+                    _res.update(FeeItemName=FeeItemName)
                 res = handleReturn(_res, res)
         return res
 
@@ -868,6 +938,39 @@ class database:
                 cur.close()
                 conn.close()
             return _sqlRes
+
+    def getLastRequisitionIdOrBarCode(self, TYPE='R'):
+        """
+        获取最新的RequisitionId
+        @param TYPE: 类型，R-流水号，B-体检编码
+        @return:
+        """
+        sql = f"""
+                SELECT zs.serialnumber  FROM zd_sysseed zs  
+                WHERE zs.field='{"RequisitionId" if TYPE == "R" else "barCode"}'
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            return int(res.get('result').get("serialnumber"))
+        else:
+            return False
+
+    def updateLastRequisitionIdOrBarCode(self, updateValue, TYPE='R'):
+        """
+        更新最后的RequisitionId或者barCode
+        @param updateValue: 最新的
+        @param TYPE: 类型，R-流水号，B-体检编码
+        @return:
+        """
+        sql = f"""
+                    UPDATE  zd_sysseed SET serialnumber='{updateValue}' 
+                    WHERE field='{"RequisitionId" if TYPE == "R" else "barCode"}'
+                """
+        res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        if res.get("status") == 200:
+            return True
+        else:
+            return False
 
     def getLastUserId(self):
         """

@@ -24,7 +24,7 @@ def errorRes(status=13203, msg='请求错误'):
 
 class select_person_physical_list_by_RequisitionId_view(APIView):
     """
-    根据当次体检编码查询当前用户需要体检的项目
+    根据当次体检编码查询当前用户需要体检的项目大类
     请求方式：GET
     参数：RequisitionId
     返回：
@@ -135,7 +135,7 @@ class select_apply_by_org_code_view(APIView):
     """
     通过机代码查询用户申请列表
     请求方式：GET
-    参数：org_code, [page=1, limit=50]
+    参数：org_code, [page=1, limit=50，timestamp-时间戳，添加时可以解决缓存问题]
     返回：
     """
 
@@ -143,8 +143,13 @@ class select_apply_by_org_code_view(APIView):
         try:
             org_code = request.query_params.get("org_code")
             page = request.query_params.get("page")
+            timestamp = request.query_params.get("timestamp")
             limit = request.query_params.get("limit")
-            cache_data = _redis.get(key=f"apply{org_code}{page if page else 1}{limit if limit else 50}")
+            if timestamp:
+                key = f"apply{org_code}{page if page else 1}{limit if limit else 50}{timestamp}"
+            else:
+                key = f"apply{org_code}{page if page else 1}{limit if limit else 50}"
+            cache_data = _redis.get(key=key)
             if cache_data:  # 查询缓存是否有数据
                 cache_data = bytes.decode(cache_data)
                 res = ast.literal_eval(cache_data)
