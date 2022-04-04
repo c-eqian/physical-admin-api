@@ -21,7 +21,13 @@ from django.views import static
 
 from pc_api import views
 from rest_framework.documentation import include_docs_urls
+
 urlpatterns = [
+    url(r'^query-exam-base-by-rid', views.query_exam_base_by_rid_view.as_view()),  # 通过体检编码查询基本体检结果
+    url(r'^query_exam_upload', views.query_exam_upload_by_org_code_view.as_view()),  # 搜根据机构编码查询体检上传
+    url(r'^get-cache-base-exam', views.get_cache_base_exam.as_view()),  # 获取缓存基本结果记录
+    url(r'^cache-base-exam', views.cache_base_exam.as_view()),  # 新增缓存基本结果记录
+    url(r'^insertbaseexam', views.insert_base_exam.as_view()),  # 新增基本结果记录
     #    根据当次体检编码查询当前用户需要体检的项目大类
     url(r'^current-exam-list', views.select_person_physical_list_by_RequisitionId_view.as_view()),
     url(r'^update-apply-status', views.update_apply_by_id_view.as_view()),  # 更新申请状态

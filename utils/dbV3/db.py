@@ -80,6 +80,109 @@ class database:
         self.DbConnect_Pool = self.db_init()
         self.SM4 = SM4Utils()
 
+    # def insert_ls_base(self, params):
+    #     """
+    #     暂存新增身高、体重、心率、体温
+    #     先查询该体检条码是否存在，如果存在就更新，否则添加
+    #     @param params:
+    #     @return:
+    #     """
+    #     sql = f"""
+    #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
+    #         """
+    def query_exam_base_by_rid(self, rid):
+        """
+        通过体检编码查询基本体检结果
+        @return:
+        """
+        sql = f"""  
+            SELECT PC.*,fp.name,fp.idCard,fp.org_name,fp.birthday FROM  pat_test_checklist PC 
+        join fh_personbasics fp on PC.userId = fp.userId WHERE PC.RequisitionId='{rid}'
+                ORDER BY PC.Did DESC limit 1
+            """
+        return self.SqlSelectByOneOrList(sql=sql)
+
+    def query_exam_upload_by_org_code(self, org_code, page=1, limit=20):
+        """
+        根据机构编码查询体检上传
+        @param org_code:
+        @param page:
+        @param limit:
+        @return:
+        """
+        sql = f"""
+            SELECT count(*) `total` FROM  pat_test_checklist PC 
+            join fh_personbasics fp on PC.userId = fp.userId WHERE PC.org_code='{org_code}'
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = handleTotal(res)
+            sql = f"""  
+                SELECT PC.*,fp.name,fp.idCard,fp.org_name FROM  pat_test_checklist PC 
+            join fh_personbasics fp on PC.userId = fp.userId WHERE PC.org_code='{org_code}'
+                    ORDER BY PC.Did DESC 
+                   limit {(page - 1) * limit},{limit}
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get("status") == 200:
+                data = res.get('result')
+                _res.update(lt=data)
+                res.update(result=_res)
+        return res
+
+    def query_user_info_by_rid(self, rid):
+        """
+        通过RequisitionId查询用户
+        @param rid: RequisitionId
+        @return:
+        """
+        sql = f"""
+                    SELECT PT.userId  FROM physical_type PT WHERE PT.RequisitionId='{rid}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            userId = res.get('result').get('userId')
+            res = self.userDetailsByUserId(userId=userId)
+            return res
+        else:
+            return res
+
+    def insert_base_exam(self, params):
+        """
+        添加或更新一般体检信息，
+        @param params:
+        @return:
+        """
+        sql = f"""
+                SELECT PTC.RequisitionId  FROM pat_test_checklist PTC WHERE PTC.RequisitionId='{params.get("RequisitionId")}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get("status") == 13204:
+            sql = f"""
+                    INSERT INTO pat_test_checklist (
+                        RequisitionId, userId, org_code, 
+                        ProjectNo,ProjectName, RSBP, RDBP,Height,
+                        Weight, BMI, Temperature, Operator, VisitingDate, 
+                        Status, LSBP, LDBP, heart_rate) VALUES 
+                    ('{params.get("RequisitionId")}',{params.get("userId")},'{params.get("org_code")}'
+                        ,30,'健康体检',70,90,{params.get("Height")},{params.get("Weight")},{params.get("BMI")},{params.get("Temperature")},
+                        '{params.get("Operator")}','{params.get("VisitingDate")}',{0},{params.get("LSBP")},{params.get("LDBP")},
+                            '{params.get("heart_rate")}')
+                """
+        elif res.get("status") == 200:
+            sql = f""" 
+                    UPDATE pat_test_checklist SET RequisitionId='{params.get("RequisitionId")}', userId='{params.get("userId")}',
+                        org_code='{params.get("org_code")}', 
+                        RSBP={params.get("RSBP", 0)}, RDBP={params.get("RDBP", 0)},Height={params.get("Height")},
+                        Weight={params.get("Weight")}, BMI={params.get("BMI")}, Temperature='{params.get("Temperature")}',
+                        Operator='{params.get("Operator")}', VisitingDate='{params.get("VisitingDate")}', 
+                        LSBP={params.get("LSBP")}, LDBP={params.get("LDBP")}, heart_rate={params.get("heart_rate")} 
+                    WHERE RequisitionId='{params.get("RequisitionId")}'
+                    """
+            print(sql)
+        res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        return res
+
     def select_person_physical_list_by_RequisitionId(self, RequisitionId):
         """
         根据当次体检编码查询当前用户需要体检的项目大类
@@ -731,7 +834,7 @@ class database:
         sql = f"""
         select fp.id,fp.userId,fp.idCard,fp.name,
         fp.gender,fp.phone,fp.nation,fp.contact_name,
-        fp.contact_phone,fp.live_type,fp.blood_type,
+        fp.contact_phone,fp.live_type,fp.blood_type,cur_address,
         fp.org_code,fp.org_name,fp.status,fp.creator,fp.last_updator,
         CONVERT(fp.creatime,CHAR(19)) `creatime` ,
             CONVERT(fp.birthday,CHAR(19)) `birthday` ,

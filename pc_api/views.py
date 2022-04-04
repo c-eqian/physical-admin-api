@@ -22,6 +22,148 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class query_exam_base_by_rid_view(APIView):
+    """
+    通过体检编码查询基本体检结果
+    请求方式：GET
+    参数：RequisitionId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get("RequisitionId")
+            res = db.query_exam_base_by_rid(rid=RequisitionId)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class query_exam_upload_by_org_code_view(APIView):
+    """
+    搜根据机构编码查询体检上传
+    请求方式：GET
+    参数：org_code, [page=1, limit=20]
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            org_code = request.query_params.get("org_code")
+            page = request.query_params.get("page")
+            limit = request.query_params.get("limit")
+            if page and org_code and limit:
+                res = db.query_exam_upload_by_org_code(org_code=org_code, page=int(page), limit=int(limit))
+            elif page and org_code:
+                res = db.query_exam_upload_by_org_code(org_code=org_code, page=int(page))
+            elif limit and org_code:
+                res = db.query_exam_upload_by_org_code(org_code=org_code, limit=int(limit))
+            elif org_code:
+                res = db.query_exam_upload_by_org_code(org_code=org_code)
+            else:
+                res = errorRes(status=13207, msg='参数错误')
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class get_cache_base_exam(APIView):
+    """
+    获取缓存中的体检数据
+    请求方式：GET
+    参数：RequisitionId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get('RequisitionId')
+            _res = db.query_user_info_by_rid(rid=RequisitionId)
+            cache_data = _redis.get(key=RequisitionId)
+            if cache_data:  # 查询缓存是否有数据
+                cache_data = bytes.decode(cache_data)
+                res = ast.literal_eval(cache_data)
+                if _res.get('status') == 200:
+                    result = _res.get('result')
+                    res.update(result)
+                data = {'status': 200, 'msg': '获取成功', 'result': res}
+            else:
+                data = {'status': 13204, 'msg': '无数据'}
+            return Response(data)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class cache_base_exam(APIView):
+    """
+    新增基本体检结果
+    请求方式：POST
+    参数：RequisitionId,Height,Weight,BMI,Temperature,heart_rate
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = {}
+            RequisitionId = request.data.get('RequisitionId')
+            Height = request.data.get('Height')
+            Weight = request.data.get('Weight')
+            BMI = request.data.get('BMI')
+            Temperature = request.data.get('Temperature')
+            heart_rate = request.data.get('heart_rate')
+            data.update(RequisitionId=RequisitionId, Height=Height, Weight=Weight, BMI=BMI,
+                        Temperature=Temperature, heart_rate=heart_rate)
+            key = f'{RequisitionId}'
+            _redis.set(key=key, value=str(data), timeout=60 * 60 * 24 * 30)
+            return Response(errorRes(msg='保存成功', status=200))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class insert_base_exam(APIView):
+    """
+    新增基本体检结果
+    请求方式：POST
+    参数：base_data:{RequisitionId, userId, org_code,
+         ProjectNo,ProjectName, RSBP, RDBP,Height,
+                    Weight, BMI, Temperature, Operator, VisitingDate,
+                    Status,
+                    LSBP, LDBP, heart_rate}
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params = {}
+            print(222, request.data)
+            RequisitionId = request.data.get('RequisitionId')
+            userId = request.data.get('userId')
+            org_code = request.data.get('org_code')
+            Weight = request.data.get('Weight')
+            Height = request.data.get('Height')
+            BMI = request.data.get('BMI')
+            LSBP = request.data.get('LSBP')
+            LDBP = request.data.get('LDBP')
+            heart_rate = request.data.get('heart_rate')
+            Temperature = request.data.get('Temperature')
+            VisitingDate = request.data.get('VisitingDate')
+            Operator = request.data.get('Operator')
+            params.update(RequisitionId=RequisitionId, userId=userId, org_code=org_code,
+                          Weight=Weight, Height=Height, BMI=BMI, LSBP=LSBP, LDBP=LDBP,
+                          heart_rate=heart_rate, Temperature=Temperature, VisitingDate=VisitingDate,
+                          Operator=Operator
+                          )
+            res = db.insert_base_exam(params=params)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class select_person_physical_list_by_RequisitionId_view(APIView):
     """
     根据当次体检编码查询当前用户需要体检的项目大类
