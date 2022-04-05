@@ -1356,560 +1356,580 @@ userId</ColNames>
       <Comment>心率</Comment>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="361" parent="229" name="PRIMARY">
+    <column id="361" parent="229" name="uploadStatus">
+      <Position>30</Position>
+      <Comment>上传状态，0-未上传，1-已上传，-1-上传失败</Comment>
+      <DataType>int(255)|0s</DataType>
+    </column>
+    <column id="362" parent="229" name="remark">
+      <Position>31</Position>
+      <Comment>上传失败备注</Comment>
+      <DataType>varchar(500)|0s</DataType>
+    </column>
+    <column id="363" parent="229" name="auditStatus">
+      <Position>32</Position>
+      <Comment>审核状态，0-未审核，1-已审核，-1-不通过</Comment>
+      <DataType>int(255)|0s</DataType>
+    </column>
+    <key id="364" parent="229" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Did</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="362" parent="230" name="Did">
+    <column id="365" parent="230" name="Did">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="363" parent="230" name="RequisitionId">
+    <column id="366" parent="230" name="RequisitionId">
       <Position>2</Position>
       <Comment>当次检查身份识别码</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="364" parent="230" name="BarCode">
+    <column id="367" parent="230" name="BarCode">
       <Position>3</Position>
       <Comment>检验、检查编码</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="365" parent="230" name="ApplyDoctorNo">
+    <column id="368" parent="230" name="ApplyDoctorNo">
       <Position>4</Position>
       <Comment>申请医生编码</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="366" parent="230" name="ApplyDoctorName">
+    <column id="369" parent="230" name="ApplyDoctorName">
       <Position>5</Position>
       <Comment>申请医生</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="367" parent="230" name="ApplyDate">
+    <column id="370" parent="230" name="ApplyDate">
       <Position>6</Position>
       <Comment>申请时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="368" parent="230" name="FormType">
+    <column id="371" parent="230" name="FormType">
       <Position>7</Position>
       <Comment>项目类型</Comment>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="369" parent="230" name="FeeItemCode">
+    <column id="372" parent="230" name="FeeItemCode">
       <Position>8</Position>
       <Comment>项目代码</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="370" parent="230" name="FeeItemName">
+    <column id="373" parent="230" name="FeeItemName">
       <Position>9</Position>
       <Comment>项目名称</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="371" parent="230" name="PDFFile">
+    <column id="374" parent="230" name="PDFFile">
       <Position>10</Position>
       <Comment>结果PDF文件text存储，展示时转PDF显示</Comment>
       <DataType>longtext|0s</DataType>
     </column>
-    <column id="372" parent="230" name="Audit">
+    <column id="375" parent="230" name="Audit">
       <Position>11</Position>
       <Comment>审核状态或原因</Comment>
       <DataType>varchar(500)|0s</DataType>
     </column>
-    <column id="373" parent="230" name="FormStatus">
+    <column id="376" parent="230" name="FormStatus">
       <Position>12</Position>
       <Comment>用于超声、心电是否已提取标识</Comment>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="374" parent="230" name="ReportStoragePath">
+    <column id="377" parent="230" name="ReportStoragePath">
       <Position>13</Position>
       <Comment>图片存储</Comment>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="375" parent="230" name="PRIMARY">
+    <key id="378" parent="230" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Did</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="376" parent="231" name="Did">
+    <column id="379" parent="231" name="Did">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="377" parent="231" name="RequisitionId">
+    <column id="380" parent="231" name="RequisitionId">
       <Position>2</Position>
       <Comment>当次检查身份识别码</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="378" parent="231" name="FeeItemCode">
+    <column id="381" parent="231" name="FeeItemCode">
       <Position>3</Position>
       <Comment>组合编码</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="379" parent="231" name="ItemCode">
+    <column id="382" parent="231" name="ItemCode">
       <Position>4</Position>
       <Comment>细项编码</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="380" parent="231" name="ItemName">
+    <column id="383" parent="231" name="ItemName">
       <Position>5</Position>
       <Comment>细项名称</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="381" parent="231" name="ReceivedTime">
+    <column id="384" parent="231" name="ReceivedTime">
       <Position>6</Position>
       <Comment>接收时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="382" parent="231" name="Lis_RangeState">
+    <column id="385" parent="231" name="Lis_RangeState">
       <Position>7</Position>
       <Comment>结果状态 已申请、已提取、已报告</Comment>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="383" parent="231" name="Lis_Result">
+    <column id="386" parent="231" name="Lis_Result">
       <Position>8</Position>
       <Comment>检验结果</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="384" parent="231" name="Lis_ResultUnit">
+    <column id="387" parent="231" name="Lis_ResultUnit">
       <Position>9</Position>
       <Comment>结果单位</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="385" parent="231" name="Lis_ReferenceRange">
+    <column id="388" parent="231" name="Lis_ReferenceRange">
       <Position>10</Position>
       <Comment>参考范围 比如20-50</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="386" parent="231" name="Lis_RangeLowValue">
+    <column id="389" parent="231" name="Lis_RangeLowValue">
       <Position>11</Position>
       <Comment>低值</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="387" parent="231" name="Lis_RangeHighValue">
+    <column id="390" parent="231" name="Lis_RangeHighValue">
       <Position>12</Position>
       <Comment>高值</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="388" parent="231" name="Lis_RangeStateColor">
+    <column id="391" parent="231" name="Lis_RangeStateColor">
       <Position>13</Position>
       <Comment>显示颜色，预留方便显示颜色 </Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="389" parent="231" name="PACS_ExaminationsParts">
+    <column id="392" parent="231" name="PACS_ExaminationsParts">
       <Position>14</Position>
       <Comment>检查部位 腹部超声</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="390" parent="231" name="PACS_Positive">
+    <column id="393" parent="231" name="PACS_Positive">
       <Position>15</Position>
       <Comment>阳性标识，阳性、阴性</Comment>
       <DataType>varchar(2)|0s</DataType>
     </column>
-    <column id="391" parent="231" name="PACS_ExaminationsFind">
+    <column id="394" parent="231" name="PACS_ExaminationsFind">
       <Position>16</Position>
       <Comment>检查所见</Comment>
       <DataType>varchar(1000)|0s</DataType>
     </column>
-    <column id="392" parent="231" name="PACS_ExaminationsConlc">
+    <column id="395" parent="231" name="PACS_ExaminationsConlc">
       <Position>17</Position>
       <Comment>检查结论</Comment>
       <DataType>varchar(500)|0s</DataType>
     </column>
-    <column id="393" parent="231" name="PACS_Reportopter">
+    <column id="396" parent="231" name="PACS_Reportopter">
       <Position>18</Position>
       <Comment>报告医生</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="394" parent="231" name="PACS_Auditopter">
+    <column id="397" parent="231" name="PACS_Auditopter">
       <Position>19</Position>
       <Comment>审核医生</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="395" parent="231" name="PACS_RegistTime">
+    <column id="398" parent="231" name="PACS_RegistTime">
       <Position>20</Position>
       <Comment>登记时间 </Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="396" parent="231" name="PACS_CheckTime">
+    <column id="399" parent="231" name="PACS_CheckTime">
       <Position>21</Position>
       <Comment>检查时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="397" parent="231" name="PACS_ReportTime">
+    <column id="400" parent="231" name="PACS_ReportTime">
       <Position>22</Position>
       <Comment>报告时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="398" parent="231" name="PACS_AuditTime">
+    <column id="401" parent="231" name="PACS_AuditTime">
       <Position>23</Position>
       <Comment>审核时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="399" parent="231" name="PACS_PhotoUID">
+    <column id="402" parent="231" name="PACS_PhotoUID">
       <Position>24</Position>
       <Comment>图像 UID </Comment>
       <DataType>varchar(200)|0s</DataType>
     </column>
-    <column id="400" parent="231" name="ECG_ExaminationsFind">
+    <column id="403" parent="231" name="ECG_ExaminationsFind">
       <Position>25</Position>
       <Comment>心电检查所见</Comment>
       <DataType>varchar(1000)|0s</DataType>
     </column>
-    <column id="401" parent="231" name="ECG_ExaminationsConlc">
+    <column id="404" parent="231" name="ECG_ExaminationsConlc">
       <Position>26</Position>
       <Comment>心电检查结论</Comment>
       <DataType>varchar(500)|0s</DataType>
     </column>
-    <column id="402" parent="231" name="ECG_Reportopter">
+    <column id="405" parent="231" name="ECG_Reportopter">
       <Position>27</Position>
       <Comment>心电报告医生</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="403" parent="231" name="ECG_ReportTime">
+    <column id="406" parent="231" name="ECG_ReportTime">
       <Position>28</Position>
       <Comment>心电报告时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <key id="404" parent="231" name="PRIMARY">
+    <key id="407" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Did</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="405" parent="232" name="id">
+    <column id="408" parent="232" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="406" parent="232" name="userId">
+    <column id="409" parent="232" name="userId">
       <Position>2</Position>
       <Comment>用户id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="407" parent="232" name="FeeItemCodeList">
+    <column id="410" parent="232" name="FeeItemCodeList">
       <Position>3</Position>
       <Comment>体检编码大类，对应表zd_feeitem中的字段FeeItemCode,&apos;-&apos;表示全部</Comment>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="408" parent="232" name="RequisitionId">
+    <column id="411" parent="232" name="RequisitionId">
       <Position>4</Position>
       <Comment>当次检查身份识别码</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="409" parent="232" name="applyId">
+    <column id="412" parent="232" name="applyId">
       <Position>5</Position>
       <Comment>关联表apply_table中的id</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="410" parent="232" name="creatTime">
+    <column id="413" parent="232" name="creatTime">
       <Position>6</Position>
       <Comment>创建时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <key id="411" parent="232" name="PRIMARY">
+    <column id="414" parent="232" name="status">
+      <Position>7</Position>
+      <Comment>0-进行中，1-已完成</Comment>
+      <DataType>int(255)|0s</DataType>
+    </column>
+    <key id="415" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id
 userId
 applyId</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="412" parent="233" name="id">
+    <column id="416" parent="233" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="413" parent="233" name="sys_user_account">
+    <column id="417" parent="233" name="sys_user_account">
       <Position>2</Position>
       <Comment>机构用户账号</Comment>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="414" parent="233" name="sys_user_password">
+    <column id="418" parent="233" name="sys_user_password">
       <Position>3</Position>
       <Comment>密码</Comment>
       <DataType>varchar(1000)|0s</DataType>
     </column>
-    <column id="415" parent="233" name="sys_user_name">
+    <column id="419" parent="233" name="sys_user_name">
       <Position>4</Position>
       <Comment>机构用户名</Comment>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="416" parent="233" name="user_id">
+    <column id="420" parent="233" name="user_id">
       <Position>5</Position>
       <Comment>用户ID</Comment>
       <DataType>int(255)|0s</DataType>
     </column>
-    <column id="417" parent="233" name="phone">
+    <column id="421" parent="233" name="phone">
       <Position>6</Position>
       <Comment>联系方式</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="418" parent="233" name="idCard">
+    <column id="422" parent="233" name="idCard">
       <Position>7</Position>
       <Comment>身份标识/身份证</Comment>
       <DataType>varchar(18)|0s</DataType>
     </column>
-    <column id="419" parent="233" name="org_id">
+    <column id="423" parent="233" name="org_id">
       <Position>8</Position>
       <Comment>所属机构id</Comment>
       <DataType>varchar(11)|0s</DataType>
     </column>
-    <column id="420" parent="233" name="is_online">
+    <column id="424" parent="233" name="is_online">
       <Position>9</Position>
       <Comment>是否在线，0离线，1在线</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="421" parent="233" name="status">
+    <column id="425" parent="233" name="status">
       <Position>10</Position>
       <Comment>状态，1正常，0禁用，-1注销</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="422" parent="233" name="sys_type">
+    <column id="426" parent="233" name="sys_type">
       <Position>11</Position>
       <Comment>机构用户类型，0超级管理员，1医生，2护士</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="423" parent="233" name="register_time">
+    <column id="427" parent="233" name="register_time">
       <Position>12</Position>
       <Comment>注册时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="424" parent="233" name="create_by">
+    <column id="428" parent="233" name="create_by">
       <Position>13</Position>
       <Comment>创建人ID</Comment>
       <DataType>int(255)|0s</DataType>
     </column>
-    <column id="425" parent="233" name="account_change_time">
+    <column id="429" parent="233" name="account_change_time">
       <Position>14</Position>
       <Comment>账号变动时间</Comment>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="426" parent="233" name="authority">
+    <column id="430" parent="233" name="authority">
       <Position>15</Position>
       <Comment>功能权限</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="427" parent="233" name="sex">
+    <column id="431" parent="233" name="sex">
       <Position>16</Position>
       <Comment>1-男，2-女</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <key id="428" parent="233" name="PRIMARY">
+    <key id="432" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="429" parent="234" name="id">
+    <column id="433" parent="234" name="id">
       <Position>1</Position>
       <Comment>自增</Comment>
       <DataType>int(255)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="430" parent="234" name="userId">
+    <column id="434" parent="234" name="userId">
       <Position>2</Position>
       <Comment>用户标识</Comment>
       <DataType>int(10)|0s</DataType>
     </column>
-    <column id="431" parent="234" name="userName">
+    <column id="435" parent="234" name="userName">
       <Position>3</Position>
       <Comment>用户名</Comment>
       <DataType>varchar(10)|0s</DataType>
       <Collation>utf8_unicode_ci</Collation>
     </column>
-    <column id="432" parent="234" name="sex">
+    <column id="436" parent="234" name="sex">
       <Position>4</Position>
       <Comment>性别</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="433" parent="234" name="age">
+    <column id="437" parent="234" name="age">
       <Position>5</Position>
       <Comment>年龄</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="434" parent="234" name="cardId">
+    <column id="438" parent="234" name="cardId">
       <Position>6</Position>
       <Comment>卡号</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="435" parent="234" name="type">
+    <column id="439" parent="234" name="type">
       <Position>7</Position>
       <Comment>用户类型，0-普通，1-高级</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="436" parent="234" name="faceId">
+    <column id="440" parent="234" name="faceId">
       <Position>8</Position>
       <Comment>脸部特征id</Comment>
       <DataType>int(25)|0s</DataType>
     </column>
-    <key id="437" parent="234" name="PRIMARY">
+    <key id="441" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="438" parent="235" name="id">
+    <column id="442" parent="235" name="id">
       <Position>1</Position>
       <Comment>ID自增</Comment>
       <DataType>int(255)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="439" parent="235" name="userAccount">
+    <column id="443" parent="235" name="userAccount">
       <Position>2</Position>
       <Comment>账号</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="440" parent="235" name="userPassword">
+    <column id="444" parent="235" name="userPassword">
       <Position>3</Position>
       <Comment>密码</Comment>
       <DataType>varchar(500)|0s</DataType>
     </column>
-    <column id="441" parent="235" name="name">
+    <column id="445" parent="235" name="name">
       <Position>4</Position>
       <Comment>名称</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="442" parent="235" name="Email">
+    <column id="446" parent="235" name="Email">
       <Position>5</Position>
       <Comment>邮箱</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="443" parent="235" name="phone">
+    <column id="447" parent="235" name="phone">
       <Position>6</Position>
       <Comment>手机号</Comment>
       <DataType>varchar(11)|0s</DataType>
     </column>
-    <column id="444" parent="235" name="onlineStatus">
+    <column id="448" parent="235" name="onlineStatus">
       <Position>7</Position>
       <Comment>在线状态</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="445" parent="235" name="authority">
+    <column id="449" parent="235" name="authority">
       <Position>8</Position>
       <Comment>权限 （0：高级用户，1：普通用户）</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="446" parent="235" name="status">
+    <column id="450" parent="235" name="status">
       <Position>9</Position>
       <Comment>是否启用，1启用，0禁用,-1注销</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="447" parent="235" name="relation">
+    <column id="451" parent="235" name="relation">
       <Position>10</Position>
       <Comment>关联个人账号</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="448" parent="235" name="nickName">
+    <column id="452" parent="235" name="nickName">
       <Position>11</Position>
       <Comment>昵称</Comment>
       <DataType>varchar(12)|0s</DataType>
     </column>
-    <index id="449" parent="235" name="username">
+    <index id="453" parent="235" name="username">
       <ColNames>userAccount</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="450" parent="235" name="PRIMARY">
+    <key id="454" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id
 relation</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="451" parent="235" name="username">
+    <key id="455" parent="235" name="username">
       <ColNames>userAccount</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
     </key>
-    <column id="452" parent="236" name="FormTag">
+    <column id="456" parent="236" name="FormTag">
       <Position>1</Position>
       <Comment>项目流水号</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="453" parent="236" name="FormType">
+    <column id="457" parent="236" name="FormType">
       <Position>2</Position>
       <Comment>项目类型</Comment>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="454" parent="236" name="FeeItemCode">
+    <column id="458" parent="236" name="FeeItemCode">
       <Position>3</Position>
       <Comment>大类编码</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="455" parent="236" name="FeeItemName">
+    <column id="459" parent="236" name="FeeItemName">
       <Position>4</Position>
       <Comment>大类名称</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="456" parent="236" name="ItemCode">
+    <column id="460" parent="236" name="ItemCode">
       <Position>5</Position>
       <Comment>细项编码</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="457" parent="236" name="ItemName">
+    <column id="461" parent="236" name="ItemName">
       <Position>6</Position>
       <Comment>细项名称</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="458" parent="236" name="PyCode">
+    <column id="462" parent="236" name="PyCode">
       <Position>7</Position>
       <Comment>拼音码</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="459" parent="236" name="isUse">
+    <column id="463" parent="236" name="isUse">
       <Position>8</Position>
       <Comment>是否启用</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="460" parent="236" name="DispOrder">
+    <column id="464" parent="236" name="DispOrder">
       <Position>9</Position>
       <Comment>项目排序</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="461" parent="236" name="StyleNo">
+    <column id="465" parent="236" name="StyleNo">
       <Position>10</Position>
       <Comment>是否公用一个Barcode</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <key id="462" parent="236" name="PRIMARY">
+    <key id="466" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>FormTag</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="463" parent="237" name="did">
+    <column id="467" parent="237" name="did">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="464" parent="237" name="seedname">
+    <column id="468" parent="237" name="seedname">
       <Position>2</Position>
       <Comment>种子名称</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="465" parent="237" name="table">
+    <column id="469" parent="237" name="table">
       <Position>3</Position>
       <Comment>表名</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="466" parent="237" name="field">
+    <column id="470" parent="237" name="field">
       <Position>4</Position>
       <Comment>字段名</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="467" parent="237" name="serialnumber">
+    <column id="471" parent="237" name="serialnumber">
       <Position>5</Position>
       <Comment>流水编码号（按规则生成）</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <key id="468" parent="237" name="PRIMARY">
+    <key id="472" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>did</ColNames>
       <Primary>1</Primary>

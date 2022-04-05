@@ -90,6 +90,111 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def query_exam_base_and_urine_by_rid(self, rid):
+        """
+        通过体检编码查询体检结果
+        @param rid:
+        @return:
+        """
+        sql = f"""
+                SELECT PTC.RequisitionId,PTC.org_code `exam_org_code`,
+            PTC.ProjectName,PTC.ProjectNo,PTC.RSBP,PTC.RDBP,
+                    PTC.Height,PTC.Weight,PTC.BMI,PTC.Temperature,
+                    PTC.Operator,CONVERT(PTC.VisitingDate,CHAR(19)) `VisitingDate`,PTC.Status,
+                        PTC.ReviewDoctor,PTC.ReviewDate,PTC.LSBP,
+                PTC.LDBP,PTC.heart_rate,PTC.uploadStatus,PTC.remark,PTC.auditStatus,
+                        fp.birthday,fp.org_name,fp.org_name,fp.idCard,fp.cur_address,fp.phone,fp.idCard,
+                        fp.gender,fp.name
+                    FROM pat_test_checklist PTC join fh_personbasics fp on PTC.userId = fp.userId
+                    WHERE PTC.RequisitionId='{rid}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            # 先查询分类
+            sql = f"""
+                select FeeItemCode from pat_test_result WHERE RequisitionId='{rid}' GROUP BY FeeItemCode
+                    """
+            _res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if _res.get('status') == 200:
+                data = {}
+                for index, item in enumerate(_res.get('result')):
+                    FeeItemCode = item.get('FeeItemCode', 0)
+                    RES = self.query_exam_base_and_urine_by_feeItemCode(FeeItemCode, rid)
+                    a = {FeeItemCode: RES}
+                    data.update(a)
+                res.get('result').update(data)
+
+        return res
+
+    def query_exam_base_and_urine_by_feeItemCode(self, FIC, rid):
+        """
+        通过项目编码大类和体检编码查询结果
+        @param FIC:
+        @param rid:
+        @return:
+        """
+        sql = f"""
+                SELECT  Did,
+                    RequisitionId,
+                    FeeItemCode,
+                    ItemCode,
+                    ItemName,
+                    ReceivedTime,
+                    Lis_RangeState,
+                    Lis_Result,
+                    Lis_ResultUnit,
+                    Lis_ReferenceRange,
+                    Lis_RangeLowValue,
+                    Lis_RangeHighValue,
+                    Lis_RangeStateColor
+                    FROM pat_test_result WHERE FeeItemCode='{FIC}' AND RequisitionId='{rid}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql, type=1)
+        if res.get("status") == 200:
+            return res.get("result")
+        else:
+            return []
+
+    def check_exam_type_btn_by_rid(self, rid):
+        """
+        根据体检编码校验是否前端可以生成数据，要与选择体检的项目一致
+        @param rid:
+        @return:
+        """
+        sql = f"""
+                SELECT PT.FeeItemCodeList FROM physical_type PT WHERE PT.RequisitionId='{rid}' AND PT.status=0
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            result = ast.literal_eval(res.get('result').get('FeeItemCodeList'))
+            result = dict(zip(result, result))
+            res.update(result=result)
+        return res
+
+    def insert_exam_urine_by_rid(self, rid, params):
+        """
+        根据体检编码新增尿检结果
+        @param rid:
+        @param params:
+        @return:
+        """
+        sqlList = []
+        try:
+            for index, item in enumerate(params):
+                sql = f"""
+                        INSERT INTO pat_test_result (RequisitionId, FeeItemCode, ItemCode,
+                                ItemName, ReceivedTime, Lis_Result, Lis_ResultUnit,
+                                Lis_ReferenceRange
+                            )VALUES ('{rid}','{item.get("FeeItemCode")}','{item.get("ItemCode")}',
+                              '{item.get("ItemName")}',NOW(),'{item.get("Lis_Result")}',
+                                '{item.get("Lis_ResultUnit", "-")}','{item.get("Lis_ReferenceRange")}')
+                    """
+                sqlList.append(sql)
+            res = self.insertOrUpdateOrDeleteBySqlList(sqlList=sqlList)
+            return res
+        except Exception as e:
+            print(e)
+
     def query_exam_base_by_rid(self, rid):
         """
         通过体检编码查询基本体检结果
@@ -1015,6 +1120,33 @@ class database:
         except Exception as e:
             print(e)
             _sqlRes.update(status=13203, msg="数据库连接错误")
+        finally:
+            if conn and cur:
+                cur.close()
+                conn.close()
+            return _sqlRes
+
+    def insertOrUpdateOrDeleteBySqlList(self, sqlList):
+        """
+        多条语句新增修改，删除
+        @param sqlList:
+        @return:
+        """
+        conn, cur = None, None
+        _sqlRes = {"status": 0, "msg": ''}  # 返回数据
+        try:
+            status, conn, cur = self.init_conn_cur_index()  # 获取操作对象
+            if status == 200:
+                for index, item in enumerate(sqlList):
+                    cur.execute(item)
+                    conn.commit()
+                _sqlRes.update(status=200, msg='操作成功', row=cur.rowcount)
+            else:
+                _sqlRes.update(status=status, msg='数据库连接错误')
+        except Exception as e:
+            print(e)
+            conn.rollback()
+            _sqlRes.update(status=13203, msg=e)
         finally:
             if conn and cur:
                 cur.close()

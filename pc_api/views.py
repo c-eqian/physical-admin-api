@@ -22,6 +22,61 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class query_exam_base_and_urine_by_rid_view(APIView):
+    """
+   通过体检编码查询体检结果
+    请求方式：get
+    参数：RequisitionId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get('RequisitionId')
+            res = db.query_exam_base_and_urine_by_rid(rid=RequisitionId)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class check_exam_type_btn_by_rid_view(APIView):
+    """
+   根据体检编码校验是否前端可以生成数据，要与选择体检的项目一致
+    请求方式：get
+    参数：RequisitionId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get('RequisitionId')
+            res = db.check_exam_type_btn_by_rid(rid=RequisitionId)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class insert_exam_urine_by_rid_view(APIView):
+    """
+    根据体检编码新增尿检结果
+    请求方式：get
+    参数：RequisitionId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get('RequisitionId')
+            data = ast.literal_eval(request.query_params.get('data'))
+            res = db.insert_exam_urine_by_rid(rid=RequisitionId, params=data.get('data'))
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class query_exam_base_by_rid_view(APIView):
     """
     通过体检编码查询基本体检结果

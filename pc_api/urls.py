@@ -23,6 +23,9 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    url(r'^query_exam_base_and_urine_by_rid', views.query_exam_base_and_urine_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
+    url(r'^check_exam_type_btn_by_rid', views.check_exam_type_btn_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
+    url(r'^insert-exam-urine-by-rid', views.insert_exam_urine_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
     url(r'^query-exam-base-by-rid', views.query_exam_base_by_rid_view.as_view()),  # 通过体检编码查询基本体检结果
     url(r'^query_exam_upload', views.query_exam_upload_by_org_code_view.as_view()),  # 搜根据机构编码查询体检上传
     url(r'^get-cache-base-exam', views.get_cache_base_exam.as_view()),  # 获取缓存基本结果记录
