@@ -23,6 +23,9 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    url(r'^add-apply-list', views.apply_by_userId_view.as_view()),  # 体检预约申请列表
+    url(r'^query_user_details_by_idCard', views.query_user_details_by_idCard_view.as_view()),  # 通过身份证查询用户基本信息与体检项目类型
+    url(r'^exam_result_audit_by_rid', views.exam_result_audit_by_rid_view.as_view()),  # 医生审核体检结果
     url(r'^query_exam_base_and_urine_by_rid', views.query_exam_base_and_urine_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
     url(r'^check_exam_type_btn_by_rid', views.check_exam_type_btn_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
     url(r'^insert-exam-urine-by-rid', views.insert_exam_urine_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
@@ -41,11 +44,14 @@ urlpatterns = [
     url(r'^searchSuggestion', views.like_search_suggestion_view.as_view()),  # 搜索建议
     url(r'^likeSearch', views.likeSearchView.as_view()),  # 关键词搜索
     url(r'^SearchTotal', views.likeSearchTotalView.as_view()),  # 关键词搜索总数
+    url(r'^user_details_by_idCard', views.user_details_by_idCard_view.as_view()),  # 用户详情
     url(r'^userDetails', views.userDetailsView.as_view()),  # 用户详情
     url(r'^userTotal', views.userTotalView.as_view()),  # 当前机构的用户数
     url(r'^userList', views.getUserListView.as_view()),  # 登录
     url(r'^login', views.loginView.as_view()),  # 登录
     url(r'^test', views.test.as_view()),
     url(r'^docs', include_docs_urls(title='接口文档')),
+
+
 
 ]

@@ -22,6 +22,80 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class apply_by_userId_view(APIView):
+    """
+    添加用户申请
+    请求方式：GET
+    参数：userId, apply_type
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            apply_type = request.query_params.get('apply_type')
+            res = db.we_insert_apply_by_userId(userId=userId, apply_type=apply_type)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class query_user_details_by_idCard_view(APIView):
+    """
+       通过身份证查询用户基本信息与体检项目类型
+    请求方式：get
+    参数：idCard
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            idCard = request.query_params.get('idCard')
+            res = db.query_user_details_by_idCard(idCard=idCard)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class exam_result_audit_by_rid_view(APIView):
+    """
+   医生审核体检结果
+    请求方式：get
+    参数：RequisitionId, status: 0-未审核，1-已审核，-1-不通过，[remark: 不通过原因]
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            RequisitionId = request.query_params.get('RequisitionId')
+            remark = request.query_params.get('remark')
+            status = request.query_params.get('status')
+            res = db.exam_result_audit_by_rid(rid=RequisitionId, status=status, remark=remark)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class query_feeItemCode_list_view(APIView):
+    """
+    查询编码大类列表
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            res = db.select_feeItemCode_list()
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class query_exam_base_and_urine_by_rid_view(APIView):
     """
    通过体检编码查询体检结果
@@ -347,6 +421,7 @@ class select_apply_by_org_code_view(APIView):
             else:
                 key = f"apply{org_code}{page if page else 1}{limit if limit else 50}"
             cache_data = _redis.get(key=key)
+            print(cache_data)
             if cache_data:  # 查询缓存是否有数据
                 cache_data = bytes.decode(cache_data)
                 res = ast.literal_eval(cache_data)
@@ -433,9 +508,30 @@ class likeSearchTotalView(APIView):
             return Response(errorRes(msg='请求失败，请联系管理员!'))
 
 
+class user_details_by_idCard_view(APIView):
+    """
+    通过身份证查询用户详情
+    请求方式：GET
+    参数：idCard
+    返回：用户总数
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            idCard = request.query_params.get("idCard")
+            cache_data = _redis.get(key=f"{idCard}")
+            if cache_data:
+                cache_data = bytes.decode(cache_data)
+                return Response(ast.literal_eval(cache_data))
+            return Response(db.user_details_by_idCard(idCard=idCard))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            print(e)
+
+
 class userDetailsView(APIView):
     """
-    查询用户信息
+    通过用户ID查询用户详情
     请求方式：GET
     参数：userId
     返回：用户总数

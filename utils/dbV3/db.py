@@ -90,6 +90,40 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def query_user_details_by_idCard(self, idCard):
+        """
+        通过身份证查询用户基本信息与体检项目类型
+        @param idCard:
+        @return:
+        """
+        res = self.user_details_by_idCard(idCard=idCard)
+        if res.get("status") == 200:
+            _res = self.select_feeItemCode_list()
+            if _res.get('status') == 200:
+                res.get('result').update(codeList=_res.get('result'))
+        return res
+
+    def exam_result_audit_by_rid(self, rid, status, remark):
+        """
+        医生审核体检结果
+        @param rid: 体检编码
+        @param status: 0-未审核，1-已审核，-1-不通过
+        @param remark: 不通过原因
+        @return:
+        """
+        if status in [-1, '-1']:
+            sql = f"""
+                        UPDATE  pat_test_checklist  SET auditStatus={status},Status=0,
+                        remark='{remark if remark else ""} '
+                        WHERE RequisitionId='{rid}'
+                """
+        else:
+            sql = f"""
+                        UPDATE  pat_test_checklist  SET auditStatus={status},Status={status}
+                        WHERE RequisitionId='{rid}'
+                """
+        return self.insertOrUpdateOrDeleteBySql(sql=sql)
+
     def query_exam_base_and_urine_by_rid(self, rid):
         """
         通过体检编码查询体检结果
@@ -120,6 +154,7 @@ class database:
                 for index, item in enumerate(_res.get('result')):
                     FeeItemCode = item.get('FeeItemCode', 0)
                     RES = self.query_exam_base_and_urine_by_feeItemCode(FeeItemCode, rid)
+                    print(RES)
                     a = {FeeItemCode: RES}
                     data.update(a)
                 res.get('result').update(data)
@@ -149,6 +184,7 @@ class database:
                     Lis_RangeStateColor
                     FROM pat_test_result WHERE FeeItemCode='{FIC}' AND RequisitionId='{rid}'
                 """
+        print(sql)
         res = self.SqlSelectByOneOrList(sql=sql, type=1)
         if res.get("status") == 200:
             return res.get("result")
@@ -181,14 +217,35 @@ class database:
         sqlList = []
         try:
             for index, item in enumerate(params):
+                # 查询是否已经存在结果，如果存在，则更新
                 sql = f"""
-                        INSERT INTO pat_test_result (RequisitionId, FeeItemCode, ItemCode,
-                                ItemName, ReceivedTime, Lis_Result, Lis_ResultUnit,
-                                Lis_ReferenceRange
-                            )VALUES ('{rid}','{item.get("FeeItemCode")}','{item.get("ItemCode")}',
-                              '{item.get("ItemName")}',NOW(),'{item.get("Lis_Result")}',
-                                '{item.get("Lis_ResultUnit", "-")}','{item.get("Lis_ReferenceRange")}')
-                    """
+                    SELECT
+                        ptr.ItemCode 
+                    FROM
+                        pat_test_result ptr 
+                    WHERE
+                        ptr.RequisitionId = '{rid}' 
+                        AND ptr.ItemCode = '{item.get("ItemCode")}'
+                        """
+                checkRes = self.SqlSelectByOneOrList(sql=sql)
+                if checkRes.get("status") == 13204:
+                    sql = f"""
+                            INSERT INTO pat_test_result (RequisitionId, FeeItemCode, ItemCode,
+                                    ItemName, ReceivedTime, Lis_Result, Lis_ResultUnit,
+                                    Lis_ReferenceRange
+                                )VALUES ('{rid}','{item.get("FeeItemCode")}','{item.get("ItemCode")}',
+                                  '{item.get("ItemName")}',NOW(),'{item.get("Lis_Result")}',
+                                    '{item.get("Lis_ResultUnit", "-")}','{item.get("Lis_ReferenceRange")}')
+                        """
+                else:
+                    sql = f"""
+                            UPDATE pat_test_result 
+                            SET Lis_Result = '{item.get("Lis_Result")}',
+                            Lis_ResultUnit = '{item.get("Lis_ResultUnit", "-")}' 
+                            WHERE
+                                RequisitionId = '{rid}' 
+                                AND ItemCode = '{item.get("ItemCode")}'
+                           """
                 sqlList.append(sql)
             res = self.insertOrUpdateOrDeleteBySqlList(sqlList=sqlList)
             return res
@@ -636,10 +693,20 @@ class database:
                 feeItemCodeList = ast.literal_eval(feeItemCodeListString)
                 feeItemCodeTuple = tuple(feeItemCodeList)
                 # if isinstance(data, list):  # 数据类型是否为列表
-                sql = f"""
-                        SELECT DISTINCT zf.FeeItemCode,zf.FeeItemName FROM zd_feeitem zf 
-                        WHERE zf.FeeItemCode IN {feeItemCodeTuple} AND zf.isUse=1
-                    """
+                if len(feeItemCodeTuple)>1:
+                    sql = f"""
+                            SELECT DISTINCT zf.FeeItemCode,zf.FeeItemName FROM zd_feeitem zf 
+                            WHERE zf.FeeItemCode IN 
+                            {feeItemCodeTuple} 
+                            AND zf.isUse=1
+                        """
+                else:
+                    sql = f"""
+                            SELECT DISTINCT zf.FeeItemCode,zf.FeeItemName FROM zd_feeitem zf 
+                            WHERE zf.FeeItemCode IN ('{feeItemCodeTuple[0]}')
+                            AND zf.isUse=1
+                        """
+                print(96,sql)
                 sql_list.append(sql)
             res = self.SqlListSelectByOneOrList(sqlList=sql_list, oldData=data)
             if res.get('status') == 200:
@@ -667,10 +734,19 @@ class database:
             if res.get("status") == 200:
                 org_code = res.get('result').get('org_code')
                 sql = f"""
-                        INSERT INTO apply_table 
-                            (userId, apply_type, apply_time, apply_status, org_code)
-                        VALUES ({userId},'{apply_type}',NOW(),0,'{org_code}')
-                    """
+                        SELECT *  FROM apply_table WHERE apply_status=0 AND userId='{userId}'
+                        """
+                RES = self.SqlSelectByOneOrList(sql=sql)
+                if RES.get('status') == 13204:
+                    sql = f"""
+                              INSERT INTO apply_table 
+                                  (userId, apply_type, apply_time, apply_status, org_code)
+                              VALUES ({userId},'{apply_type}',NOW(),0,'{org_code}')
+                          """
+                else:
+                    sql = f"""
+                              UPDATE  apply_table SET apply_type='{apply_type}' WHERE userId='{userId}'
+                          """
                 res = self.insertOrUpdateOrDeleteBySql(sql=sql)
             return res
         except Exception as e:
@@ -930,9 +1006,30 @@ class database:
         """
         return self.SqlSelectByOneOrList(sql=sql)
 
+    def user_details_by_idCard(self, idCard):
+        """
+        通过身份证查询用户详情
+        @param idCard:
+        @return:
+        """
+        sql = f"""
+        select fp.id,fp.userId,fp.idCard,fp.name,
+        fp.gender,fp.phone,fp.nation,fp.contact_name,
+        fp.contact_phone,fp.live_type,fp.blood_type,cur_address,
+        fp.org_code,fp.org_name,fp.status,fp.creator,fp.last_updator,
+        CONVERT(fp.creatime,CHAR(19)) `creatime` ,
+            CONVERT(fp.birthday,CHAR(19)) `birthday` ,
+            CONVERT(fp.last_updatime,CHAR(19)) `last_updatime`
+            FROM fh_personbasics fp WHERE fp.idCard='{idCard}'
+            """
+        _res = self.SqlSelectByOneOrList(sql=sql)
+        if _res.get('status') == 200:
+            _redis.set(key=f"{idCard}", value=str(_res), timeout=60)
+        return _res
+
     def userDetailsByUserId(self, userId):
         """
-        查询用户详情
+        通过用户ID查询用户详情
         @param userId:
         @return:
         """

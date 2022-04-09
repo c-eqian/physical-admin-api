@@ -1,83 +1,56 @@
-2022-04-04 15:24:39,722 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:64] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:26:59,921 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:26:59,921 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:28:52,047 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:29:19,316 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:30:00,761 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:30:32,282 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:30:32,282 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:32:47,600 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:32:47,600 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-04 15:33:17,497 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:36:25,854 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'str' object has no attribute 'get'
-2022-04-04 15:36:25,854 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:65] - ERROR: 'str' object has no attribute 'get'
-2022-04-04 15:38:06,021 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:38:16,320 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:40:56,315 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:42:25,309 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 15:43:35,804 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1046] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 18:48:07,108 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 18:48:17,122 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 18:48:54,612 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 18:49:07,096 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 18:49:27,854 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 18:49:47,126 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 19:01:59,708 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1062] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-04 20:48:59,139 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:115] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 20:48:59,139 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:115] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 20:53:52,744 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:49] - ERROR: Invalid input of type: 'NoneType'. Convert to a bytes, string, int or float first.
-2022-04-04 20:53:52,744 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:49] - ERROR: Invalid input of type: 'NoneType'. Convert to a bytes, string, int or float first.
-2022-04-04 20:53:56,723 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:49] - ERROR: Invalid input of type: 'NoneType'. Convert to a bytes, string, int or float first.
-2022-04-04 20:53:56,723 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:49] - ERROR: Invalid input of type: 'NoneType'. Convert to a bytes, string, int or float first.
-2022-04-04 20:54:29,759 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:49] - ERROR: Invalid input of type: 'NoneType'. Convert to a bytes, string, int or float first.
-2022-04-04 20:54:29,759 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:49] - ERROR: Invalid input of type: 'NoneType'. Convert to a bytes, string, int or float first.
-2022-04-04 20:55:44,814 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:115] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 20:55:44,814 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:115] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 20:59:48,397 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:116] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 20:59:48,397 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:116] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 21:02:00,472 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:116] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-04 21:02:00,472 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:116] - ERROR: 'dict' object has no attribute 'RequisitionId'
-2022-04-05 00:10:57,858 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1085] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 00:23:10,246 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1101] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 00:49:50,092 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1105] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 00:51:44,723 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1185] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) `total` FROM  pat_test_checklist PC \n            join fh_personbasics fp on P' at line 1")
-2022-04-05 00:51:44,723 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1185] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) `total` FROM  pat_test_checklist PC \n            join fh_personbasics fp on P' at line 1")
-2022-04-05 10:17:28,622 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1115] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 11:21:07,875 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1122] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 11:24:56,894 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1122] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 11:25:16,657 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:42] - ERROR: 'QueryDict' object has no attribute 'data'
-2022-04-05 11:25:16,657 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:42] - ERROR: 'QueryDict' object has no attribute 'data'
-2022-04-05 11:25:50,372 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:42] - ERROR: 'QueryDict' object has no attribute 'data'
-2022-04-05 11:25:50,372 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:42] - ERROR: 'QueryDict' object has no attribute 'data'
-2022-04-05 11:26:40,871 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:42] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-05 11:26:40,871 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:42] - ERROR: 'NoneType' object has no attribute 'get'
-2022-04-05 11:41:04,821 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1122] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 11:44:31,462 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1122] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 14:23:55,848 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1262] - ERROR: (1054, "Unknown column 'pt.FeeItemCodeList' in 'field list'")
-2022-04-05 14:23:55,848 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1262] - ERROR: (1054, "Unknown column 'pt.FeeItemCodeList' in 'field list'")
-2022-04-05 14:24:40,878 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1182] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 14:26:12,160 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1182] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' ([WinError 10065] 套接字操作尝试一个无法连接的主机。)")
-2022-04-05 14:26:12,180 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1182] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' ([WinError 10065] 套接字操作尝试一个无法连接的主机。)")
-2022-04-05 18:34:28,349 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1191] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 18:40:17,415 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1192] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 18:40:27,934 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1192] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 18:43:35,460 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1192] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 19:05:55,871 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1192] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 19:09:40,993 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1199] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 19:17:15,839 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1203] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 20:14:50,912 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1206] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 20:15:01,715 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1206] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 21:22:55,956 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1290] - ERROR: (1054, "Unknown column 'ptc.ProjectNo' in 'field list'")
-2022-04-05 21:22:55,956 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1290] - ERROR: (1054, "Unknown column 'ptc.ProjectNo' in 'field list'")
-2022-04-05 21:36:47,574 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1231] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 21:37:09,784 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1311] - ERROR: (1054, "Unknown column 'ptc.ProjectNo' in 'field list'")
-2022-04-05 21:37:09,784 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1311] - ERROR: (1054, "Unknown column 'ptc.ProjectNo' in 'field list'")
-2022-04-05 21:37:11,394 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:39] - ERROR: 'NoneType' object has no attribute 'update'
-2022-04-05 21:37:11,394 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:39] - ERROR: 'NoneType' object has no attribute 'update'
-2022-04-05 21:38:55,465 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1232] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 21:39:33,244 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1312] - ERROR: (1054, "Unknown column 'ptc.ProjectNo' in 'field list'")
-2022-04-05 21:39:33,244 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1312] - ERROR: (1054, "Unknown column 'ptc.ProjectNo' in 'field list'")
-2022-04-05 21:43:21,553 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1233] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 21:43:32,213 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1233] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 21:44:16,688 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1233] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
-2022-04-05 23:41:12,759 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1247] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 17:05:34,790 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1340] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 17:22:18,743 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1340] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 17:23:32,163 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1340] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 17:34:27,982 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1340] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 21:24:58,383 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1325] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 22:06:24,427 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1338] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' ([WinError 10065] 套接字操作尝试一个无法连接的主机。)")
+2022-04-09 22:06:24,427 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1338] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' ([WinError 10065] 套接字操作尝试一个无法连接的主机。)")
+2022-04-09 22:10:48,784 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1325] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 22:11:00,345 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1325] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:17:35,941 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1325] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:25:46,815 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1325] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:26:10,065 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1374] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:26:10,065 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1374] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:27:53,790 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1374] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:27:53,790 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1374] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:30:11,299 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:30:29,469 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:30:40,189 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:30:59,700 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:31:20,405 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1375] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:31:20,405 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1375] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:33:46,469 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1376] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:33:46,469 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1376] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:36:31,984 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:36:42,994 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:38:17,579 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:38:41,879 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:38:51,894 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1326] - ERROR: (2003, "Can't connect to MySQL server on '120.77.44.219' (timed out)")
+2022-04-09 23:39:36,947 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:39:36,947 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:41:41,195 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1376] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:41:41,195 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1376] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') AND zf.isUse=1' at line 2")
+2022-04-09 23:43:38,879 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1376] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:43:38,879 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1376] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:44:41,207 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:44:41,207 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:45:43,061 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:45:43,061 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:46:59,816 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:46:59,816 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1377] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10020010 AND zf.isUse=1' at line 2")
+2022-04-09 23:49:08,597 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1380] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TJ005 \n                        AND zf.isUse=1' at line 3")
+2022-04-09 23:49:08,597 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1380] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TJ005 \n                        AND zf.isUse=1' at line 3")
+2022-04-09 23:51:28,070 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1386] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TJ005',)')\n                            AND zf.isUse=1' at line 2")
+2022-04-09 23:51:28,070 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1386] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TJ005',)')\n                            AND zf.isUse=1' at line 2")
+2022-04-09 23:52:24,642 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1387] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TJ005',)')\n                            AND zf.isUse=1' at line 2")
+2022-04-09 23:52:24,642 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1387] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TJ005',)')\n                            AND zf.isUse=1' at line 2")
+2022-04-09 23:53:13,204 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1387] - ERROR: (1054, "Unknown column 'TJ005' in 'where clause'")
+2022-04-09 23:53:13,204 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1387] - ERROR: (1054, "Unknown column 'TJ005' in 'where clause'")
+2022-04-10 00:17:32,522 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:719] - ERROR: malformed node or string: <_ast.Name object at 0x0000018EFE80BB20>
+2022-04-10 00:17:32,522 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:719] - ERROR: malformed node or string: <_ast.Name object at 0x0000018EFE80BB20>
+2022-04-10 00:20:36,707 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:720] - ERROR: malformed node or string: <_ast.Name object at 0x000001340263D880>
+2022-04-10 00:20:36,707 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:720] - ERROR: malformed node or string: <_ast.Name object at 0x000001340263D880>
+2022-04-10 00:20:55,054 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:720] - ERROR: malformed node or string: <_ast.Name object at 0x00000134024A6D90>
+2022-04-10 00:20:55,054 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:720] - ERROR: malformed node or string: <_ast.Name object at 0x00000134024A6D90>
+2022-04-10 00:22:43,217 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:720] - ERROR: malformed node or string: <_ast.Name object at 0x000001FADE65D760>
+2022-04-10 00:22:43,217 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:720] - ERROR: malformed node or string: <_ast.Name object at 0x000001FADE65D760>
