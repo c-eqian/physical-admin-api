@@ -19,6 +19,37 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class we_exam_list_by_userId_view(APIView):
+    """
+    查询申请体检列表
+    请求方式：GET
+    参数：userId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            res = db.we_exam_list_by_userId(userId=userId)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class registerView(APIView):
+    """
+    开通账号
+    """
+
+    def post(self, request, *args, **kwargs):
+        password = request.data.get('password', 0)
+        name = request.data.get('name', 0)
+        idCard = request.data.get('idCard', 0)
+        res = db.RegisterSql(pwd=password, nick=name, idCard=idCard)
+        return Response(res)
+
+
 class we_insert_apply_by_userId_view(APIView):
     """
     添加用户申请

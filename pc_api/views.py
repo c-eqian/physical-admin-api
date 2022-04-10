@@ -45,14 +45,15 @@ class query_user_details_by_idCard_view(APIView):
     """
        通过身份证查询用户基本信息与体检项目类型
     请求方式：get
-    参数：idCard
+    参数：idCard,org_code
     返回：
     """
 
     def get(self, request, *args, **kwargs):
         try:
             idCard = request.query_params.get('idCard')
-            res = db.query_user_details_by_idCard(idCard=idCard)
+            org_code = request.query_params.get('org_code')
+            res = db.query_user_details_by_idCard(idCard=idCard,org_code=org_code)
             return Response(res)
         except Exception as e:
             log.logger.error(msg=str(e))

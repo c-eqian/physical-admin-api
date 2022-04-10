@@ -90,10 +90,76 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
-    def query_user_details_by_idCard(self, idCard):
+    def we_exam_list_by_userId(self, userId):
         """
-        通过身份证查询用户基本信息与体检项目类型
+        查询申请体检列表
+        @param userId:
+        @return:
+        """
+        sql = f"""
+                SELECT pt.userId,pt.FeeItemCodeList,pt.RequisitionId,
+                    pt.applyId,CONVERT(pt.creatTime,CHAR(10)) `creatTime` ,pt.status,fp.name
+                    FROM physical_type pt
+                    join fh_personbasics fp on pt.userId = fp.userId
+                    WHERE pt.userId={userId} ORDER BY pt.creatTime DESC 
+            """
+        res = self.SqlSelectByOneOrList(sql=sql, type=1)
+        return res
+
+    def RegisterSql(self, pwd: str, nick: str, idCard: str) -> dict:  # 注册验证
+        """
+        注册函数
+        :param pwd: 密码
+        :param nick: 昵称
+        :param idCard: 有效证件
+        :return:
+        """
+        res = {"status": 0, "msg": ''}  # 返回数据
+        idCardDe = self.SM4.decryptData_ECB(idCard)  # 身份证解密
+        try:
+            _queryIsExistByIdCard = f"""
+               SELECT id,idCard,name from fh_personbasics where idCard='{idCardDe}'
+               """
+            _queryRes = self.SqlSelectByOneOrList(sql=_queryIsExistByIdCard)
+            RESULT = _queryRes.get("result")
+            if _queryRes.get('status') == 200:  # 查询身份证成功
+                _queryIsRegistered = f"""
+                    SELECT a.idCard from fh_personbasics a 
+                    join userinfo b on a.id = b.relation where a.idCard='{idCardDe}'
+                   """
+                _queryIsRegisteredRes = self.SqlSelectByOneOrList(sql=_queryIsRegistered)
+                if _queryIsRegisteredRes.get("status") == 200:  # 此时能查询到，说明已经注册过
+                    res.update(status=13205, msg="已开通，无需重复")
+                elif _queryIsRegisteredRes.get("status") == 13204:  # 此时没能查询到，说明未注册过，可以注册
+                    if nick == '':
+                        nick = RESULT.get('name')
+                    _sqlInsertByRegister = """
+                       INSERT INTO userinfo 
+                       ( userAccount,name, relation,userPassword,nickName,status,authority) 
+                       VALUES ('{}','{}','{}','{}','{}',1,0
+                       )
+
+                       """.format(RESULT.get('idCard')[-8:], RESULT.get('name'), RESULT.get('id'), pwd, nick)
+                    _res = self.insertOrUpdateOrDeleteBySql(sql=_sqlInsertByRegister)
+                    if _res.get('status') == 200:
+                        res.update(status=_res.get('status'), msg="开通成功")
+                    else:
+                        res.update(status=_res.get('status'), msg=_res.get('msg'))
+            elif _queryRes.get('status') == 13204:
+                res.update(status=_queryRes.get('status'), msg="用户不存在")
+            else:
+                res.update(status=_queryRes.get('status'), msg="操作失败")
+            return res
+        except Exception as e:
+            print(e)
+            res.update(status=13203, msg=e)
+            return res
+
+    def query_user_details_by_idCard(self, idCard,org_code):
+        """
+        通过身份证查询本机构用户基本信息与体检项目类型
         @param idCard:
+        @param org_code:
         @return:
         """
         res = self.user_details_by_idCard(idCard=idCard)
@@ -114,14 +180,19 @@ class database:
         if status in [-1, '-1']:
             sql = f"""
                         UPDATE  pat_test_checklist  SET auditStatus={status},Status=0,
-                        remark='{remark if remark else ""} '
+                        remark='{remark if remark else ""} ',uploadStatus=0
                         WHERE RequisitionId='{rid}'
                 """
         else:
             sql = f"""
-                        UPDATE  pat_test_checklist  SET auditStatus={status},Status={status}
+                        UPDATE  pat_test_checklist  SET auditStatus={status},Status={status},uploadStatus=0
                         WHERE RequisitionId='{rid}'
                 """
+            sql2 = f"""
+                           UPDATE  physical_type  SET status={status}
+                           WHERE RequisitionId='{rid}'
+                   """
+            self.insertOrUpdateOrDeleteBySql(sql=sql2)
         return self.insertOrUpdateOrDeleteBySql(sql=sql)
 
     def query_exam_base_and_urine_by_rid(self, rid):
@@ -481,13 +552,16 @@ class database:
                             FeeItemCodeList,
                             RequisitionId,
                             applyId,
-                            creatTime)
+                            creatTime,
+                            status
+                    )
                             SELECT
                                 userId,
                                 apply_type,
                                 '{RequisitionId + 1}',
                                 id,
-                                NOW()
+                                NOW(),
+                                0
                             FROM
                                 apply_table
                             WHERE
@@ -693,7 +767,7 @@ class database:
                 feeItemCodeList = ast.literal_eval(feeItemCodeListString)
                 feeItemCodeTuple = tuple(feeItemCodeList)
                 # if isinstance(data, list):  # 数据类型是否为列表
-                if len(feeItemCodeTuple)>1:
+                if len(feeItemCodeTuple) > 1:
                     sql = f"""
                             SELECT DISTINCT zf.FeeItemCode,zf.FeeItemName FROM zd_feeitem zf 
                             WHERE zf.FeeItemCode IN 
@@ -706,7 +780,7 @@ class database:
                             WHERE zf.FeeItemCode IN ('{feeItemCodeTuple[0]}')
                             AND zf.isUse=1
                         """
-                print(96,sql)
+                print(96, sql)
                 sql_list.append(sql)
             res = self.SqlListSelectByOneOrList(sqlList=sql_list, oldData=data)
             if res.get('status') == 200:
@@ -930,13 +1004,13 @@ class database:
         try:
             SqlUserinfo = f"""
                           SELECT u.userAccount,u.name,u.userPassword,u.authority,u.status,u.relation,u.nickName,
-                                  fp.age,fp.org_name,fp.org_code,fp.gender,fp.userId
+                                  CONVERT(fp.birthday,CHAR(10)) `birthday`,fp.org_name,fp.org_code,fp.gender,fp.userId
                           from 
                           userinfo u join fh_personbasics fp on u.relation = fp.id 
                            where u.userAccount='{u_name}' AND fp.status=0
                           """
             _res = self.SqlSelectByOneOrList(sql=SqlUserinfo)
-            if _res.get("status") == 200 and _res.get('result').get("status") in [0, '0']:
+            if _res.get("status") == 200 and _res.get('result').get("status") in [1, '1']:
                 if _res.get('result').get("userPassword") == EnString:
                     result = _res.get('result')
                     result.pop('userPassword', None)  # 删除密码键值，注意：如果pop删除，key不存在会报错，可以设置不存在时返回的值
@@ -944,7 +1018,7 @@ class database:
                     res.update(status=_res.get('status', 200), msg='验证通过', result=result)
                 else:
                     res.update(status=13201, msg='密码错误')
-            elif _res["status"] == 200 and _res.get('result').get("status") in [1, '1']:
+            elif _res["status"] == 200 and _res.get('result').get("status") in [0, '0']:
                 res.update(status=13204, msg='账号已注销')
             elif _res.get('status') == 13204:
                 res.update(status=_res.get('status', 13204), msg='账号不存在')
