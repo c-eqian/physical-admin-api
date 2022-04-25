@@ -22,6 +22,25 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class query_sys_user_view(APIView):
+    """
+    查询系统用户
+    请求方式：GET
+    参数：page=1, limit=20
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            page = request.query_params.get('page')
+            limit = request.query_params.get('limit')
+            res = db.query_sys_user(page=int(page) if page else 1, limit=int(limit) if limit else 20)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class apply_by_userId_view(APIView):
     """
     添加用户申请

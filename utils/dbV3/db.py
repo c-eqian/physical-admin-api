@@ -90,6 +90,32 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def query_sys_user(self, page=1, limit=20):
+        """
+        查询系统用户
+        @param page:
+        @param limit:
+        @return:
+        """
+
+        sql = f"""
+                    SELECT COUNT(*) `total` FROM sys_user
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = handleTotal(res)
+            sql = f"""
+                        SELECT *  FROM sys_user 
+                            ORDER BY id DESC  
+                            limit {(page - 1) * limit},{limit}
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get("status") == 200:
+                data = res.get('result')
+                _res.update(lt=data)
+                res.update(result=_res)
+        return res
+
     def we_exam_list_by_userId(self, userId):
         """
         查询申请体检列表
@@ -155,7 +181,7 @@ class database:
             res.update(status=13203, msg=e)
             return res
 
-    def query_user_details_by_idCard(self, idCard,org_code):
+    def query_user_details_by_idCard(self, idCard, org_code):
         """
         通过身份证查询本机构用户基本信息与体检项目类型
         @param idCard:
