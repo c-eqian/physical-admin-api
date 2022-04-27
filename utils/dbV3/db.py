@@ -90,6 +90,16 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def query_sys_org_list(self):
+        """
+        查询系统机构列表
+        @return:
+        """
+        sql = f"""
+                SELECT * FROM sys_org
+            """
+        return self.SqlSelectByOneOrList(sql=sql, type=1)
+
     def query_sys_user(self, page=1, limit=20):
         """
         查询系统用户

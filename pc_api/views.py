@@ -22,6 +22,23 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class query_sys_org_list_view(APIView):
+    """
+    查询系统机构列表
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            res = db.query_sys_org_list()
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class query_sys_user_view(APIView):
     """
     查询系统用户
@@ -72,7 +89,7 @@ class query_user_details_by_idCard_view(APIView):
         try:
             idCard = request.query_params.get('idCard')
             org_code = request.query_params.get('org_code')
-            res = db.query_user_details_by_idCard(idCard=idCard,org_code=org_code)
+            res = db.query_user_details_by_idCard(idCard=idCard, org_code=org_code)
             return Response(res)
         except Exception as e:
             log.logger.error(msg=str(e))
