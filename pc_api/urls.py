@@ -23,8 +23,9 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
-
-    url(r'^sys-org-list', views.query_sys_org_list_view.as_view()),  # 查询系统用户列表
+    url(r'^add-sys-user', views.add_sys_user_view.as_view()),  # 新增系统机构用户
+    url(r'^creat-user-info', views.creat_user_info_view.as_view()),  # 随机生成用户信息
+    url(r'^sys-org-list', views.query_sys_org_list_view.as_view()),  # 查询系统机构列表
     url(r'^query_sys_user-list', views.query_sys_user_view.as_view()),  # 查询系统用户列表
     url(r'^add-apply-list', views.apply_by_userId_view.as_view()),  # 体检预约申请列表
     url(r'^query_user_details_by_idCard', views.query_user_details_by_idCard_view.as_view()),  # 通过身份证查询用户基本信息与体检项目类型

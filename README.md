@@ -64,3 +64,19 @@ python manage.py runserver 13209
 | 13207  | 参数错误       |
 | 13208  | 接口错误       |
 
+```
+        org_id: '',
+        idCard: '',
+        phone: '',
+        user_id: '',
+        userName: '',
+        userAccount: '',
+        userPassword: '',
+        status: true,
+        sys_type: '',
+        create_by: '',
+        authority: '',
+        gender: '',
+        birthday: ''
+```
+

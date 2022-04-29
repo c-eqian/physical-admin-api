@@ -90,6 +90,62 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def add_sys_user(self, params: dict):
+        """
+        新增系统用户
+        @param params:
+        @return:
+        """
+        sql = f"""
+                SELECT * FROM sys_user su WHERE idCard='{params.get("idCard", 0)}'
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            res.update(msg='用户已存在', status=13206)
+        elif res.get('status') == 13204:
+            sql = f"""
+                    SELECT user_id FROM sys_user ORDER BY user_id DESC 
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get("status") == 200:
+                user_id = int(res.get('result').get('user_id')) + 1
+                sql = f"""
+                        INSERT INTO sys_user 
+                        (
+                            sys_user_account,
+                            sys_user_password,
+                            sys_user_name,
+                            user_id,
+                            phone,
+                            idCard,
+                            org_id,
+                            status,
+                            sys_type,
+                            register_time,
+                            create_by,
+                            account_change_time,
+                            authority,
+                            sex,birthday
+                        )VALUES (
+                                '{params.get("userAccount")}',
+                                '{self.SM4.encryptData_ECB(plain_text=params.get("userPassword"))}',
+                            '{params.get("userName")}',
+                            {user_id},
+                            '{params.get("phone")}',
+                            '{params.get("idCard")}',
+                            '{params.get("org_id")}',
+                            {params.get("status")},
+                            {params.get("sys_type")},
+                            NOW(),
+                            '{params.get("create_by")}', 
+                            NOW(),
+                            {params.get("sys_type")},
+                            {params.get("gender")},
+                            '{params.get("birthday")}')
+                        """
+                res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        return res
+
     def query_sys_org_list(self):
         """
         查询系统机构列表

@@ -8,6 +8,7 @@ from utils.dbV3.db import database
 import ast
 from utils.log.log import Logger
 from utils.redisCache.redisCache import Redis
+from utils.identity.creatInfo import creat_user_info
 
 _redis = Redis()
 sm4 = _MD5.SM4Utils()  # 实例化sm4加密
@@ -20,6 +21,71 @@ def errorRes(status=13203, msg='请求错误'):
     返回请求错误
     """
     return {'status': status, 'msg': msg}
+
+
+class add_sys_user_view(APIView):
+    """
+    新增系统用户
+    请求方式：POST
+    参数：org_id: 'Y',
+        idCard: 'Y',
+        phone: 'Y',
+        user_id: '',
+        userName: 'Y',
+        userAccount: 'Y',
+        userPassword: 'Y',
+        status: true,
+        sys_type: 'Y',
+        create_by: 'Y',
+        authority: 'Y',
+        gender: Y,
+        birthday: 'Y'
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params = {}
+            org_id = request.data.get('org_id')
+            idCard = request.data.get('idCard')
+            phone = request.data.get('phone')
+            userName = request.data.get('userName')
+            userAccount = request.data.get('userAccount')
+            userPassword = request.data.get('userPassword')
+            status = request.data.get('status')
+            sys_type = request.data.get('sys_type')
+            create_by = request.data.get('create_by')
+            authority = request.data.get('authority')
+            gender = request.data.get('gender')
+            birthday = request.data.get('birthday')
+            if status == 'true':
+                status = 1
+            else:
+                status = 0
+            params.update(org_id=org_id, idCard=idCard, phone=phone, userName=userName, userAccount=userAccount,
+                          status=status, sys_type=sys_type, create_by=create_by, authority=authority, gender=gender,
+                          birthday=birthday, userPassword=userPassword)
+            return Response(db.add_sys_user(params=params))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class creat_user_info_view(APIView):
+    """
+    随机生成用户信息
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            res = creat_user_info()
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
 
 
 class query_sys_org_list_view(APIView):

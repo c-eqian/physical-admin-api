@@ -1746,217 +1746,221 @@ applyId</ColNames>
       <Comment>1-男，2-女</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <key id="438" parent="234" name="PRIMARY">
+    <column id="438" parent="234" name="birthday">
+      <Position>17</Position>
+      <DataType>datetime|0s</DataType>
+    </column>
+    <key id="439" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="439" parent="235" name="id">
+    <column id="440" parent="235" name="id">
       <Position>1</Position>
       <Comment>自增</Comment>
       <DataType>int(255)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="440" parent="235" name="userId">
+    <column id="441" parent="235" name="userId">
       <Position>2</Position>
       <Comment>用户标识</Comment>
       <DataType>int(10)|0s</DataType>
     </column>
-    <column id="441" parent="235" name="userName">
+    <column id="442" parent="235" name="userName">
       <Position>3</Position>
       <Comment>用户名</Comment>
       <DataType>varchar(10)|0s</DataType>
       <Collation>utf8_unicode_ci</Collation>
     </column>
-    <column id="442" parent="235" name="sex">
+    <column id="443" parent="235" name="sex">
       <Position>4</Position>
       <Comment>性别</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="443" parent="235" name="age">
+    <column id="444" parent="235" name="age">
       <Position>5</Position>
       <Comment>年龄</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="444" parent="235" name="cardId">
+    <column id="445" parent="235" name="cardId">
       <Position>6</Position>
       <Comment>卡号</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="445" parent="235" name="type">
+    <column id="446" parent="235" name="type">
       <Position>7</Position>
       <Comment>用户类型，0-普通，1-高级</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="446" parent="235" name="faceId">
+    <column id="447" parent="235" name="faceId">
       <Position>8</Position>
       <Comment>脸部特征id</Comment>
       <DataType>int(25)|0s</DataType>
     </column>
-    <key id="447" parent="235" name="PRIMARY">
+    <key id="448" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="448" parent="236" name="id">
+    <column id="449" parent="236" name="id">
       <Position>1</Position>
       <Comment>ID自增</Comment>
       <DataType>int(255)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="449" parent="236" name="userAccount">
+    <column id="450" parent="236" name="userAccount">
       <Position>2</Position>
       <Comment>账号</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="450" parent="236" name="userPassword">
+    <column id="451" parent="236" name="userPassword">
       <Position>3</Position>
       <Comment>密码</Comment>
       <DataType>varchar(500)|0s</DataType>
     </column>
-    <column id="451" parent="236" name="name">
+    <column id="452" parent="236" name="name">
       <Position>4</Position>
       <Comment>名称</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="452" parent="236" name="Email">
+    <column id="453" parent="236" name="Email">
       <Position>5</Position>
       <Comment>邮箱</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="453" parent="236" name="phone">
+    <column id="454" parent="236" name="phone">
       <Position>6</Position>
       <Comment>手机号</Comment>
       <DataType>varchar(11)|0s</DataType>
     </column>
-    <column id="454" parent="236" name="onlineStatus">
+    <column id="455" parent="236" name="onlineStatus">
       <Position>7</Position>
       <Comment>在线状态</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="455" parent="236" name="authority">
+    <column id="456" parent="236" name="authority">
       <Position>8</Position>
       <Comment>权限 （0：高级用户，1：普通用户）</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="456" parent="236" name="status">
+    <column id="457" parent="236" name="status">
       <Position>9</Position>
       <Comment>是否启用，1启用，0禁用,-1注销</Comment>
       <DataType>int(2)|0s</DataType>
     </column>
-    <column id="457" parent="236" name="relation">
+    <column id="458" parent="236" name="relation">
       <Position>10</Position>
       <Comment>关联个人账号</Comment>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="458" parent="236" name="nickName">
+    <column id="459" parent="236" name="nickName">
       <Position>11</Position>
       <Comment>昵称</Comment>
       <DataType>varchar(12)|0s</DataType>
     </column>
-    <index id="459" parent="236" name="username">
+    <index id="460" parent="236" name="username">
       <ColNames>userAccount</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="460" parent="236" name="PRIMARY">
+    <key id="461" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id
 relation</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="461" parent="236" name="username">
+    <key id="462" parent="236" name="username">
       <ColNames>userAccount</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
     </key>
-    <column id="462" parent="237" name="FormTag">
+    <column id="463" parent="237" name="FormTag">
       <Position>1</Position>
       <Comment>项目流水号</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="463" parent="237" name="FormType">
+    <column id="464" parent="237" name="FormType">
       <Position>2</Position>
       <Comment>项目类型</Comment>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="464" parent="237" name="FeeItemCode">
+    <column id="465" parent="237" name="FeeItemCode">
       <Position>3</Position>
       <Comment>大类编码</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="465" parent="237" name="FeeItemName">
+    <column id="466" parent="237" name="FeeItemName">
       <Position>4</Position>
       <Comment>大类名称</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="466" parent="237" name="ItemCode">
+    <column id="467" parent="237" name="ItemCode">
       <Position>5</Position>
       <Comment>细项编码</Comment>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="467" parent="237" name="ItemName">
+    <column id="468" parent="237" name="ItemName">
       <Position>6</Position>
       <Comment>细项名称</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="468" parent="237" name="PyCode">
+    <column id="469" parent="237" name="PyCode">
       <Position>7</Position>
       <Comment>拼音码</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="469" parent="237" name="isUse">
+    <column id="470" parent="237" name="isUse">
       <Position>8</Position>
       <Comment>是否启用</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="470" parent="237" name="DispOrder">
+    <column id="471" parent="237" name="DispOrder">
       <Position>9</Position>
       <Comment>项目排序</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="471" parent="237" name="StyleNo">
+    <column id="472" parent="237" name="StyleNo">
       <Position>10</Position>
       <Comment>是否公用一个Barcode</Comment>
       <DataType>int(11)|0s</DataType>
     </column>
-    <key id="472" parent="237" name="PRIMARY">
+    <key id="473" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>FormTag</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="473" parent="238" name="did">
+    <column id="474" parent="238" name="did">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="474" parent="238" name="seedname">
+    <column id="475" parent="238" name="seedname">
       <Position>2</Position>
       <Comment>种子名称</Comment>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="475" parent="238" name="table">
+    <column id="476" parent="238" name="table">
       <Position>3</Position>
       <Comment>表名</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="476" parent="238" name="field">
+    <column id="477" parent="238" name="field">
       <Position>4</Position>
       <Comment>字段名</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="477" parent="238" name="serialnumber">
+    <column id="478" parent="238" name="serialnumber">
       <Position>5</Position>
       <Comment>流水编码号（按规则生成）</Comment>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <key id="478" parent="238" name="PRIMARY">
+    <key id="479" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>did</ColNames>
       <Primary>1</Primary>
