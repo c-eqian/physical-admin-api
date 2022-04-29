@@ -90,6 +90,21 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def delete_sys_user(self, userList: list):
+        """
+        批量删除系统用户
+        @param userList:
+        @return:
+        """
+        lt_sql = []
+        for item in userList:
+            sql = f"""
+                        DELETE FROM sys_user WHERE idCard='{item.get("idCard", 0)}'
+                    """
+            lt_sql.append(sql)
+        res = self.insertOrUpdateOrDeleteBySqlList(sqlList=lt_sql)
+        return res
+
     def add_sys_user(self, params: dict):
         """
         新增系统用户

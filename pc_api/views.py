@@ -23,6 +23,24 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class delete_sys_user_view(APIView):
+    """
+    删除系统用户
+    请求方式：POST
+    参数：list
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            userList = request.data.get('list')
+            userList = ast.literal_eval(userList)
+            return Response(db.delete_sys_user(userList=userList))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class add_sys_user_view(APIView):
     """
     新增系统用户

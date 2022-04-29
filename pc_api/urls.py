@@ -23,6 +23,7 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    url(r'^delete-sys-user', views.delete_sys_user_view.as_view()),  # 删除系统机构用户
     url(r'^add-sys-user', views.add_sys_user_view.as_view()),  # 新增系统机构用户
     url(r'^creat-user-info', views.creat_user_info_view.as_view()),  # 随机生成用户信息
     url(r'^sys-org-list', views.query_sys_org_list_view.as_view()),  # 查询系统机构列表
