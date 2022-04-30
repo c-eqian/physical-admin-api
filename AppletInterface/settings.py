@@ -91,7 +91,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",  # 使用django-redis的缓存
-        "LOCATION": "redis://120.77.44.219:6379/0",  # redis数据库的位置
+        "LOCATION": "redis://43.138.188.22:6379/0",  # redis数据库的位置
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},

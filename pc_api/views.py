@@ -751,7 +751,8 @@ class loginView(APIView):
             password = login['password']
             return Response(db.login(userAccount=account, userPassword=password))
         except Exception as e:
-            print(e)
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
     #
     # def post(self, request, *args, **kwargs):
     #     return Response(errorRes(status=13208, msg='接口错误'))

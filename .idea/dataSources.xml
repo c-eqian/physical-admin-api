@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://120.77.44.219:3306/physical</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="腾讯云" uuid="29f281f9-36d2-475d-aaba-25de732ea353">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://43.138.188.22:3306/physical</jdbc-url>
+    </data-source>
   </component>
 </project>

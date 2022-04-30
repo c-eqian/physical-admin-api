@@ -1249,18 +1249,26 @@ class database:
         @return:
         """
         sql = f"""
-            SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
-                    fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
-                    fp.nation,fp.live_type,fp.creator,
-                    CONVERT(fp.creatime,CHAR(19)) `creatime`
-            FROM fh_personbasics fp where fp.status=0 and fp.org_code='{org_id}'
-            ORDER BY fp.id DESC 
-            limit {(int(page) - 1) * int(limit)},{int(limit)}
-        """
-        _res = self.SqlSelectByOneOrList(sql=sql, type=1)
-        if _res.get('status') == 200:
-            _redis.set(key=f"{org_id}{page}{limit}", value=str(_res), timeout=60)
-        return _res
+                SELECT COUNT(*) `total` FROM fh_personbasics fp where fp.status=0 and fp.org_code='{org_id}'
+            """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = handleTotal(res)
+            sql = f"""
+                SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
+                        fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
+                        fp.nation,fp.live_type,fp.creator,
+                        CONVERT(fp.creatime,CHAR(19)) `creatime`
+                FROM fh_personbasics fp where fp.status=0 and fp.org_code='{org_id}'
+                ORDER BY fp.id DESC 
+                limit {(int(page) - 1) * int(limit)},{int(limit)}
+            """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get('status') == 200:
+                _res.update(lt=res.get('result'))
+                res.update(result=_res)
+                _redis.set(key=f"{org_id}{page}{limit}", value=str(res), timeout=60)
+        return res
 
     def login(self, userAccount, userPassword):
         """
