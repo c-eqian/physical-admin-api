@@ -3,6 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+from utils.log.log import Logger
 from utils.crypto import _MD5
 from utils.dbV3.db import database
 
@@ -10,6 +12,7 @@ import ast
 
 sm4 = _MD5.SM4Utils()  # 实例化sm4加密
 db = database()  # 实例化数据库
+log = Logger()
 
 
 def errorRes(status=13203, msg='请求错误'):
@@ -17,6 +20,24 @@ def errorRes(status=13203, msg='请求错误'):
     返回请求错误
     """
     return {'status': status, 'msg': msg}
+
+
+class we_get_exam_list_by_rid(APIView):
+    """
+    查询生化体检
+    请求方式：GET
+    参数：rid
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            rid = request.query_params.get('rid')
+            res = db.we_get_exam_result_by_rid_list(rid=rid)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
 
 
 class we_exam_list_by_userId_view(APIView):

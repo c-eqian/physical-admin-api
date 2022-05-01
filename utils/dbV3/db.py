@@ -90,6 +90,31 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def we_get_exam_result_by_rid_list(self, rid):
+        """
+        查询体检用户的生化体检结果
+        @param rid:
+        @return:
+        """
+        sql = f"""
+                    SELECT FeeItemCode FROM pat_test_result WHERE RequisitionId='{rid}' GROUP BY FeeItemCode
+                """
+        res = self.SqlSelectByOneOrList(sql=sql, type=1)
+        if res.get('status') == 200:
+            arraylist = []
+            for item in res.get('result', []):
+                dictValueKey = {}
+                sql = f"""
+                           SELECT * FROM (SELECT ptr.*,zf.FeeItemName FROM pat_test_result ptr 
+                            JOIN zd_feeitem zf ON ptr.FeeItemCode=zf.FeeItemCode 
+                            WHERE ptr.RequisitionId='{rid}' AND ptr.FeeItemCode='{item.get("FeeItemCode", 0)}')
+                            a GROUP BY a.ItemCode
+                        """
+                dictValueKey.update(sql=sql, key=item.get("FeeItemCode", 0))
+                arraylist.append(dictValueKey)
+            res = self.select_by_sqlList(sqlList=arraylist)
+        return res
+
     def delete_sys_user(self, userList: list):
         """
         批量删除系统用户
@@ -1576,6 +1601,45 @@ class database:
                 _sqlRes.update(status=200, msg='获取成功', result=new_data)
                 # else:
                 #     _sqlRes.update(status=13204, msg='无数据')
+            else:
+                _sqlRes.update(status=status, msg='操作失败')
+        except Exception as e:
+            log.logger.error(str(e))
+            conn.rollback()
+            _sqlRes.update(status=13203, msg=e)
+        finally:
+            if conn and cur:
+                cur.close()
+                conn.close()
+            return _sqlRes
+
+    def select_by_sqlList(self, sqlList: list):
+        """
+        多条语句查询，返回字典列表
+        @param sqlList:
+        @return:
+        """
+        conn, cur = None, None
+        _sqlRes = {"status": 0, "msg": ''}  # 返回数据
+        try:
+            status, conn, cur = self.init_conn_cur_index()  # 获取操作对象
+            if status == 200:
+                arraylist = []
+                for itemDict in sqlList:
+                    cur.execute(itemDict.get('sql'))
+                    conn.commit()
+                    rows = cur.fetchall()
+                    _dict = {}
+                    if rows:
+                        key = itemDict.get('key', 0)
+                        _dict['list'] = rows
+                        _dict['FeeItemName'] = rows[0].get('FeeItemName', '-')
+                        _dict['FeeItemCode'] = key
+                        arraylist.append(_dict)
+                if arraylist:
+                    _sqlRes.update(status=200, msg='获取成功', result=arraylist)
+                else:
+                    _sqlRes.update(status=13204, msg='无数据')
             else:
                 _sqlRes.update(status=status, msg='操作失败')
         except Exception as e:
