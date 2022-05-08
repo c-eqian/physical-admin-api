@@ -563,15 +563,17 @@ class database:
                         pt.creatTime,
                     CHAR ( 19 )) `creatTime`,
                     pt.RequisitionId,
-                    pt.id 
+                    pt.id,
+                    fp.name,fp.idCard,fp.gender,fp.birthday,fp.org_name,fp.org_code,fp.phone,fp.cur_address
                 FROM
-                    physical_type pt 
+                    physical_type pt LEFT JOIN fh_personbasics fp on pt.userId = fp.userId
                 WHERE
                     RequisitionId = '{RequisitionId}' ORDER BY pt.id DESC LIMIT 1
             """
         res = self.SqlSelectByOneOrList(sql=sql)
         if res.get('status') == 200:
             examListString = res.get('result').get('examList')
+            userInfo = res.get('result')
             examListList = ast.literal_eval(examListString)
             examListTuple = tuple(examListList)
             sql = f"""
@@ -592,12 +594,15 @@ class database:
             if res.get('status') == 200:
                 result = res.get('result')
                 new_res = []
+                exam_list = {}
+                exam_list.update(userInfo)
                 for index, item in enumerate(result):
                     select_res = self.select_itemCode_list_by_feeItemCode(feeItemCode=item.get('FeeItemCode'))
                     if select_res.get('status') == 200:
                         _res = select_res.get('result')
                         new_res.append(_res)
-                res.update(result=new_res)
+                exam_list.update(list=new_res)
+                res.update(result=exam_list)
             # examListRes = self.SqlSelectByOneOrList(sql=sql, type=1)
             # if examListRes.get('status') == 200:
             #     examListRes = examListRes.get('result')
@@ -822,7 +827,7 @@ class database:
                             CONVERT(fp.birthday,CHAR(10)) `birthday`
                 FROM
                     apply_table
-                    AT JOIN fh_personbasics fp ON AT.userId = fp.userId join sys_user su on su.user_id = AT.operator_id
+                    AT LEFT JOIN fh_personbasics fp ON AT.userId = fp.userId LEFT join sys_user su on su.user_id = AT.operator_id
                   WHERE
                      fp.name LIKE '%{searchText}%' OR fp.idCard LIKE '%{searchText}%' 
                     OR fp.org_name LIKE '%{searchText}%' AND fp.status=0
@@ -912,7 +917,6 @@ class database:
                             WHERE zf.FeeItemCode IN ('{feeItemCodeTuple[0]}')
                             AND zf.isUse=1
                         """
-                print(96, sql)
                 sql_list.append(sql)
             res = self.SqlListSelectByOneOrList(sqlList=sql_list, oldData=data)
             if res.get('status') == 200:
