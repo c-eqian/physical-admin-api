@@ -93,7 +93,7 @@ class Mqtt:
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         # 绑定 MQTT 服务器地址
-        broker = '120.77.44.219'
+        broker = '43.138.188.22'
         # MQTT服务器的端口号
         self.client.connect(broker, 1883, 62)
         self.client.username_pw_set('user', 'user')
