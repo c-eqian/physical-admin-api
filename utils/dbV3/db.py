@@ -90,6 +90,60 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def pc_add_user(self, params):
+        """
+        添加用户
+        @param params:
+        @return:
+        """
+        sql = f"""
+                    SELECT userId from fh_personbasics WHERE idCard='{params.get("idCard", 0)}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            sql = f""" 
+                    UPDATE fh_personbasics 
+                        SET `name`='{params.get("name", 0)}',idCard='{params.get("idCard", 0)}',
+                                nation='{params.get("nation", 0)}',gender={params.get("gender", 0)},
+                                org_code='{params.get("org_code", 0)}',
+                                org_name= (SELECT org_name FROM sys_org WHERE org_code='{params.get("org_code", 0)}'),
+                                cur_address='{params.get("cur_address")}',birthday='{params.get("birthday")}',
+                                phone='{params.get("phone")}',
+                                live_type={params.get("live_type", 0)},
+                                blood_type='{params.get("blood_type", 0)}',`status`='{params.get("status", 0)}',
+                                last_updator={params.get("last_updator", 0)},
+                                last_updatime=NOW()
+                        WHERE idCard = '{params.get("idCard", 0)}'
+                    """
+            res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        elif res.get('status') == 13204:
+            sql = f""" 
+                    SELECT userId from fh_personbasics ORDER BY userId DESC LIMIT 1
+                """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get('status') == 200:
+                userId = res.get('result', {}).get('userId', 0)
+                userId = int(userId) + 1
+                sql = f""" 
+                        INSERT INTO fh_personbasics 
+                            (`name`,idCard,userId,nation,gender,
+                            org_code,org_name,cur_address,birthday,
+                            phone,live_type,blood_type,`status`,creator,creatime)
+                            VALUES
+                            ('{params.get("name", 0)}','{params.get("idCard")}',
+                                {userId},'{params.get("nation")}',
+                                {params.get("gender")},'{params.get("org_code")}',
+                            (SELECT org_name FROM sys_org WHERE org_code='{params.get("org_code")}'),
+                           '{params.get("cur_address")}','{params.get("birthday")}',
+                            '{params.get("phone")}',{params.get("live_type")},
+                            '{params.get("blood_type")}',{params.get("status")},
+                            '{params.get("creator")}',NOW()
+                            )
+                            """
+                res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+
+        return res
+
     def we_get_exam_result_by_rid_list(self, rid):
         """
         查询体检用户的生化体检结果
@@ -113,6 +167,21 @@ class database:
                 dictValueKey.update(sql=sql, key=item.get("FeeItemCode", 0))
                 arraylist.append(dictValueKey)
             res = self.select_by_sqlList(sqlList=arraylist)
+        return res
+
+    def delete_user(self, userList: list):
+        """
+        批量删除用户
+        @param userList:
+        @return:
+        """
+        lt_sql = []
+        for item in userList:
+            sql = f"""
+                        DELETE FROM physical.fh_personbasics WHERE idCard='{item.get("idCard", 0)}'
+                    """
+            lt_sql.append(sql)
+        res = self.insertOrUpdateOrDeleteBySqlList(sqlList=lt_sql)
         return res
 
     def delete_sys_user(self, userList: list):
@@ -1186,21 +1255,58 @@ class database:
         @param limit: 数据量
         @return:
         """
-        sql = f"""
-            SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
-                    fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
-                    fp.nation,fp.live_type,fp.creator,
-                    CONVERT(fp.creatime,CHAR(19)) `creatime`
-            FROM fh_personbasics fp where fp.name LIKE '%{searchText}%' 
-            OR fp.org_name LIKE '%{searchText}%' 
-            OR fp.idCard LIKE '%{searchText}%' and fp.status=0 
-            ORDER BY fp.id DESC 
-            limit {(int(page) - 1) * int(limit)},{int(limit)}
-        """
-        _res = self.SqlSelectByOneOrList(sql=sql, type=1)
-        if _res.get('status') == 200:
-            _redis.set(key=f"{searchText}{page}{limit}", value=str(_res), timeout=60)
-        return _res
+        if searchText == '':
+            sql = f"""
+                        SELECT COUNT(*) `total`  FROM fh_personbasics fp 
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get('status') == 200:
+                _res = handleTotal(res)
+                sql = f"""
+                    SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
+                            fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
+                            fp.nation,fp.live_type,fp.creator,
+                            CONVERT(fp.creatime,CHAR(19)) `creatime`,
+                            fp.cur_address `address`,fp.status,fp.blood_type,fp.person_type
+                    FROM fh_personbasics fp where fp.name LIKE '%{searchText}%' 
+                    OR fp.org_name LIKE '%{searchText}%' 
+                    OR fp.idCard LIKE '%{searchText}%' and fp.status=0 
+                    ORDER BY fp.id DESC 
+                    limit {(int(page) - 1) * int(limit)},{int(limit)}
+                """
+                res = self.SqlSelectByOneOrList(sql=sql, type=1)
+                if res.get("status") == 200:
+                    _res.update(lt=res.get('result'))
+                    res.update(result=_res)
+                    _redis.set(key=f"{searchText}{page}{limit}", value=str(res), timeout=60)
+        else:
+            sql = f"""
+                        SELECT COUNT(*) `total`  FROM fh_personbasics fp 
+                        WHERE fp.name LIKE '%{searchText}%' 
+                        OR fp.org_name LIKE '%{searchText}%' 
+                        OR fp.idCard LIKE '%{searchText}%' and fp.status=0 
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get('status') == 200:
+                _res = handleTotal(res)
+            sql = f"""
+                SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
+                        fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
+                        fp.nation,fp.live_type,fp.creator,
+                        CONVERT(fp.creatime,CHAR(19)) `creatime`,
+                        fp.cur_address `address`,fp.status,fp.blood_type,fp.person_type
+                FROM fh_personbasics fp where fp.name LIKE '%{searchText}%' 
+                OR fp.org_name LIKE '%{searchText}%' 
+                OR fp.idCard LIKE '%{searchText}%' and fp.status=0 
+                ORDER BY fp.id DESC 
+                limit {(int(page) - 1) * int(limit)},{int(limit)}
+            """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get('status') == 200:
+                _res.update(lt=res.get('result'))
+                res.update(result=_res)
+                _redis.set(key=f"{searchText}{page}{limit}", value=str(res), timeout=60)
+        return res
 
     def likeSearchTotal(self, searchText):
         """
@@ -1287,7 +1393,8 @@ class database:
                 SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
                         fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
                         fp.nation,fp.live_type,fp.creator,
-                        CONVERT(fp.creatime,CHAR(19)) `creatime`
+                        CONVERT(fp.creatime,CHAR(19)) `creatime`,
+                        fp.cur_address `address`,fp.status,fp.blood_type,fp.person_type
                 FROM fh_personbasics fp where fp.status=0 and fp.org_code='{org_id}'
                 ORDER BY fp.id DESC 
                 limit {(int(page) - 1) * int(limit)},{int(limit)}

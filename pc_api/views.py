@@ -23,6 +23,61 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class add_user_view(APIView):
+    """
+    新增用户
+    请求方式：POST
+    参数：
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params = {}
+            print(request.data)
+            cur_address = request.data.get('address', 0)
+            birthday = request.data.get('birthday', 0)
+            blood_type = request.data.get('blood_type', 0)
+            gender = request.data.get('gender', 0)
+            idCard = request.data.get('idcard', 0)
+            nation = request.data.get('nation', 0)
+            live_type = request.data.get('live_type', 0)
+            name = request.data.get('name', 0)
+            org_code = request.data.get('org_name', 0)
+            person_type = request.data.get('person_type', 0)
+            phone = request.data.get('phone', 0)
+            status = request.data.get('status', 0)
+            creator = request.data.get('creator', 0)
+            params.update(cur_address=cur_address, birthday=birthday, blood_type=blood_type, gender=gender,
+                          idCard=idCard, live_type=live_type, name=name, org_code=org_code, person_type=person_type,
+                          phone=phone, status=status, creator=creator, nation=nation)
+            return Response(db.pc_add_user(params=params))
+            # return Response(errorRes(msg='请求失败，请联系管理员!'))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class delete_user_view(APIView):
+    """
+    删除用户
+    请求方式：POST
+    参数：list
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            userList = request.data.get('list')
+            userList = ast.literal_eval(userList)
+            print(request.data)
+            print(userList)
+            return Response(db.delete_user(userList=userList))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class delete_sys_user_view(APIView):
     """
     删除系统用户
@@ -592,21 +647,26 @@ class likeSearchView(APIView):
             searchText = request.query_params.get("searchText")
             page = request.query_params.get("page")
             limit = request.query_params.get("limit")
-            cache_data = _redis.get(key=f"{searchText}{page if page else 1}{limit if limit else 50}")
+            timestamp = request.query_params.get("timestamp")
+            cache_data = _redis.get(key=f"{searchText}{timestamp}{page if page else 1}{limit if limit else 50}")
             if cache_data:  # 查询缓存是否有数据
                 cache_data = bytes.decode(cache_data)
                 res = ast.literal_eval(cache_data)
             elif page and searchText and limit:
                 res = db.likeSearch(searchText=searchText, page=int(page), limit=int(limit))
+                return Response(res)
             elif page and searchText:
                 res = db.likeSearch(searchText=searchText, page=int(page))
+                return Response(res)
             elif limit and searchText:
                 res = db.likeSearch(searchText=searchText, limit=int(limit))
+                return Response(res)
             elif searchText:
                 res = db.likeSearch(searchText=searchText)
+                return Response(res)
             else:
-                res = errorRes(status=13207, msg='参数错误')
-            return Response(res)
+                res = db.likeSearch(searchText='')
+                return Response(res)
         except Exception as e:
             log.logger.error(msg=str(e))
             return Response(errorRes(msg='请求失败，请联系管理员!'))
@@ -701,8 +761,9 @@ class getUserListView(APIView):
             org_code = request.query_params.get("org_code")
             page = request.query_params.get("page")
             limit = request.query_params.get("limit")
+            timestamp = request.query_params.get("timestamp")
             if page and limit and org_code:
-                cache_data = _redis.get(key=f"{org_code}{page}{limit}")
+                cache_data = _redis.get(key=f"{org_code}{page}{limit}{timestamp}")
                 if cache_data:
                     cache_data = bytes.decode(cache_data)
                     return Response(ast.literal_eval(cache_data))
