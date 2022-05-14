@@ -58,6 +58,23 @@ class add_user_view(APIView):
             return Response(errorRes(msg='请求失败，请联系管理员!'))
 
 
+class query_sys_user_info_view(APIView):
+    """
+    根据id查询用户信息
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            return Response(db.query_user_info(userId=userId))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class delete_user_view(APIView):
     """
     删除用户
@@ -91,6 +108,54 @@ class delete_sys_user_view(APIView):
             userList = request.data.get('list')
             userList = ast.literal_eval(userList)
             return Response(db.delete_sys_user(userList=userList))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class update_sys_user_view(APIView):
+    """
+    新增系统用户
+    请求方式：POST
+    参数：org_id: 'Y',
+        idCard: 'Y',
+        phone: 'Y',
+        user_id: '',
+        userName: 'Y',
+        userAccount: 'Y',
+        userPassword: 'Y',
+        status: true,
+        sys_type: 'Y',
+        create_by: 'Y',
+        authority: 'Y',
+        gender: Y,
+        birthday: 'Y'
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params = {}
+            org_id = request.data.get('org_id')
+            idCard = request.data.get('idCard')
+            phone = request.data.get('phone')
+            userName = request.data.get('userName')
+            userAccount = request.data.get('userAccount')
+            userPassword = request.data.get('userPassword')
+            status = request.data.get('status')
+            sys_type = request.data.get('sys_type')
+            create_by = request.data.get('create_by')
+            authority = request.data.get('authority')
+            gender = request.data.get('gender')
+            birthday = request.data.get('birthday')
+            if status == 'true':
+                status = 1
+            else:
+                status = 0
+            params.update(org_id=org_id, idCard=idCard, phone=phone, userName=userName, userAccount=userAccount,
+                          status=status, sys_type=sys_type, create_by=create_by, authority=authority, gender=gender,
+                          birthday=birthday, userPassword=userPassword)
+            return Response(db.update_sys_user(params=params))
         except Exception as e:
             log.logger.error(msg=str(e))
             return Response(errorRes(msg='请求失败，请联系管理员!'))
@@ -617,6 +682,23 @@ class select_apply_by_org_code_view(APIView):
             return Response(errorRes(msg='请求失败，请联系管理员!'))
 
 
+class sys_search_suggestions_view(APIView):
+    """
+    搜索建议，返回前50条
+    请求方式：GET
+    参数：KeyWords
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            keyWords = request.query_params.get("keyWords")
+            return Response(db.sys_search_suggestions(keyWords=keyWords))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class like_search_suggestion_view(APIView):
     """
     搜索建议，返回前10条
@@ -629,6 +711,44 @@ class like_search_suggestion_view(APIView):
         try:
             keyWords = request.query_params.get("keyWords")
             return Response(db.likeSearchSuggestion(keyWords=keyWords))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class sys_like_search_view(APIView):
+    """
+    模糊查询-机构用户
+    请求方式：GET
+    参数：searchText，[page=1,limit=50]
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            searchText = request.query_params.get("searchText")
+            page = request.query_params.get("page")
+            limit = request.query_params.get("limit")
+            timestamp = request.query_params.get("timestamp")
+            cache_data = _redis.get(key=f"{searchText}{timestamp}{page if page else 1}{limit if limit else 50}")
+            if cache_data:  # 查询缓存是否有数据
+                cache_data = bytes.decode(cache_data)
+                res = ast.literal_eval(cache_data)
+            elif page and searchText and limit:
+                res = db.sys_like_search(searchText=searchText, page=int(page), limit=int(limit))
+                return Response(res)
+            elif page and searchText:
+                res = db.sys_like_search(searchText=searchText, page=int(page))
+                return Response(res)
+            elif limit and searchText:
+                res = db.sys_like_search(searchText=searchText, limit=int(limit))
+                return Response(res)
+            elif searchText:
+                res = db.sys_like_search(searchText=searchText)
+                return Response(res)
+            else:
+                res = db.sys_like_search(searchText='')
+                return Response(res)
         except Exception as e:
             log.logger.error(msg=str(e))
             return Response(errorRes(msg='请求失败，请联系管理员!'))

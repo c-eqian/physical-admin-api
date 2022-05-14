@@ -23,9 +23,13 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    url(r'^sys-like-search', views.sys_like_search_view.as_view()),  # 关键词搜索
+    url(r'^sys-search-suggestions', views.sys_search_suggestions_view.as_view()),  # 根据用户id查询用户信息
+    url(r'^query-sys-user-info', views.query_sys_user_info_view.as_view()),  # 根据用户id查询用户信息
     url(r'^add-user', views.add_user_view.as_view()),  # 添加用户
     url(r'^delete-user', views.delete_user_view.as_view()),  # 删除用户
     url(r'^delete-sys-user', views.delete_sys_user_view.as_view()),  # 删除系统机构用户
+    url(r'^update-sys-user', views.update_sys_user_view.as_view()),  # 新增系统机构用户
     url(r'^add-sys-user', views.add_sys_user_view.as_view()),  # 新增系统机构用户
     url(r'^creat-user-info', views.creat_user_info_view.as_view()),  # 随机生成用户信息
     url(r'^sys-org-list', views.query_sys_org_list_view.as_view()),  # 查询系统机构列表

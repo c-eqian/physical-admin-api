@@ -90,6 +90,19 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def query_user_info(self, userId):
+        """
+        查询机构登录用户信息
+        @param userId:
+        @return:
+        """
+        sql = f"""
+                SELECT su.*,so.org_name FROM physical.sys_user su 
+                left join sys_org so on so.org_code=su.org_id 
+                WHERE user_id={userId}
+                """
+        return self.SqlSelectByOneOrList(sql=sql)
+
     def pc_add_user(self, params):
         """
         添加用户
@@ -198,6 +211,28 @@ class database:
             lt_sql.append(sql)
         res = self.insertOrUpdateOrDeleteBySqlList(sqlList=lt_sql)
         return res
+
+    def update_sys_user(self, params: dict):
+        """
+        更新用户
+        @param params:
+        @return:
+        """
+        sql = f"""
+                UPDATE sys_user SET  sys_user_account='{params.get("userAccount")}',
+                            sys_user_password='{self.SM4.encryptData_ECB(plain_text=params.get("userPassword"))}',
+                            sys_user_name='{params.get("userName")}',
+                            phone='{params.get("phone")}',
+                            org_id='{params.get("org_id")}',
+                            status={params.get("status")},
+                            sys_type={params.get("sys_type")},
+                            account_change_time=NOW(),
+                            authority={params.get("sys_type")},
+                            sex={params.get("gender")},
+                            birthday='{params.get("birthday")}'
+                WHERE physical.sys_user.idCard='{params.get("idCard")}'
+                """
+        return self.insertOrUpdateOrDeleteBySql(sql=sql)
 
     def add_sys_user(self, params: dict):
         """
@@ -1235,6 +1270,18 @@ class database:
             log.logger.error(str(e))
             return res
 
+    def sys_search_suggestions(self, keyWords):
+        """
+        搜索建议。搜索姓名时有效，并且只返回前50条数据
+        @param keyWords:
+        @return:
+        """
+        sql = f"""
+            SELECT sys_user_name ,user_id FROM physical.sys_user 
+            WHERE `sys_user_name` LIKE '%{keyWords}%' ORDER BY id DESC LIMIT 50
+        """
+        return self.SqlSelectByOneOrList(sql=sql, type=1)
+
     def likeSearchSuggestion(self, keyWords):
         """
         搜索建议。搜索姓名时有效，并且只返回前10条数据
@@ -1243,9 +1290,57 @@ class database:
         """
         sql = f"""
             SELECT name,userId FROM fh_personbasics 
-            WHERE `name` LIKE '%{keyWords}%' ORDER BY id DESC LIMIT 10
+            WHERE `name` LIKE '%{keyWords}%' ORDER BY id DESC LIMIT 50
         """
         return self.SqlSelectByOneOrList(sql=sql, type=1)
+
+    def sys_like_search(self, searchText, page=1, limit=50):
+        """
+        模糊查询分页-机构
+        @param searchText:
+        @param page:
+        @param limit:
+        @return:
+        """
+        if searchText == '':
+            sql = f"""
+                        SELECT COUNT(*) `total` FROM sys_user
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get('status') == 200:
+                _res = handleTotal(res)
+                sql = f"""
+                            SELECT *  FROM sys_user 
+                                ORDER BY id DESC  
+                                limit {(page - 1) * limit},{limit}
+                        """
+                res = self.SqlSelectByOneOrList(sql=sql, type=1)
+                if res.get("status") == 200:
+                    data = res.get('result')
+                    _res.update(lt=data)
+                    res.update(result=_res)
+        else:
+            sql = f"""
+                        SELECT COUNT(*) `total`  FROM physical.sys_user su 
+                        WHERE su.sys_user_name LIKE '%{searchText}%' 
+                        OR su.idCard LIKE '%{searchText}%'
+                    """
+            res = self.SqlSelectByOneOrList(sql=sql)
+            if res.get('status') == 200:
+                _res = handleTotal(res)
+                sql = f"""
+                        SELECT su.* FROM sys_user  su
+                        WHERE su.sys_user_name LIKE '%{searchText}%' 
+                        OR su.idCard LIKE '%{searchText}%'
+                                ORDER BY id DESC  
+                                limit {(page - 1) * limit},{limit}
+                """
+                res = self.SqlSelectByOneOrList(sql=sql, type=1)
+                if res.get('status') == 200:
+                    _res.update(lt=res.get('result'))
+                    res.update(result=_res)
+                    _redis.set(key=f"{searchText}{page}{limit}", value=str(res), timeout=60)
+        return res
 
     def likeSearch(self, searchText, page=1, limit=50):
         """
