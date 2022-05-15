@@ -23,6 +23,76 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class add_or_update_depression_view(APIView):
+    """
+    新增抑郁评估
+    请求方式：POST
+    参数：
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params = {}
+            userId = request.data.get('userId', 0)
+            org_code = request.data.get('org_code', 0)
+            final_point = request.data.get('final_point', 0)
+            depression_assesss_level = request.data.get('depression_assesss_level', 0)
+            RequisitionId = request.data.get('RequisitionId', 0)
+            doc_code = request.data.get('doc_code', 0)
+            qus_id_1 = request.data.get('qus_id_1', 2)
+            qus_id_2 = request.data.get('qus_id_2', 2)
+            qus_id_3 = request.data.get('qus_id_3', 2)
+            qus_id_4 = request.data.get('qus_id_4', 2)
+            qus_id_5 = request.data.get('qus_id_5', 2)
+            qus_id_6 = request.data.get('qus_id_6', 2)
+            qus_id_7 = request.data.get('qus_id_7', 2)
+            qus_id_8 = request.data.get('qus_id_8', 2)
+            qus_id_9 = request.data.get('qus_id_9', 2)
+            qus_id_10 = request.data.get('qus_id_10', 2)
+            qus_id_11 = request.data.get('qus_id_11', 2)
+            qus_id_12 = request.data.get('qus_id_12', 2)
+            qus_id_13 = request.data.get('qus_id_13', 2)
+            qus_id_14 = request.data.get('qus_id_14', 2)
+            qus_id_15 = request.data.get('qus_id_15', 2)
+            qus_id_16 = request.data.get('qus_id_16', 2)
+            qus_id_17 = request.data.get('qus_id_17', 2)
+            qus_id_18 = request.data.get('qus_id_18', 2)
+            qus_id_19 = request.data.get('qus_id_19', 2)
+            qus_id_20 = request.data.get('qus_id_20', 2)
+            qus_id_21 = request.data.get('qus_id_21', 2)
+            qus_id_22 = request.data.get('qus_id_22', 2)
+            qus_id_23 = request.data.get('qus_id_23', 2)
+            qus_id_24 = request.data.get('qus_id_24', 2)
+            qus_id_25 = request.data.get('qus_id_25', 2)
+            qus_id_26 = request.data.get('qus_id_26', 2)
+            qus_id_27 = request.data.get('qus_id_27', 2)
+            qus_id_28 = request.data.get('qus_id_28', 2)
+            qus_id_29 = request.data.get('qus_id_29', 2)
+            qus_id_30 = request.data.get('qus_id_30', 2)
+
+            params.update(userId=userId, org_code=org_code, final_point=final_point,
+                          depression_assesss_level=depression_assesss_level,
+                          RequisitionId=RequisitionId, doc_code=doc_code,
+                          qus_id_1=qus_id_1, qus_id_2=qus_id_2,
+                          qus_id_3=qus_id_3, qus_id_4=qus_id_4, qus_id_5=qus_id_5,
+                          qus_id_6=qus_id_6, qus_id_7=qus_id_7, qus_id_8=qus_id_8,
+                          qus_id_9=qus_id_9, qus_id_10=qus_id_10, qus_id_11=qus_id_11,
+                          qus_id_12=qus_id_12, qus_id_13=qus_id_13, qus_id_14=qus_id_14,
+                          qus_id_15=qus_id_15, qus_id_16=qus_id_16, qus_id_17=qus_id_17,
+                          qus_id_18=qus_id_18, qus_id_19=qus_id_19, qus_id_20=qus_id_20,
+                          qus_id_21=qus_id_21, qus_id_22=qus_id_22, qus_id_23=qus_id_23,
+                          qus_id_24=qus_id_24, qus_id_25=qus_id_25, qus_id_26=qus_id_26,
+                          qus_id_27=qus_id_27, qus_id_28=qus_id_28, qus_id_29=qus_id_29,
+                          qus_id_30=qus_id_30,
+                          )
+            return Response(db.add_or_update_depression(params=params))
+            # return Response(errorRes(msg='请求失败，请联系管理员!'))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class add_user_view(APIView):
     """
     新增用户
@@ -34,7 +104,6 @@ class add_user_view(APIView):
     def post(self, request, *args, **kwargs):
         try:
             params = {}
-            print(request.data)
             cur_address = request.data.get('address', 0)
             birthday = request.data.get('birthday', 0)
             blood_type = request.data.get('blood_type', 0)
@@ -813,18 +882,19 @@ class user_details_by_idCard_view(APIView):
     """
     通过身份证查询用户详情
     请求方式：GET
-    参数：idCard
+    参数：idCard或者userId
     返回：用户总数
     """
 
     def get(self, request, *args, **kwargs):
         try:
-            idCard = request.query_params.get("idCard")
+            idCard = request.query_params.get("idCard", 0)
+            userId = request.query_params.get("userId", 0)
             cache_data = _redis.get(key=f"{idCard}")
             if cache_data:
                 cache_data = bytes.decode(cache_data)
                 return Response(ast.literal_eval(cache_data))
-            return Response(db.user_details_by_idCard(idCard=idCard))
+            return Response(db.user_details_by_idCard(idCard=idCard, userId=userId))
         except Exception as e:
             log.logger.error(msg=str(e))
             print(e)

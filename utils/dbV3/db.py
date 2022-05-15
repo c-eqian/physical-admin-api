@@ -90,6 +90,75 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def add_or_update_depression(self, params: dict):
+        """
+        新增或更新抑郁评估
+        @param params:
+        @return:
+        """
+        sql = f"""
+                    SELECT fda.RequisitionId   FROM fh_depression_assesss fda 
+                    WHERE fda.RequisitionId='{params.get("RequisitionId", 0)}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 13204:
+            sql = f"""
+            INSERT INTO fh_depression_assesss (
+            userId, depression_assesss_status, org_code, doc_code, 
+            depression_assesss_date, qus_id_1, qus_id_2, qus_id_3, qus_id_4, qus_id_5,
+            qus_id_6, qus_id_7, qus_id_8, qus_id_9, qus_id_10, qus_id_11, qus_id_12, 
+            qus_id_13, qus_id_14, qus_id_15, qus_id_16, qus_id_17, qus_id_18, qus_id_19,
+            qus_id_20, qus_id_21, qus_id_22, qus_id_23, qus_id_24, qus_id_25, qus_id_26, 
+            qus_id_27, qus_id_28, qus_id_29, qus_id_30, final_point, remark, depression_assesss_level,
+            modify_id, modify_time, RequisitionId
+             ) VALUES (
+             {params.get("userId")},1,'{params.get("org_code")}',{params.get("doc_code")},
+             NOW(),'{params.get("qus_id_1")}','{params.get("qus_id_2")}','{params.get("qus_id_3")}',
+             '{params.get("qus_id_4")}','{params.get("qus_id_5")}','{params.get("qus_id_6")}',
+             '{params.get("qus_id_7")}','{params.get("qus_id_8")}','{params.get("qus_id_9")}',
+             '{params.get("qus_id_10")}','{params.get("qus_id_11")}','{params.get("qus_id_12")}',
+             '{params.get("qus_id_13")}','{params.get("qus_id_14")}','{params.get("qus_id_15")}',
+             '{params.get("qus_id_16")}','{params.get("qus_id_17")}','{params.get("qus_id_18")}',
+             '{params.get("qus_id_19")}','{params.get("qus_id_20")}','{params.get("qus_id_21")}',
+             '{params.get("qus_id_22")}','{params.get("qus_id_23")}','{params.get("qus_id_24")}',
+             '{params.get("qus_id_25")}','{params.get("qus_id_26")}','{params.get("qus_id_27")}',
+             '{params.get("qus_id_28")}','{params.get("qus_id_29")}','{params.get("qus_id_30")}',
+             '{params.get("final_point")}','{params.get("depression_assesss_level","-")}',
+            '{params.get("depression_assesss_level")}',
+             {params.get("doc_code")},NOW(),'{params.get("RequisitionId")}'
+             )
+                    """
+            res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        elif res.get('status') == 200:
+            sql = f"""
+            UPDATE  fh_depression_assesss SET 
+            depression_assesss_status=2,
+            qus_id_1='{params.get("qus_id_1")}', qus_id_2='{params.get("qus_id_2")}', 
+            qus_id_3='{params.get("qus_id_3")}', qus_id_4='{params.get("qus_id_4")}', 
+            qus_id_5='{params.get("qus_id_5")}',
+            qus_id_6='{params.get("qus_id_6")}', 
+            qus_id_7='{params.get("qus_id_7")}', qus_id_8='{params.get("qus_id_8")}', 
+            qus_id_9='{params.get("qus_id_9")}', qus_id_10='{params.get("qus_id_10")}', 
+            qus_id_11='{params.get("qus_id_11")}', qus_id_12='{params.get("qus_id_12")}', 
+            qus_id_13='{params.get("qus_id_3")}', qus_id_14='{params.get("qus_id_14")}', 
+            qus_id_15='{params.get("qus_id_15")}',
+             qus_id_16='{params.get("qus_id_16")}', qus_id_17='{params.get("qus_id_17")}', 
+            qus_id_18='{params.get("qus_id_18")}', qus_id_19='{params.get("qus_id_19")}',
+            qus_id_20='{params.get("qus_id_20")}', qus_id_21='{params.get("qus_id_21")}',
+            qus_id_22='{params.get("qus_id_22")}', 
+            qus_id_23='{params.get("qus_id_23")}', qus_id_24='{params.get("qus_id_24")}', 
+            qus_id_25='{params.get("qus_id_25")}', qus_id_26='{params.get("qus_id_26")}', 
+            qus_id_27='{params.get("qus_id_27")}', qus_id_28='{params.get("qus_id_28")}', 
+            qus_id_29='{params.get("qus_id_29")}', 
+            qus_id_30='{params.get("qus_id_30")}', 
+            final_point='{params.get("final_point")}', remark='{params.get("remark","-")}', 
+            depression_assesss_level='{params.get("depression_assesss_level")}',
+            modify_id='{params.get("doc_code")}', modify_time=NOW() 
+            WHERE RequisitionId='{params.get("RequisitionId",0)}'
+            """
+            res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        return res
+
     def query_user_info(self, userId):
         """
         查询机构登录用户信息
@@ -1417,21 +1486,23 @@ class database:
         """
         return self.SqlSelectByOneOrList(sql=sql)
 
-    def user_details_by_idCard(self, idCard):
+    def user_details_by_idCard(self, idCard, userId=None):
         """
         通过身份证查询用户详情
         @param idCard:
+        @param userId:
         @return:
         """
         sql = f"""
         select fp.id,fp.userId,fp.idCard,fp.name,
         fp.gender,fp.phone,fp.nation,fp.contact_name,
         fp.contact_phone,fp.live_type,fp.blood_type,cur_address,
-        fp.org_code,fp.org_name,fp.status,fp.creator,fp.last_updator,
+        fp.org_code,so.org_name,fp.status,fp.creator,fp.last_updator,
         CONVERT(fp.creatime,CHAR(19)) `creatime` ,
             CONVERT(fp.birthday,CHAR(19)) `birthday` ,
             CONVERT(fp.last_updatime,CHAR(19)) `last_updatime`
-            FROM fh_personbasics fp WHERE fp.idCard='{idCard}'
+            FROM fh_personbasics fp left join sys_org so on fp.org_code = so.org_code 
+                WHERE fp.idCard='{idCard}' OR fp.userId={userId}
             """
         _res = self.SqlSelectByOneOrList(sql=sql)
         if _res.get('status') == 200:

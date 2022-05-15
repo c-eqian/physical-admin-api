@@ -21,8 +21,9 @@ from django.views import static
 
 from pc_api import views
 from rest_framework.documentation import include_docs_urls
-
+# depression_assesss_status
 urlpatterns = [
+    url(r'^add_or_update_depression', views.add_or_update_depression_view.as_view()),  # 新增抑郁评估
     url(r'^sys-like-search', views.sys_like_search_view.as_view()),  # 关键词搜索
     url(r'^sys-search-suggestions', views.sys_search_suggestions_view.as_view()),  # 根据用户id查询用户信息
     url(r'^query-sys-user-info', views.query_sys_user_info_view.as_view()),  # 根据用户id查询用户信息
