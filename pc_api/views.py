@@ -23,6 +23,78 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class get_care_view(APIView):
+    """
+    根据rid查询自理评估
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            rid = request.query_params.get('rid')
+            return Response(db.get_care(userId=userId, rid=rid))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class add_or_update_selfCare_view(APIView):
+    """
+    新增自理评估
+    请求方式：POST
+    参数：
+    返回：
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params = {}
+            userId = request.data.get('userId', 0)
+            org_code = request.data.get('org_code', 0)
+            final_point = request.data.get('final_point', 0)
+            care_assess_level = request.data.get('care_assess_level', 0)
+            RequisitionId = request.data.get('RequisitionId', 0)
+            doc_code = request.data.get('doc_code', '')
+            qus_id_1 = request.data.get('qus_id_1', '')
+            qus_id_2 = request.data.get('qus_id_2', '')
+            qus_id_3 = request.data.get('qus_id_3', '')
+            qus_id_4 = request.data.get('qus_id_4', '')
+            qus_id_5 = request.data.get('qus_id_5', '')
+
+            params.update(userId=userId, org_code=org_code, final_point=final_point,
+                          care_assess_level=care_assess_level,
+                          RequisitionId=RequisitionId, doc_code=doc_code,
+                          qus_id_1=qus_id_1, qus_id_2=qus_id_2,
+                          qus_id_3=qus_id_3, qus_id_4=qus_id_4, qus_id_5=qus_id_5,
+                          )
+            return Response(db.add_or_update_care(params=params))
+            # return Response(errorRes(msg='请求失败，请联系管理员!'))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class get_depression_view(APIView):
+    """
+    根据rid查询用户信息及抑郁评估
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            rid = request.query_params.get('rid')
+            return Response(db.get_depression(userId=userId, rid=rid))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class add_or_update_depression_view(APIView):
     """
     新增抑郁评估

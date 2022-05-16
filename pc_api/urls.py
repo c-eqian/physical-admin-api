@@ -23,6 +23,9 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 # depression_assesss_status
 urlpatterns = [
+    url(r'^get_care', views.get_care_view.as_view()),  # 查询自理评估
+    url(r'^add_or_update_care', views.add_or_update_selfCare_view.as_view()),  # 新增自理评估
+    url(r'^get_depression', views.get_depression_view.as_view()),  # 查询抑郁评估
     url(r'^add_or_update_depression', views.add_or_update_depression_view.as_view()),  # 新增抑郁评估
     url(r'^sys-like-search', views.sys_like_search_view.as_view()),  # 关键词搜索
     url(r'^sys-search-suggestions', views.sys_search_suggestions_view.as_view()),  # 根据用户id查询用户信息

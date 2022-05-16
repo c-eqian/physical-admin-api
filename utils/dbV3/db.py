@@ -90,6 +90,77 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def get_care(self, userId, rid):
+        """
+        查询自理评估
+        @param userId:
+        @param rid:
+        @return:
+        """
+        sql = f"""
+            SELECT fsca.*,su.sys_user_name
+            FROM fh_self_care_assess fsca 
+            LEFT JOIN sys_user su on fsca.doc_code = su.user_id  
+            LEFT JOIN sys_org so on fsca.org_code = so.org_code
+            WHERE RequisitionId='{rid}'
+        """
+        return self.SqlSelectByOneOrList(sql=sql)
+
+    def add_or_update_care(self, params: dict):
+        """
+        新增或更新自理评估
+        @param params:
+        @return:
+        """
+        sql = f"""
+                    SELECT fsca.RequisitionId   FROM fh_self_care_assess fsca 
+                    WHERE fsca.RequisitionId='{params.get("RequisitionId", 0)}'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 13204:
+            sql = f"""
+            INSERT INTO fh_self_care_assess (
+            userId, care_assess_status, org_code, doc_code, 
+            care_assess_date, qus_id_1, qus_id_2, qus_id_3, qus_id_4, qus_id_5,
+            final_point, remark, care_assess_level,
+            modify_id, modify_time, RequisitionId
+             ) VALUES (
+             {params.get("userId")},1,'{params.get("org_code")}',{params.get("doc_code")},
+             NOW(),'{params.get("qus_id_1")}','{params.get("qus_id_2")}','{params.get("qus_id_3")}',
+             '{params.get("qus_id_4")}','{params.get("qus_id_5")}',
+             '{params.get("final_point")}','{params.get("remark", "-")}',
+            '{params.get("care_assess_level")}',
+             {params.get("doc_code")},NOW(),'{params.get("RequisitionId")}'
+             )
+                    """
+            res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        elif res.get('status') == 200:
+            sql = f"""
+            UPDATE  fh_self_care_assess SET 
+            care_assess_status=2,
+            qus_id_1='{params.get("qus_id_1")}', qus_id_2='{params.get("qus_id_2")}', 
+            qus_id_3='{params.get("qus_id_3")}', qus_id_4='{params.get("qus_id_4")}', 
+            qus_id_5='{params.get("qus_id_5")}',
+            final_point='{params.get("final_point")}', remark='{params.get("remark", "-")}', 
+            care_assess_level='{params.get("care_assess_level")}',
+            modify_id='{params.get("doc_code")}', modify_time=NOW() 
+            WHERE RequisitionId='{params.get("RequisitionId", 0)}'
+            """
+            res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        return res
+
+    def get_depression(self, userId, rid):
+        """
+        查询抑郁评估
+        @param userId:
+        @param rid:
+        @return:
+        """
+        sql = f"""
+            SELECT * FROM fh_depression_assesss WHERE RequisitionId='{rid}'
+        """
+        return self.SqlSelectByOneOrList(sql=sql)
+
     def add_or_update_depression(self, params: dict):
         """
         新增或更新抑郁评估
@@ -123,7 +194,7 @@ class database:
              '{params.get("qus_id_22")}','{params.get("qus_id_23")}','{params.get("qus_id_24")}',
              '{params.get("qus_id_25")}','{params.get("qus_id_26")}','{params.get("qus_id_27")}',
              '{params.get("qus_id_28")}','{params.get("qus_id_29")}','{params.get("qus_id_30")}',
-             '{params.get("final_point")}','{params.get("depression_assesss_level","-")}',
+             '{params.get("final_point")}','{params.get("remark", "-")}',
             '{params.get("depression_assesss_level")}',
              {params.get("doc_code")},NOW(),'{params.get("RequisitionId")}'
              )
@@ -151,10 +222,10 @@ class database:
             qus_id_27='{params.get("qus_id_27")}', qus_id_28='{params.get("qus_id_28")}', 
             qus_id_29='{params.get("qus_id_29")}', 
             qus_id_30='{params.get("qus_id_30")}', 
-            final_point='{params.get("final_point")}', remark='{params.get("remark","-")}', 
+            final_point='{params.get("final_point")}', remark='{params.get("remark", "-")}', 
             depression_assesss_level='{params.get("depression_assesss_level")}',
             modify_id='{params.get("doc_code")}', modify_time=NOW() 
-            WHERE RequisitionId='{params.get("RequisitionId",0)}'
+            WHERE RequisitionId='{params.get("RequisitionId", 0)}'
             """
             res = self.insertOrUpdateOrDeleteBySql(sql=sql)
         return res
