@@ -90,6 +90,12 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def get_echarts_data(self):
+        """
+        获取可视化数据
+        @return:
+        """
+
     def get_care(self, userId, rid):
         """
         查询自理评估
@@ -1430,7 +1436,7 @@ class database:
         """
         sql = f"""
             SELECT name,userId FROM fh_personbasics 
-            WHERE `name` LIKE '%{keyWords}%' ORDER BY id DESC LIMIT 50
+            WHERE `name` LIKE '%{keyWords}%' OR `idCard` LIKE '%{keyWords}%' ORDER BY id DESC LIMIT 50
         """
         return self.SqlSelectByOneOrList(sql=sql, type=1)
 
