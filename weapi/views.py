@@ -22,6 +22,42 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+class we_get_base_exam(APIView):
+    """
+    查询用户基本体检结果
+    请求方式：GET
+    参数：rid
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            rid = request.query_params.get('rid')
+            res = db.we_get_base_exam(rid=rid)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class we_get_exam_list(APIView):
+    """
+    查询用户体检列表
+    请求方式：GET
+    参数：rid
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId')
+            res = db.we_get_exam_list(userId=userId)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class we_get_exam_list_by_rid(APIView):
     """
     查询生化体检

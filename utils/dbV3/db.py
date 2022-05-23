@@ -96,6 +96,86 @@ class database:
         @return:
         """
 
+    def get_exam_type_by_cardId(self, cardId):
+        """
+        根据用户卡进行获取体检编码
+        @param cardId:
+        @return:
+        """
+        sql = f"""
+               SELECT pt.* FROM (SELECT * FROM fh_personbasics fp WHERE fp.cardId='{cardId}') a 
+               JOIN physical_type pt ON pt.userId=a.userId 
+               AND pt.status=0 ORDER BY id DESC LIMIT 1
+            """
+        return self.SqlSelectByOneOrList(sql=sql)
+
+    def we_get_base_exam(self, rid):
+        """
+        根据rid查询基本体检结果
+        @param rid:
+        @return:
+        """
+        sql = f"""
+                SELECT
+                    ptc.Height,ptc.Weight,ptc.heart_rate,ptc.BMI,ptc.Temperature
+                FROM
+                    pat_test_checklist ptc
+                    LEFT JOIN fh_personbasics fp ON ptc.userId = fp.userId
+                    LEFT JOIN sys_org so ON ptc.org_code = so.org_code 
+                WHERE
+                    ptc.RequisitionId ='{rid}'
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            lt = []
+            data = res.get('result', 0)
+            for index, key in enumerate(data):
+                d = {}
+                if key == 'Height':
+                    d.update(title='身高',
+                             value=data.get('Height', '-'),
+                             init='cm', scope='-')
+                elif key == 'Weight':
+                    d.update(title='体重',
+                             value=data.get('Weight', '-'),
+                             init='kg', scope='-')
+                elif key == 'heart_rate':
+                    d.update(title='心率/脉率',
+                             value=data.get('heart_rate', '-'),
+                             init='次/分', scope='60-100')
+                elif key == 'BMI':
+                    d.update(title='心率/脉率',
+                             value=data.get('BMI', '-'),
+                             init='kg/m^2', scope='18.5-23.9')
+                elif key == 'Temperature':
+                    d.update(title='体温',
+                             value=data.get('Temperature', '-'),
+                             init='℃', scope='36.0-37.3')
+                lt.append(d)
+            res.update(result=lt)
+
+        return res
+
+    def we_get_exam_list(self, userId):
+        """
+        根据用户id查询体检列表
+        @param userId:
+        @return:
+        """
+        sql = f"""
+                SELECT
+                    ptc.*,
+                    fp.`name`,
+                    so.org_name 
+                FROM
+                    pat_test_checklist ptc
+                    LEFT JOIN fh_personbasics fp ON ptc.userId = fp.userId
+                    LEFT JOIN sys_org so ON ptc.org_code = so.org_code 
+                WHERE
+                    ptc.userId ={userId}
+        """
+        return self.SqlSelectByOneOrList(sql=sql, type=1)
+
     def get_care(self, userId, rid):
         """
         查询自理评估

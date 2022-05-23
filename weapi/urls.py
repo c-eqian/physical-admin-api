@@ -10,6 +10,8 @@ from django.conf.urls import url
 from weapi import views
 
 urlpatterns = [
+    url(r'^get_base_exam', views.we_get_base_exam.as_view()),  # 查询基本体检结果
+    url(r'^get_exam_list', views.we_get_exam_list.as_view()),  # 查询体检列表
     url(r'^get-exam-result-list', views.we_get_exam_list_by_rid.as_view()),  # 查询预约申请列表
     url(r'^exam-list-by-userId', views.we_exam_list_by_userId_view.as_view()),  # 查询预约申请列表
     url(r'^add-apply-list', views.we_insert_apply_by_userId_view.as_view()),  # 新增预约申请列表

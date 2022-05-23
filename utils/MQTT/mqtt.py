@@ -20,9 +20,10 @@ import paho.mqtt.client as mqtt
 from threading import Thread
 from utils.redisCache.redisCache import Redis
 import json
+from utils.dbV3.db import database
 
 _redis = Redis()
-
+db = database()
 import time
 
 
@@ -40,6 +41,7 @@ class Mqtt:
         """
         print("Connect with the result code " + str(rc))
         self.client.subscribe('toServer', qos=0)
+        self.client.subscribe('getCardId', qos=0)
 
     # 接收、处理mqtt消息
     def on_message(self, client, userdata, msg):
@@ -73,12 +75,15 @@ class Mqtt:
                         Spo2 = height if _data.get('Spo2') == 0.0 else _data.get('Spo2')
                         temperature = height if _data.get('temperature') <= 0.0 else _data.get('temperature')
                     new_data.update(RequisitionId=_id, Height=height, Weight=weight,
-                                    Temperature=temperature, heart_rate=HR,Spo2=Spo2)
+                                    Temperature=temperature, heart_rate=HR, Spo2=Spo2)
                     # new_data.update(height=height, HR=HR, Spo2=Spo2, temperature=temperature, weight=weight)
                     _redis.set(_id, str(new_data), timeout=60 * 10)
                 else:
                     _redis.set(data.get('id'), str(data.get('params', 0)), timeout=60 * 10)
-
+        elif msg.topic == 'getCardId':
+            cardId = data.get('cardId', 0)
+            res = db.get_exam_type_by_cardId(cardId=cardId)
+            self.client.publish(topic='pushCardId', payload=str(res))
         # 收到消息后执行任务
 
     # mqtt客户端启动函数
