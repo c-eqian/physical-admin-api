@@ -23,6 +23,11 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 # depression_assesss_status
 urlpatterns = [
+    # get_exam_echarts
+    url(r'^get_exam_echarts', views.get_exam_echarts_View.as_view()),  # 获取机构量化数据
+    url(r'^get_org_code_echarts', views.get_org_code_echarts_View.as_view()),  # 获取机构量化数据
+    url(r'^get_apply_data_total', views.get_apply_data_total_View.as_view()),  # 获取申请总数
+    url(r'^get_exam_data_total', views.get_exam_data_total_View.as_view()),  # 获取审核总数
     url(r'^get_care', views.get_care_view.as_view()),  # 查询自理评估
     url(r'^add_or_update_care', views.add_or_update_selfCare_view.as_view()),  # 新增自理评估
     url(r'^get_depression', views.get_depression_view.as_view()),  # 查询抑郁评估

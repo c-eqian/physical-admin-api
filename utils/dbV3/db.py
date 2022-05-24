@@ -90,11 +90,226 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
-    def get_echarts_data(self):
+    def get_exam_echarts(self):
+        """
+        获取体检量化数据
+        @return:
+        """
+        lt = []
+        _res = {}
+        result = {}
+        total0 = 0
+        total1 = 0
+        sql0 = """
+            SELECT COUNT(*)`total` FROM physical_type WHERE `status`=0
+        """
+        sql1 = """
+            SELECT COUNT(*)`total` FROM physical_type WHERE `status`=1
+        """
+        res0 = self.SqlSelectByOneOrList(sql=sql0)
+        res1 = self.SqlSelectByOneOrList(sql=sql1)
+        if res0.get('status') == 200:
+            d = {}
+            total0 = res0.get('result', {}).get('total', 0)
+            d.update(value=total0, name='待体检')
+            lt.append(d)
+        if res1.get('status') == 200:
+            d = {}
+            total1 = res1.get('result', {}).get('total', 0)
+            d.update(value=total1, name='已完成')
+            lt.append(d)
+        result.update(pie=lt)
+        total = total0 + total1
+        if total != 0:
+            percentage = round(total1 / (total0 + total1), 2)
+        else:
+            percentage = 0
+        a = [{'value': percentage*100}]
+        result.update(dash=a)
+        _res.update(status=200, msg='获取成功', result=result)
+        return _res
+
+    def get_org_code_echarts(self):
         """
         获取可视化数据
         @return:
         """
+        d = {}
+        res = {'status': 200, 'msg': '获取成功'}
+
+        def status60():
+            lt = []
+            sql1 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060001' AND `status`=60
+                   """
+            res1 = self.SqlSelectByOneOrList(sql=sql1)
+            sql2 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060002' AND `status`=60
+                   """
+            res2 = self.SqlSelectByOneOrList(sql=sql2)
+            sql3 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060003' AND `status`=60
+                   """
+            res3 = self.SqlSelectByOneOrList(sql=sql3)
+            sql4 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060004' AND `status`=60
+                   """
+            res4 = self.SqlSelectByOneOrList(sql=sql4)
+            sql5 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060005' AND `status`=60
+                   """
+            res5 = self.SqlSelectByOneOrList(sql=sql5)
+            sql6 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060006' AND `status`=60
+                   """
+            res6 = self.SqlSelectByOneOrList(sql=sql6)
+            if res1.get('status') == 200:
+                total = res1.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res2.get('status') == 200:
+                total = res2.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res3.get('status') == 200:
+                total = res3.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res4.get('status') == 200:
+                total = res4.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res5.get('status') == 200:
+                total = res5.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res6.get('status') == 200:
+                total = res6.get('result', {}).get('total', 0)
+                lt.append(total)
+            return lt
+
+        def status20():
+            lt = []
+            sql1 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060001' AND `status`=20
+                   """
+            res1 = self.SqlSelectByOneOrList(sql=sql1)
+            sql2 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060002' AND `status`=20
+                   """
+            res2 = self.SqlSelectByOneOrList(sql=sql2)
+            sql3 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060003' AND `status`=20
+                   """
+            res3 = self.SqlSelectByOneOrList(sql=sql3)
+            sql4 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060004' AND `status`=20
+                   """
+            res4 = self.SqlSelectByOneOrList(sql=sql4)
+            sql5 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060005' AND `status`=20
+                   """
+            res5 = self.SqlSelectByOneOrList(sql=sql5)
+            sql6 = """
+                       SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060006' AND `status`=20
+                   """
+            res6 = self.SqlSelectByOneOrList(sql=sql6)
+            if res1.get('status') == 200:
+                total = res1.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res2.get('status') == 200:
+                total = res2.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res3.get('status') == 200:
+                total = res3.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res4.get('status') == 200:
+                total = res4.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res5.get('status') == 200:
+                total = res5.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res6.get('status') == 200:
+                total = res6.get('result', {}).get('total', 0)
+                lt.append(total)
+            return lt
+
+        def status0():
+            lt = []
+            sql1 = """
+                SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060001' AND `status`=0
+            """
+            res1 = self.SqlSelectByOneOrList(sql=sql1)
+            sql2 = """
+                SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060002' AND `status`=0
+            """
+            res2 = self.SqlSelectByOneOrList(sql=sql2)
+            sql3 = """
+                SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060003' AND `status`=0
+            """
+            res3 = self.SqlSelectByOneOrList(sql=sql3)
+            sql4 = """
+                SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060004' AND `status`=0
+            """
+            res4 = self.SqlSelectByOneOrList(sql=sql4)
+            sql5 = """
+                SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060005' AND `status`=0
+            """
+            res5 = self.SqlSelectByOneOrList(sql=sql5)
+            sql6 = """
+                SELECT COUNT(*) `total` FROM fh_personbasics WHERE org_code='45060006' AND `status`=0
+            """
+            res6 = self.SqlSelectByOneOrList(sql=sql6)
+            if res1.get('status') == 200:
+                total = res1.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res2.get('status') == 200:
+                total = res2.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res3.get('status') == 200:
+                total = res3.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res4.get('status') == 200:
+                total = res4.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res5.get('status') == 200:
+                total = res5.get('result', {}).get('total', 0)
+                lt.append(total)
+            if res6.get('status') == 200:
+                total = res6.get('result', {}).get('total', 0)
+                lt.append(total)
+            return lt
+
+        d.update(status0=status0(), status20=status20(), status60=status0())
+        res.update(result=d)
+        return res
+
+    def get_apply_data_total(self):
+        resD = {}
+        d = {'total': 0, 'unAuditTotal': 0, 'AuditTotal': 0,
+             'rejectAuditTotal': 0}
+        sql = """
+                SELECT COUNT(*)`total` FROM physical.apply_table at 
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(total=res.get('result', {}).get('total', 0))
+        sql = """
+                SELECT COUNT(*)`unAuditTotal` FROM physical.apply_table at WHERE at.apply_status='0'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(unAuditTotal=res.get('result', {}).get('unAuditTotal', 0))
+        sql = """
+                    SELECT COUNT(*)`AuditTotal` FROM physical.apply_table at WHERE at.apply_status='1'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(AuditTotal=res.get('result', {}).get('AuditTotal', 0))
+        sql = """
+                    SELECT COUNT(*)`rejectAuditTotal` FROM physical.apply_table at WHERE at.apply_status='-1'
+                """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(rejectAuditTotal=res.get('result', {}).get('rejectAuditTotal', 0))
+
+        resD.update(status=200, msg='获取成功', result=d)
+        return resD
 
     def get_exam_type_by_cardId(self, cardId):
         """
@@ -108,6 +323,58 @@ class database:
                AND pt.status=0 ORDER BY id DESC LIMIT 1
             """
         return self.SqlSelectByOneOrList(sql=sql)
+
+    def get_exam_data_total(self):
+        """
+        @return:
+        """
+        resD = {}
+        d = {'total': 0, 'unAuditTotal': 0, 'AuditTotal': 0,
+             'rejectAuditTotal': 0, 'unUploadTotal': 0, 'rejectUploadTotal': 0, 'UploadTotal': 0}
+        sql = """
+        SELECT COUNT(*)`total` FROM physical.pat_test_checklist ptc 
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(total=res.get('result', {}).get('total', 0))
+        sql = """
+        SELECT COUNT(*)`unAuditTotal` FROM physical.pat_test_checklist ptc WHERE ptc.auditStatus=0
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(unAuditTotal=res.get('result', {}).get('unAuditTotal', 0))
+        sql = """
+            SELECT COUNT(*)`AuditTotal` FROM physical.pat_test_checklist ptc WHERE ptc.auditStatus=1
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(AuditTotal=res.get('result', {}).get('AuditTotal', 0))
+        sql = """
+            SELECT COUNT(*)`rejectAuditTotal` FROM physical.pat_test_checklist ptc WHERE ptc.auditStatus=-1
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(rejectAuditTotal=res.get('result', {}).get('rejectAuditTotal', 0))
+        sql = """
+            SELECT COUNT(*)`unUploadTotal` FROM physical.pat_test_checklist ptc WHERE ptc.uploadStatus=0
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(unUploadTotal=res.get('result', {}).get('unUploadTotal', 0))
+        sql = """
+            SELECT COUNT(*)`UploadTotal` FROM physical.pat_test_checklist ptc WHERE ptc.uploadStatus=1
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(UploadTotal=res.get('result', {}).get('UploadTotal', 0))
+        sql = """
+            SELECT COUNT(*)`rejectUploadTotal` FROM physical.pat_test_checklist ptc WHERE ptc.uploadStatus=-1
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            d.update(rejectUploadTotal=res.get('result', {}).get('rejectUploadTotal', 0))
+        resD.update(status=200, msg='获取成功', result=d)
+        return resD
 
     def we_get_base_exam(self, rid):
         """
@@ -625,10 +892,13 @@ class database:
         @return:
         """
         res = self.user_details_by_idCard(idCard=idCard)
+        print(res)
         if res.get("status") == 200:
             _res = self.select_feeItemCode_list()
+            print(_res)
             if _res.get('status') == 200:
                 res.get('result').update(codeList=_res.get('result'))
+                print(res)
         return res
 
     def exam_result_audit_by_rid(self, rid, status, remark):
@@ -1120,6 +1390,7 @@ class database:
                     isUse =1
                 """
             res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            print(sql)
             if res.get("status") == 200:
                 data = res.get('result')
                 _res.update(lt=data)
@@ -1643,7 +1914,7 @@ class database:
         """
         return self.SqlSelectByOneOrList(sql=sql)
 
-    def user_details_by_idCard(self, idCard, userId=None):
+    def user_details_by_idCard(self, idCard, userId=0):
         """
         通过身份证查询用户详情
         @param idCard:
@@ -1661,6 +1932,7 @@ class database:
             FROM fh_personbasics fp left join sys_org so on fp.org_code = so.org_code 
                 WHERE fp.idCard='{idCard}' OR fp.userId={userId}
             """
+        print(sql)
         _res = self.SqlSelectByOneOrList(sql=sql)
         if _res.get('status') == 200:
             _redis.set(key=f"{idCard}", value=str(_res), timeout=60)

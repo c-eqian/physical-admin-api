@@ -23,6 +23,72 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
+# get_exam_echarts
+
+class get_exam_echarts_View(APIView):
+    """
+    获取体检量化数据
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return Response(db.get_exam_echarts())
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class get_org_code_echarts_View(APIView):
+    """
+    获取机构量化数据
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return Response(db.get_org_code_echarts())
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class get_apply_data_total_View(APIView):
+    """
+    获取申请总数
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return Response(db.get_apply_data_total())
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class get_exam_data_total_View(APIView):
+    """
+    获取体检审核等总数
+    请求方式：GET
+    参数：
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return Response(db.get_exam_data_total())
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
 class get_care_view(APIView):
     """
     根据rid查询自理评估
@@ -432,8 +498,9 @@ class query_user_details_by_idCard_view(APIView):
 
     def get(self, request, *args, **kwargs):
         try:
-            idCard = request.query_params.get('idCard')
-            org_code = request.query_params.get('org_code')
+            idCard = request.query_params.get('idCard', 0)
+            print(idCard)
+            org_code = request.query_params.get('org_code', 0)
             res = db.query_user_details_by_idCard(idCard=idCard, org_code=org_code)
             return Response(res)
         except Exception as e:
@@ -592,7 +659,7 @@ class get_cache_base_exam(APIView):
         try:
             RequisitionId = request.query_params.get('RequisitionId')
             _res = db.query_user_info_by_rid(rid=RequisitionId)
-            cache_data = _redis.get(key=RequisitionId)
+            cache_data = _redis.get(key=f"cache{RequisitionId}")
             if cache_data:  # 查询缓存是否有数据
                 cache_data = bytes.decode(cache_data)
                 res = ast.literal_eval(cache_data)
@@ -625,9 +692,14 @@ class cache_base_exam(APIView):
             BMI = request.data.get('BMI')
             Temperature = request.data.get('Temperature')
             heart_rate = request.data.get('heart_rate')
+            # cache_data = _redis.get(key=f"cache{RequisitionId}")
+            # if cache_data:  # 查询缓存是否有数据
+            #     cache_data = bytes.decode(cache_data)
+            #     res = ast.literal_eval(cache_data)
+            #
             data.update(RequisitionId=RequisitionId, Height=Height, Weight=Weight, BMI=BMI,
                         Temperature=Temperature, heart_rate=heart_rate)
-            key = f'{RequisitionId}'
+            key = f'cache{RequisitionId}'
             _redis.set(key=key, value=str(data), timeout=60 * 60 * 24 * 30)
             return Response(errorRes(msg='保存成功', status=200))
         except Exception as e:

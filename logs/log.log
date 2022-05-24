@@ -23,3 +23,190 @@
 2022-05-24 00:53:09,623 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2111] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM\n                    pat_test_checklist ptc\n                    LEFT JOIN fh' at line 3")
 2022-05-24 00:53:09,623 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2111] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM\n                    pat_test_checklist ptc\n                    LEFT JOIN fh' at line 3")
 2022-05-24 00:53:09,623 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2111] - ERROR: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM\n                    pat_test_checklist ptc\n                    LEFT JOIN fh' at line 3")
+2022-05-24 09:35:57,374 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2000] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:36:09,314 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2000] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:36:09,314 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2000] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:36:20,274 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2000] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:36:20,274 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2000] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:36:20,274 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2000] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:38:23,855 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2007] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:40:55,578 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2019] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:41:07,407 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2019] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:41:07,407 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2019] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:43:12,373 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2040] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:43:23,611 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2040] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 09:43:23,611 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2040] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 10:01:04,490 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:01:04,490 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:01:04,490 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:01:35,213 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:01:35,213 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:01:35,213 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:02:39,793 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:02:39,793 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 10:02:39,793 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:08:09,166 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:08:09,166 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:08:09,166 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2163] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:10:18,046 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2164] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:10:18,046 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2164] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:10:18,046 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2164] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:10:57,518 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2045] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 12:11:24,246 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2045] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 12:11:34,489 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2045] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 12:11:34,489 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2045] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 12:15:24,605 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2164] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:15:24,605 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2164] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:15:24,605 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2164] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:16:13,965 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2167] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:16:13,965 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2167] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:16:13,965 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2167] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:18:42,364 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2168] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:18:42,364 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2168] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:18:42,364 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2168] - ERROR: (1054, "Unknown column 'None' in 'where clause'")
+2022-05-24 12:22:23,592 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:22:23,592 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:22:23,592 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:22:37,972 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:22:37,972 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:22:37,972 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:24:26,320 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:24:26,320 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:24:26,320 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:27:24,532 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:27:24,532 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:27:24,532 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:28:04,040 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:28:04,040 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 12:28:04,040 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:732] - ERROR: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2022-05-24 14:26:14,523 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:14,523 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:26,443 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:26,443 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:26,443 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:43,602 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:53,873 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:26:53,873 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2096] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:31:43,537 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2081] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:41:27,630 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2081] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:41:27,630 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2081] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:41:27,630 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2081] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:41:58,599 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1348] - ERROR: malformed node or string: <_ast.Name object at 0x000002804A8F9730>
+2022-05-24 14:41:58,599 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1348] - ERROR: malformed node or string: <_ast.Name object at 0x000002804A8F9730>
+2022-05-24 14:41:58,599 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1348] - ERROR: malformed node or string: <_ast.Name object at 0x000002804A8F9730>
+2022-05-24 14:42:18,360 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1348] - ERROR: malformed node or string: <_ast.Name object at 0x000002804A9F50D0>
+2022-05-24 14:42:18,360 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1348] - ERROR: malformed node or string: <_ast.Name object at 0x000002804A9F50D0>
+2022-05-24 14:42:18,360 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1348] - ERROR: malformed node or string: <_ast.Name object at 0x000002804A9F50D0>
+2022-05-24 14:43:00,319 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2081] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 14:51:19,960 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1346] - ERROR: malformed node or string: <_ast.Name object at 0x0000024894A8CBB0>
+2022-05-24 14:51:19,960 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1346] - ERROR: malformed node or string: <_ast.Name object at 0x0000024894A8CBB0>
+2022-05-24 14:51:19,960 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1346] - ERROR: malformed node or string: <_ast.Name object at 0x0000024894A8CBB0>
+2022-05-24 15:35:33,974 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2083] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 15:42:56,282 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2218] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 15:43:06,544 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2218] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 15:43:06,544 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2218] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 15:43:17,986 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2218] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 15:43:17,986 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2218] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 15:43:17,986 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2218] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:27:28,477 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2235] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:27:28,477 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2235] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:27:40,136 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2235] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:27:40,136 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2235] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:27:40,136 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2235] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:29:51,119 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:30:01,594 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:30:01,594 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:30:55,451 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:30:55,451 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:31:05,643 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:31:05,643 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:31:05,643 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2242] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:34:12,372 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2250] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:34:22,886 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2250] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:34:22,886 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2250] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:36:51,639 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2255] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:36:51,639 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2255] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:37:01,960 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2255] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:37:01,960 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2255] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:37:01,960 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2255] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:41:59,799 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2259] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:45:57,378 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:45:57,378 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:45:57,378 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:46:10,157 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:46:10,157 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:46:10,157 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:46:14,657 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:46:14,657 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:46:14,657 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:47:48,518 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:47:48,518 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:47:48,518 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:47:50,477 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:47:50,477 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:47:50,477 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:49:11,157 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:49:11,157 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:49:11,157 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:49:42,717 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:49:42,717 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:49:42,717 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:49:43,317 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:49:43,317 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:49:43,317 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:51:22,476 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:51:22,476 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:51:22,476 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:52:58,571 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:52:58,571 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:53:34,239 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2261] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:54:10,035 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2261] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:54:10,035 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2261] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:54:10,035 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2261] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:54:31,036 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2261] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:54:31,036 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2261] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:56:56,136 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:56:56,136 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:56:56,136 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:57:10,075 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:57:10,075 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:57:10,075 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:58:10,335 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2262] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:58:10,335 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2262] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:58:32,230 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2262] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:58:32,230 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2262] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:58:32,230 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2262] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 16:58:57,315 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:58:57,315 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 16:58:57,315 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: unsupported operand type(s) for +: 'dict' and 'dict'
+2022-05-24 17:01:24,335 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 17:01:24,335 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2260] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 17:01:35,253 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: division by zero
+2022-05-24 17:01:35,253 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: division by zero
+2022-05-24 17:01:35,253 - G:\毕设项目\my-graduate-project\API\appTest\pc_api\views.py[line:40] - ERROR: division by zero
+2022-05-24 17:05:07,368 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 17:05:07,368 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 18:15:35,074 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 18:15:35,074 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 18:16:03,494 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 18:16:03,494 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 18:16:03,494 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:09:35,321 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:09:58,181 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:15:08,865 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:15:08,865 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:15:08,865 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:18:34,855 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:18:58,669 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: Packet sequence number wrong - got 1 expected 2
+2022-05-24 21:18:58,669 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: Packet sequence number wrong - got 1 expected 2
+2022-05-24 21:19:54,239 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:19:54,239 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:20:04,352 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:20:04,352 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 21:20:04,352 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 23:38:56,009 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 23:38:56,009 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-24 23:38:56,009 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-25 00:01:51,024 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-25 00:02:07,424 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2003, "Can't connect to MySQL server on '43.138.188.22' (timed out)")
+2022-05-25 00:02:18,941 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2264] - ERROR: (2013, 'Lost connection to MySQL server during query ([WinError 10053] 你的主机中的软件中止了一个已建立的连接。)')

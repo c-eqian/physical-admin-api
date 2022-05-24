@@ -52,13 +52,14 @@ class Mqtt:
         @return:
         """
         out = str(msg.payload.decode('utf-8'))
+        print(msg)
         print(msg.topic)
         data = json.loads(out)
         if msg.topic == "toServer":
             _id = data.get('id')
             if _id:
                 # 获取缓存数据
-                cache_data = _redis.get(key=_id)
+                cache_data = _redis.get(key=f"cache{_id}")
                 if cache_data:  # 有缓存，更新
                     new_data = {}
                     cache_data = bytes.decode(cache_data)
@@ -68,10 +69,10 @@ class Mqtt:
                     Spo2 = res.get('Spo2', 0)
                     temperature = res.get('Temperature', 0)
                     weight = res.get('Weight', 0)
-                    _data = data.get('params', 0)
+                    _data = data.get('params', {})
                     if _data:
                         height = height if _data.get('height') <= 0.0 else _data.get('height')
-                        HR = height if _data.get('HR') <= 0.0 else _data.get('HR')
+                        HR = height if _data.get('HR', 0) <= 0.0 else _data.get('HR', 0)
                         Spo2 = height if _data.get('Spo2') == 0.0 else _data.get('Spo2')
                         temperature = height if _data.get('temperature') <= 0.0 else _data.get('temperature')
                     new_data.update(RequisitionId=_id, Height=height, Weight=weight,
@@ -79,7 +80,7 @@ class Mqtt:
                     # new_data.update(height=height, HR=HR, Spo2=Spo2, temperature=temperature, weight=weight)
                     _redis.set(_id, str(new_data), timeout=60 * 10)
                 else:
-                    _redis.set(data.get('id'), str(data.get('params', 0)), timeout=60 * 10)
+                    _redis.set(f"cache{data.get('id')}", str(data.get('params', 0)), timeout=60 * 10)
         elif msg.topic == 'getCardId':
             cardId = data.get('cardId', 0)
             res = db.get_exam_type_by_cardId(cardId=cardId)
