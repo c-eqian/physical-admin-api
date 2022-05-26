@@ -90,6 +90,74 @@ class database:
     #     sql = f"""
     #             SELECT pc.RequisitionId  FROM pat_test_checklist pc WHERE pc.RequisitionId='{params.RequisitionId}'
     #         """
+    def delete_card_by_userId(self, userId, cardId):
+        """
+        删除绑卡
+        @param userId:
+        @param cardId:
+        @return:
+        """
+        sql = f"""
+             UPDATE fh_personbasics SET cardId='{""}' WHERE userId={userId}
+         """
+        return self.insertOrUpdateOrDeleteBySql(sql=sql)
+
+    def add_card_by_userId(self, userId, cardId):
+        """
+        添加用户卡号
+        @param userId:
+        @param cardId:
+        @return:
+        """
+        # 先查询是否注册
+        sql = f"""
+            SELECT fp.cardId  FROM fh_personbasics fp WHERE fp.cardId='{cardId}'
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 13204:
+            sql = f"""
+                UPDATE fh_personbasics SET cardId='{cardId}' WHERE userId={userId}
+            """
+            res = self.insertOrUpdateOrDeleteBySql(sql=sql)
+        elif res.get('status') == 200:
+            res.update(status=13203, msg='该卡已被注册!')
+        return res
+
+    def get_upload_list(self, limit, page):
+        """
+        公卫获取上传体检列表
+        @param limit:
+        @param page:
+        @return:
+        """
+        sql = """
+        
+                SELECT COUNT(*)`total` FROM pat_test_checklist ptc 
+                LEFT JOIN fh_personbasics fp ON fp.userId=ptc.userId 
+                LEFT JOIN sys_org so ON ptc.org_code=so.org_code 
+                WHERE ptc.uploadStatus=1
+        """
+        res = self.SqlSelectByOneOrList(sql=sql)
+        if res.get('status') == 200:
+            _res = handleTotal(res)
+            sql = f"""
+                            SELECT ptc.*,fp.`name`,fp.idCard,fp.gender,fp.birthday,
+                            fp.nation,fp.phone,fp.cur_address,so.org_name 
+                            FROM pat_test_checklist ptc 
+                            LEFT JOIN fh_personbasics fp 
+                            ON fp.userId=ptc.userId 
+                            LEFT JOIN sys_org so 
+                            ON ptc.org_code=so.org_code 
+                            WHERE ptc.uploadStatus=1 LIMIT {(page - 1) * limit},{limit}
+                
+                """
+            res = self.SqlSelectByOneOrList(sql=sql, type=1)
+            if res.get("status") == 200:
+                data = res.get('result')
+                _res.update(lt=data)
+                res.update(result=_res)
+        return res
+
     def get_exam_echarts(self):
         """
         获取体检量化数据
@@ -124,7 +192,7 @@ class database:
             percentage = round(total1 / (total0 + total1), 2)
         else:
             percentage = 0
-        a = [{'value': percentage*100}]
+        a = [{'value': percentage * 100}]
         result.update(dash=a)
         _res.update(status=200, msg='获取成功', result=result)
         return _res
@@ -318,9 +386,9 @@ class database:
         @return:
         """
         sql = f"""
-               SELECT pt.* FROM (SELECT * FROM fh_personbasics fp WHERE fp.cardId='{cardId}') a 
+               SELECT pt.RequisitionId FROM (SELECT * FROM fh_personbasics fp WHERE fp.cardId='{cardId}') a 
                JOIN physical_type pt ON pt.userId=a.userId 
-               AND pt.status=0 ORDER BY id DESC LIMIT 1
+               AND pt.status=0 ORDER BY pt.id DESC LIMIT 1
             """
         return self.SqlSelectByOneOrList(sql=sql)
 
@@ -901,6 +969,18 @@ class database:
                 print(res)
         return res
 
+    def exam_result_upload_by_rid(self, rid, uploadStatus):
+        """
+        根据体检编码上传体检结果
+        @param rid:
+        @param uploadStatus:
+        @return:
+        """
+        sql = f"""
+                UPDATE pat_test_checklist SET uploadStatus={uploadStatus},uploadTime=NOW() WHERE RequisitionId='{rid}'
+            """
+        return self.insertOrUpdateOrDeleteBySql(sql=sql)
+
     def exam_result_audit_by_rid(self, rid, status, remark):
         """
         医生审核体检结果
@@ -957,11 +1037,41 @@ class database:
                 for index, item in enumerate(_res.get('result')):
                     FeeItemCode = item.get('FeeItemCode', 0)
                     RES = self.query_exam_base_and_urine_by_feeItemCode(FeeItemCode, rid)
-                    print(RES)
                     a = {FeeItemCode: RES}
                     data.update(a)
                 res.get('result').update(data)
-
+            # 查询老年人相关
+            # 自立评估
+            sql_fsa = f"""
+                SELECT fsa.* FROM fh_self_care_assess fsa WHERE fsa.RequisitionId='{rid}'       
+            """
+            # 智力评估
+            sql_mse = f"""
+                SELECT mse.* FROM fh_mental_state_exam mse WHERE mse.RequisitionId='{rid}'
+            """
+            # 抑郁评估
+            sql_fda = f"""
+               SELECT fda.* FROM fh_depression_assesss fda WHERE fda.RequisitionId='{rid}'
+            """
+            # 抑郁评估
+            sql_ffz = f"""
+              SELECT ffz.* FROM fh_follow_zyyjk ffz WHERE ffz.RequisitionId='{rid}'
+            """
+            old = {'self_care_assess': '', 'mental_state_exam': '',
+                   'depression_assesss': '', 'follow_zyyjk': ''}
+            fsaRes = self.SqlSelectByOneOrList(sql=sql_fsa)
+            if fsaRes.get('status') == 200:
+                old.update(self_care_assess=fsaRes.get('result', {}))
+            mseRes = self.SqlSelectByOneOrList(sql=sql_mse)
+            if mseRes.get('status') == 200:
+                old.update(mental_state_exam=mseRes.get('result', {}))
+            fdaRes = self.SqlSelectByOneOrList(sql=sql_fda)
+            if fdaRes.get('status') == 200:
+                old.update(depression_assesss=fdaRes.get('result', {}))
+            ffzRes = self.SqlSelectByOneOrList(sql=sql_ffz)
+            if ffzRes.get('status') == 200:
+                old.update(follow_zyyjk=ffzRes.get('result', {}))
+            res.get('result').update(old)
         return res
 
     def query_exam_base_and_urine_by_feeItemCode(self, FIC, rid):
@@ -987,7 +1097,6 @@ class database:
                     Lis_RangeStateColor
                     FROM pat_test_result WHERE FeeItemCode='{FIC}' AND RequisitionId='{rid}'
                 """
-        print(sql)
         res = self.SqlSelectByOneOrList(sql=sql, type=1)
         if res.get("status") == 200:
             return res.get("result")
@@ -1130,19 +1239,19 @@ class database:
                         Weight, BMI, Temperature, Operator, VisitingDate, 
                         Status, LSBP, LDBP, heart_rate) VALUES 
                     ('{params.get("RequisitionId")}',{params.get("userId")},'{params.get("org_code")}'
-                        ,30,'健康体检',70,90,{params.get("Height")},{params.get("Weight")},{params.get("BMI")},{params.get("Temperature")},
-                        '{params.get("Operator")}','{params.get("VisitingDate")}',{0},{params.get("LSBP")},{params.get("LDBP")},
-                            '{params.get("heart_rate")}')
+                        ,30,'健康体检',70,90,{params.get("Height")},{params.get("Weight")},{params.get("BMI", 0)},{params.get("Temperature", 36.0)},
+                        '{params.get("Operator")}','{params.get("VisitingDate")}',{0},{params.get("LSBP", 0)},{params.get("LDBP", 0)},
+                            '{params.get("heart_rate", 0)}')
                 """
         elif res.get("status") == 200:
             sql = f""" 
-                    UPDATE pat_test_checklist SET RequisitionId='{params.get("RequisitionId")}', userId='{params.get("userId")}',
+                    UPDATE pat_test_checklist SET RequisitionId='{params.get("RequisitionId", 0)}', userId='{params.get("userId")}',
                         org_code='{params.get("org_code")}', 
-                        RSBP={params.get("RSBP", 0)}, RDBP={params.get("RDBP", 0)},Height={params.get("Height")},
-                        Weight={params.get("Weight")}, BMI={params.get("BMI")}, Temperature='{params.get("Temperature")}',
+                        RSBP={params.get("RSBP", 0)}, RDBP={params.get("RDBP", 0)},Height={params.get("Height", 0)},
+                        Weight={params.get("Weight", 0)}, BMI={params.get("BMI", 0)}, Temperature='{params.get("Temperature", 0)}',
                         Operator='{params.get("Operator")}', VisitingDate='{params.get("VisitingDate")}', 
-                        LSBP={params.get("LSBP")}, LDBP={params.get("LDBP")}, heart_rate={params.get("heart_rate")} 
-                    WHERE RequisitionId='{params.get("RequisitionId")}'
+                        LSBP={params.get("LSBP", 0)}, LDBP={params.get("LDBP", 0)}, heart_rate={params.get("heart_rate", 0)} 
+                    WHERE RequisitionId='{params.get("RequisitionId", 0)}'
                     """
             print(sql)
         res = self.insertOrUpdateOrDeleteBySql(sql=sql)
@@ -1988,7 +2097,7 @@ class database:
                 SELECT fp.name,fp.userId,fp.idcard,fp.org_code,fp.org_name,
                         fp.gender,CONVERT(fp.birthday,CHAR(19)) `birthday`,fp.phone,
                         fp.nation,fp.live_type,fp.creator,
-                        CONVERT(fp.creatime,CHAR(19)) `creatime`,
+                        CONVERT(fp.creatime,CHAR(19)) `creatime`,fp.cardId,
                         fp.cur_address `address`,fp.status,fp.blood_type,fp.person_type
                 FROM fh_personbasics fp where fp.status=0 and fp.org_code='{org_id}'
                 ORDER BY fp.id DESC 
@@ -2000,6 +2109,47 @@ class database:
                 res.update(result=_res)
                 _redis.set(key=f"{org_id}{page}{limit}", value=str(res), timeout=60)
         return res
+
+    def sys_login(self, userAccount, userPassword):
+        """
+        用户登录
+        @param userAccount:
+        @param userPassword:
+        @return:
+        """
+        # 检查账号是否存在
+        sql = f"""
+                SELECT su.sys_user_account,su.user_id,su.org_id,
+                su.sys_user_name,su.authority,su.sys_user_password,su.status
+                FROM sys_user su 
+                where su.sys_user_account='{userAccount}'
+                """
+        _res = self.SqlSelectByOneOrList(sql=sql)
+        if _res.get('status') == 200:
+            if _res.get('result').get('status') in [1, '1']:
+                password = self.SM4.encryptData_ECB(plain_text=userPassword)
+                if _res.get('result').get('sys_user_password') == password:
+                    resultDict = {}
+                    authority = _res.get('result').get('authority')
+                    menuList = self.menuSysList(authority=authority)
+                    resultDict['username'] = _res.get('result').get('sys_user_account')
+                    resultDict['name'] = _res.get('result').get('sys_user_name')
+                    resultDict['user_id'] = _res.get('result').get('user_id')
+                    resultDict['org_id'] = _res.get('result').get('org_id')
+                    # resultDict['password'] = _res.get('result').get('userPassword')
+                    resultDict['menu'] = menuList
+                    _res.update(status=200, msg='登录成功', result=resultDict)
+                else:
+                    _res.update(msg="密码错误", status=13201)
+                    _res.pop('result')
+            else:
+                _res.update(status=13202, msg='用户已被禁用')
+                _res.pop('result')
+        elif _res.get('status') == 13204:
+            _res.update(msg=f"账号{userAccount}不存在")
+        else:
+            _res.update(msg="登录失败，请稍后重试")
+        return _res
 
     def login(self, userAccount, userPassword):
         """
@@ -2042,6 +2192,59 @@ class database:
             _res.update(msg="登录失败，请稍后重试")
         return _res
 
+    def menuSysList(self, authority):
+        # 获得数据库连接池
+        conn = self.DbConnect_Pool.connection()
+        conn.ping(reconnect=True)
+        cur = conn.cursor()
+        col = """SHOW COLUMNS FROM sys_menu"""
+        cur.execute(col)
+        conn.commit()
+        index = cur.fetchall()  # 返回字段
+        _index = [x[0] for x in index]
+        try:
+            SqlMenuList = """
+                            SELECT * from sys_menu
+                            """
+            cur.execute(SqlMenuList)
+            conn.commit()
+            result = cur.fetchall()
+            Menu = []
+            resultList = []
+            if result:  # 返回不为空
+                for item in result:
+                    resultDict = {}
+                    for i in range(len(_index)):
+                        resultDict[_index[i]] = item[i]
+                    authorityNum = resultDict['authority'].replace("'", '')
+                    pattern = re.compile('\d+')
+                    itemResult = pattern.findall(authorityNum)
+                    if str(authority) in itemResult:
+                        resultList.append(resultDict)
+                        resultDict.pop('authority', None)
+                        # del resultDict['authority']  # 删除权限的键值
+                for item in resultList:
+                    lst = []
+                    ite = item['children'].replace("'", '')
+                    pattern = re.compile('\d+')
+                    itemResult = pattern.findall(ite)
+                    for it in itemResult:
+                        for items in resultList:
+                            if items['menuid'] == int(it):
+                                lst.append(items)
+                                item['children'] = lst
+                                # del item['path']
+                                # del item['name']
+                                # del item['component']
+                                if item not in Menu:
+                                    Menu.append(item)
+            return Menu
+        except Exception as e:
+            log.logger.error(str(e))
+            conn.close()
+            cur.close()
+            print(e)
+
     def menuList(self, authority):
         # 获得数据库连接池
         conn = self.DbConnect_Pool.connection()
@@ -2054,7 +2257,7 @@ class database:
         _index = [x[0] for x in index]
         try:
             SqlMenuList = """
-                           SELECT * from menulist
+                           SELECT * from physical.menulist
                            """
             cur.execute(SqlMenuList)
             conn.commit()

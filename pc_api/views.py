@@ -23,7 +23,59 @@ def errorRes(status=13203, msg='请求错误'):
     return {'status': status, 'msg': msg}
 
 
-# get_exam_echarts
+class delete_card_by_userId_View(APIView):
+    """
+    根据用户Id进行绑定卡
+    请求方式：GET
+    参数：userId，cardId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId', 0)
+            cardId = request.query_params.get('cardId', 0)
+            return Response(db.delete_card_by_userId(userId=userId,cardId=cardId))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class add_card_by_userId_View(APIView):
+    """
+    根据用户Id进行绑定卡
+    请求方式：GET
+    参数：userId，cardId
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userId = request.query_params.get('userId', 0)
+            cardId = request.query_params.get('cardId', 0)
+            return Response(db.add_card_by_userId(userId=userId, cardId=cardId))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class get_upload_list_View(APIView):
+    """
+    获取体检上传
+    请求方式：GET
+    参数：limit=20,page=1
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            limit = request.query_params.get('limit', 20)
+            page = request.query_params.get('page', 1)
+            return Response(db.get_upload_list(limit=int(limit), page=int(page)))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
 
 class get_exam_echarts_View(APIView):
     """
@@ -502,6 +554,26 @@ class query_user_details_by_idCard_view(APIView):
             print(idCard)
             org_code = request.query_params.get('org_code', 0)
             res = db.query_user_details_by_idCard(idCard=idCard, org_code=org_code)
+            return Response(res)
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
+
+
+class exam_result_upload_rid_view(APIView):
+    """
+    根据体检编码上传体检结果
+    请求方式：get
+    参数：rid, uploadStatus: 0-未上传，1-已上传，-1-驳回，[remark: 驳回原因]
+    返回：
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            rid = request.query_params.get('rid')
+            # remark = request.query_params.get('remark', 0)
+            uploadStatus = request.query_params.get('uploadStatus')
+            res = db.exam_result_upload_by_rid(rid=rid, uploadStatus=uploadStatus)
             return Response(res)
         except Exception as e:
             log.logger.error(msg=str(e))
@@ -1128,6 +1200,26 @@ class getUserListView(APIView):
     #
     # def post(self, request, *args, **kwargs):
     #     return Response(errorRes(status=13208, msg='接口错误'))
+
+
+class sys_loginView(APIView):
+    """
+    公卫用户登录
+    请求方式：GET
+    参数：
+    返回：登陆人信息
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            login = sm4.decryptData_ECB(request.query_params.get("login"))
+            login = ast.literal_eval(login)
+            account = login['name']
+            password = login['password']
+            return Response(db.sys_login(userAccount=account, userPassword=password))
+        except Exception as e:
+            log.logger.error(msg=str(e))
+            return Response(errorRes(msg='请求失败，请联系管理员!'))
 
 
 class loginView(APIView):

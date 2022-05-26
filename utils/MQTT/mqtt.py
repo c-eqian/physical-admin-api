@@ -52,8 +52,6 @@ class Mqtt:
         @return:
         """
         out = str(msg.payload.decode('utf-8'))
-        print(msg)
-        print(msg.topic)
         data = json.loads(out)
         if msg.topic == "toServer":
             _id = data.get('id')
@@ -82,7 +80,9 @@ class Mqtt:
                 else:
                     _redis.set(f"cache{data.get('id')}", str(data.get('params', 0)), timeout=60 * 10)
         elif msg.topic == 'getCardId':
-            cardId = data.get('cardId', 0)
+            print(type(data), data)
+            cardId = data.get('id', 0)
+            print(cardId)
             res = db.get_exam_type_by_cardId(cardId=cardId)
             self.client.publish(topic='pushCardId', payload=str(res))
         # 收到消息后执行任务

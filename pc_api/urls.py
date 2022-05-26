@@ -23,7 +23,10 @@ from pc_api import views
 from rest_framework.documentation import include_docs_urls
 # depression_assesss_status
 urlpatterns = [
-    # get_exam_echarts
+    # get_upload_list
+    url(r'^delete-card', views.delete_card_by_userId_View.as_view()),  # 解绑
+    url(r'^add-card', views.add_card_by_userId_View.as_view()),  # 绑卡
+    url(r'^get-upload-list', views.get_upload_list_View.as_view()),  # 获取上传数据
     url(r'^get_exam_echarts', views.get_exam_echarts_View.as_view()),  # 获取机构量化数据
     url(r'^get_org_code_echarts', views.get_org_code_echarts_View.as_view()),  # 获取机构量化数据
     url(r'^get_apply_data_total', views.get_apply_data_total_View.as_view()),  # 获取申请总数
@@ -45,6 +48,7 @@ urlpatterns = [
     url(r'^query_sys_user-list', views.query_sys_user_view.as_view()),  # 查询系统用户列表
     url(r'^add-apply-list', views.apply_by_userId_view.as_view()),  # 体检预约申请列表
     url(r'^query_user_details_by_idCard', views.query_user_details_by_idCard_view.as_view()),  # 通过身份证查询用户基本信息与体检项目类型
+    url(r'^exam_result_upload_by_rid', views.exam_result_upload_rid_view.as_view()),  # 医生更新上传体检结果
     url(r'^exam_result_audit_by_rid', views.exam_result_audit_by_rid_view.as_view()),  # 医生审核体检结果
     url(r'^query_exam_base_and_urine_by_rid', views.query_exam_base_and_urine_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
     url(r'^check_exam_type_btn_by_rid', views.check_exam_type_btn_by_rid_view.as_view()),  # 根据体检编码新增尿检结果
@@ -69,6 +73,7 @@ urlpatterns = [
     url(r'^userTotal', views.userTotalView.as_view()),  # 当前机构的用户数
     url(r'^userList', views.getUserListView.as_view()),  # 登录
     url(r'^login', views.loginView.as_view()),  # 登录
+    url(r'^sys-login', views.sys_loginView.as_view()),  # 登录
     url(r'^test', views.test.as_view()),
     url(r'^docs', include_docs_urls(title='接口文档')),
 
