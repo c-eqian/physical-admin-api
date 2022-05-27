@@ -479,7 +479,7 @@ class database:
                              value=data.get('heart_rate', '-'),
                              init='次/分', scope='60-100')
                 elif key == 'BMI':
-                    d.update(title='心率/脉率',
+                    d.update(title='BMI',
                              value=data.get('BMI', '-'),
                              init='kg/m^2', scope='18.5-23.9')
                 elif key == 'Temperature':
@@ -1599,7 +1599,7 @@ class database:
                 data = self.handle_feeItemCode(data=data)
                 _res.update(lt=data)
                 res.update(result=_res)
-                _redis.set(key=f"apply{org_code}{page}{limit}", value=str(res), timeout=60)
+                # _redis.set(key=f"apply{org_code}{page}{limit}", value=str(res), timeout=60)
         return res
 
     def handle_feeItemCode(self, data):

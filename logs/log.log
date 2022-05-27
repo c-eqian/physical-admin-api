@@ -354,3 +354,21 @@
 2022-05-26 18:15:36,863 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2586] - ERROR: (1052, "Column 'id' in order clause is ambiguous")
 2022-05-26 18:15:36,863 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2586] - ERROR: (1052, "Column 'id' in order clause is ambiguous")
 2022-05-26 18:15:36,863 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:2586] - ERROR: (1052, "Column 'id' in order clause is ambiguous")
+2022-05-27 13:34:22,165 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:34:22,165 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:34:22,165 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:34:30,005 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:34:30,005 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:34:30,005 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:35:36,165 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:35:36,165 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:35:36,165 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:35:44,559 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:35:44,559 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:35:44,559 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:39:12,844 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:39:12,844 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:39:12,844 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:40:51,584 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:40:51,584 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
+2022-05-27 13:40:51,584 - G:\毕设项目\my-graduate-project\API\appTest\utils\dbV3\db.py[line:1643] - ERROR: 'int' object is not iterable
