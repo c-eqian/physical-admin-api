@@ -930,13 +930,16 @@ class database:
                 elif _queryIsRegisteredRes.get("status") == 13204:  # 此时没能查询到，说明未注册过，可以注册
                     if nick == '':
                         nick = RESULT.get('name')
+                        account = RESULT.get('idCard')[-6:]
+                        if account[0] in [0, '0']:
+                            account[0] = '1'
                     _sqlInsertByRegister = """
                        INSERT INTO userinfo 
                        ( userAccount,name, relation,userPassword,nickName,status,authority) 
                        VALUES ('{}','{}','{}','{}','{}',1,0
                        )
 
-                       """.format(RESULT.get('idCard')[-8:], RESULT.get('name'), RESULT.get('id'), pwd, nick)
+                       """.format(account, RESULT.get('name'), RESULT.get('id'), pwd, nick)
                     _res = self.insertOrUpdateOrDeleteBySql(sql=_sqlInsertByRegister)
                     if _res.get('status') == 200:
                         res.update(status=_res.get('status'), msg="开通成功")
